@@ -1,8 +1,5 @@
 package de.jonas.informatik;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public final class MiddleEarth {
 
     /** Eine Instanz eines {@link Ranger}. */
@@ -41,6 +38,11 @@ public final class MiddleEarth {
 
 
     //<editor-fold desc="Entity">
+
+    /**
+     * Eine {@link Entity Entität} ist eine abstrakte Form eines Lebewesen, was aber nicht instanziiert werden kann,
+     * sondern nur vererbt werden kann, um eine konkrete Art von Lebewesen zu erschaffen.
+     */
     private static abstract class Entity {
 
         //<editor-fold desc="CONSTANTS">
@@ -107,6 +109,10 @@ public final class MiddleEarth {
          * @param y Der Y-Wert um den die {@link Entity Entität} verschoben werden soll.
          */
         public void move(final int x, final int y) {
+            if (this.posX + x < 0 || this.posY + y < 0) {
+                throw new IllegalArgumentException();
+            }
+
             this.posX += x;
             this.posY += y;
         }
@@ -348,9 +354,9 @@ public final class MiddleEarth {
 
         //<editor-fold desc="CONSTANTS">
         /** Die maximale Stärke, die ein {@link OrcSoldier} haben darf. */
-        private static final double MAX_STRENGTH = 15D;
+        private static final double MAX_STRENGTH = 10D;
         /** Die Menge an Schaden, die diese Instanz einer Entität verübt. */
-        private static final double DAMAGE = 2;
+        private static final double DAMAGE = 2D;
         //</editor-fold>
 
 
@@ -393,9 +399,9 @@ public final class MiddleEarth {
 
         //<editor-fold desc="CONSTANTS">
         /** Die maximale Stärke, die ein {@link CaveTroll} haben darf. */
-        private static final double MAX_STRENGTH = 5D;
+        private static final double MAX_STRENGTH = 7D;
         /** Die Menge an Schaden, die diese Instanz einer Entität verübt. */
-        private static final double DAMAGE = 1.2;
+        private static final double DAMAGE = 1.2D;
         //</editor-fold>
 
 
@@ -438,9 +444,9 @@ public final class MiddleEarth {
 
         //<editor-fold desc="CONSTANTS">
         /** Die maximale Stärke, die ein {@link UrukHai} haben darf. */
-        private static final double MAX_STRENGTH = 5D;
+        private static final double MAX_STRENGTH = 8D;
         /** Die Menge an Schaden, die diese Instanz einer Entität verübt. */
-        private static final double DAMAGE = 1.5;
+        private static final double DAMAGE = 3D;
         //</editor-fold>
 
 
