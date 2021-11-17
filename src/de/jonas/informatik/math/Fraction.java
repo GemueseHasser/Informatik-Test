@@ -171,7 +171,8 @@ public final class Fraction {
     }
 
     /**
-     * Gibt den aktuellen {@link Fraction Bruch} als Dezimalzahl (einem {@link Double}) zurück.
+     * Gibt den aktuellen {@link Fraction Bruch} als Dezimalzahl (einem {@link Double}) zurück. Die Dezimalzahl, die
+     * zurück gegeben wird, wird auf 4 Nachkommastellen gerundet.
      *
      * @return Der aktuelle Bruch in Form einer Dezimalzahl (einem {@link Double}).
      */
