@@ -2,6 +2,7 @@ package de.jonas.informatik;
 
 public final class MiddleEarth {
 
+    //<editor-fold desc="CONSTANTS">
     /** Eine Instanz eines {@link Ranger}. */
     private static final Ranger ARAGORN = new Ranger();
     /** Eine Instanz eines {@link OrcSoldier}. */
@@ -10,6 +11,7 @@ public final class MiddleEarth {
     private static final CaveTroll TROLL = new CaveTroll();
     /** Eine Instanz eines {@link UrukHai}. */
     private static final UrukHai HAI = new UrukHai();
+    //</editor-fold>
 
 
     public static void main(final String[] args) {
