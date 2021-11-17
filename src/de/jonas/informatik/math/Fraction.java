@@ -1,11 +1,31 @@
 package de.jonas.informatik.math;
 
+/**
+ * Ein {@link Fraction Bruch} besteht aus zwei {@link Number Zahlen}, einmal dem Zähler und einmal dem Nenner. Mit
+ * diesem Bruch lassen sich einige Überprüfungen und Operationen ausführen, um Eigenschaften des Bruches herauszufinden
+ * und um besser bzw. einfacher mit dem bruch umgehen zu können.
+ */
 public final class Fraction {
 
+    //<editor-fold desc="LOCAL FIELDS">
+    /** Der Zähler des Bruchs. */
     private Number numerator;
+    /** Der Nenner des Bruchs. */
     private Number denominator;
+    //</editor-fold>
 
 
+    //<editor-fold desc="CONSTRUCTORS">
+
+    /**
+     * Erzeugt einen neuen und vollständig unabhängigen {@link Fraction Bruch}. Ein {@link Fraction Bruch} besteht aus
+     * zwei {@link Number Zahlen}, einmal dem Zähler und einmal dem Nenner. Mit diesem Bruch lassen sich einige
+     * Überprüfungen und Operationen ausführen, um Eigenschaften des Bruches herauszufinden und um besser bzw. einfacher
+     * mit dem bruch umgehen zu können.
+     *
+     * @param numerator   Die {@link Number}, mit der der Zähler initialisiert wird.
+     * @param denominator Die {@link Number}, mit der der Nenner initialisiert wird.
+     */
     public Fraction(
         final Number numerator,
         final Number denominator
@@ -13,8 +33,16 @@ public final class Fraction {
         this.numerator = numerator;
         this.denominator = denominator;
     }
+    //</editor-fold>
 
 
+    /**
+     * Führt eine bestimmte {@link Number.Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link
+     * Number.Operation Operationen} und einem {@link Fraction Bruch}, welcher für jene Operation genutzt wird.
+     *
+     * @param operation Die {@link Number.Operation Rechen-Operation}, die ausgeführt werden soll.
+     * @param fraction  Der {@link Fraction Bruch}, welcher für diese Operation genutzt wird.
+     */
     public void doOperation(final Number.Operation operation, final Fraction fraction) {
         final Fraction extendedFraction;
 
@@ -77,44 +105,84 @@ public final class Fraction {
         shorten();
     }
 
+    /**
+     * Kürzt diesen {@link Fraction Bruch} auf das kleinste gemeinsame Vielfache, was der Zähler und der Nenner
+     * gemeinsam haben (Also der Bruch wird auf das minimum gekürzt).
+     */
     public void shorten() {
-        final int kgv = (int) (this.numerator.getNumber() * this.denominator.getNumber())
-            / getGGT(this.numerator.getNumber(), this.denominator.getNumber());
+        final int kgv = getKGV(this.numerator.getNumber(), this.denominator.getNumber());
 
         this.numerator = this.numerator.getOperatedNumber(Number.Operation.DIVIDE, new Number(kgv));
         this.denominator = this.denominator.getOperatedNumber(Number.Operation.DIVIDE, new Number(kgv));
     }
 
-    private int getGGT(final double one, final double two) {
+    /**
+     * Berechnet aus zwei Werten das kleinste gemeinsame Vielfache.
+     *
+     * @param one Der erste Wert, der genutzt wird, um das kleinste gemeinsame Vielfach zu berechnen.
+     * @param two Der zweite Wert, der genutzt wird, um das kleinste gemeinsame Vielfach zu berechnen.
+     *
+     * @return Das kleinste gemeinsame Vielfache, der beiden Werte.
+     */
+    private int getKGV(final double one, final double two) {
+        // check if the first value equals the second value
         if (one == two || two == 0) return (int) one;
 
-        return getGGT(two, one % two);
+        // recalculate values
+        return getKGV(two, one % two);
     }
 
+    /**
+     * Prüft, ob der aktuelle {@link Fraction Bruch} negativ ist.
+     *
+     * @return Wenn der aktuelle Bruch negativ ist, {@code true}, ansonsten {@code false}.
+     */
     public boolean isNegative() {
         return (this.numerator.isNegative() || this.denominator.isNegative())
             && !(this.numerator.isNegative() && this.denominator.isNegative());
     }
 
+    /**
+     * Prüft, ob der aktuelle {@link Fraction Bruch} positiv ist.
+     *
+     * @return Wenn der aktuelle Bruch positiv ist, {@code true}, ansonsten {@code false}.
+     */
     public boolean isPositive() {
         return (this.numerator.isPositive() && this.denominator.isPositive())
             || (this.numerator.isNegative() && this.denominator.isNegative());
     }
 
+    /**
+     * Gibt den aktuellen Zähler des {@link Fraction Bruchs} zurück.
+     *
+     * @return Der aktuelle Zähler des Bruchs.
+     */
     public Number getNumerator() {
         return this.numerator;
     }
 
+    /**
+     * Gibt den aktuellen Nenner des {@link Fraction Bruchs} zurück.
+     *
+     * @return Der aktuelle Nenner des Bruchs.
+     */
     public Number getDenominator() {
         return this.denominator;
     }
 
+    /**
+     * Gibt den aktuellen {@link Fraction Bruch} als Dezimalzahl (einem {@link Double}) zurück.
+     *
+     * @return Der aktuelle Bruch in Form einer Dezimalzahl (einem {@link Double}).
+     */
     public double getDecimal() {
         return Math.round((this.numerator.getNumber() / this.denominator.getNumber()) * 10000D) / 10000D;
     }
 
-    public String getFraction() {
+    //<editor-fold desc="implementation">
+    @Override
+    public String toString() {
         return this.numerator.getNumber() + " / " + this.denominator.getNumber();
     }
-
+    //</editor-fold>
 }

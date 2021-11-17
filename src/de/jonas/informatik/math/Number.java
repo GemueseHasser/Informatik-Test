@@ -31,7 +31,7 @@ public final class Number {
 
     /**
      * Führt eine bestimmte {@link Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link Operation
-     * Operationen} und einem Zahlenwert, in Form einer Dezimalzahl, welche für jene Operation genutzt wird.
+     * Operationen} und einer {@link Number}, in Form einer Dezimalzahl, welche für jene Operation genutzt wird.
      *
      * @param operation Die {@link Operation Rechen-Operation}, welche ausgeführt werden soll.
      * @param value     Der Zahlenwert, welcher für diese Operation genutzt wird.

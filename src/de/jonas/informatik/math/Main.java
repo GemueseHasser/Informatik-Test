@@ -13,8 +13,9 @@ public final class Main {
             new Number(10)
         );
 
-        fraction.shorten();
-        System.out.println(fraction.getFraction());
+        fraction.doOperation(Number.Operation.SUBTRACT, fraction1);
+
+        System.out.println(fraction);
 
         System.out.println(fraction.getDecimal());
     }
