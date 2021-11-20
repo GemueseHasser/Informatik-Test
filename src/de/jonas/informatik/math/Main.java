@@ -15,7 +15,7 @@ public final class Main {
 
         final Number number = new Number(9);
 
-        System.out.println(number.isPrime());
+        fraction.doOperation(Operation.DIVIDE, fraction1);
     }
 
 }

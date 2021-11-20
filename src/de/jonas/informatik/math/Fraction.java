@@ -40,8 +40,11 @@ public final class Fraction {
 
 
     /**
-     * Führt eine bestimmte {@link Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link
-     * Operation Operationen} und einem {@link Fraction Bruch}, welcher für jene Operation genutzt wird.
+     * Führt eine bestimmte {@link Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link Operation
+     * Operationen} und einem {@link Fraction Bruch}, welcher für jene Operation genutzt wird. Wenn die {@link
+     * Operation} zum berechnen des Ergebnisses einen gemeinsamen Nenner benötigt, wird der Nenner der beiden {@link
+     * Fraction Brüche} auf einen gemeinsamen Nenner gebracht. Dieser Nenner ist dann vorerst zu groß, wird aber
+     * schlussendlich gekürzt, was aber deutlich performanter ist, als direkt den kleinsten Nenner ausfindig zu machen.
      *
      * @param operation Die {@link Operation Rechen-Operation}, die ausgeführt werden soll.
      * @param fraction  Der {@link Fraction Bruch}, welcher für diese Operation genutzt wird.
@@ -50,7 +53,9 @@ public final class Fraction {
         final Fraction extendedFraction;
 
         // bring fraction to the same denominator
-        if (fraction.getDenominator().getNumber() != this.denominator.getNumber()) {
+        if ((fraction.getDenominator().getNumber() != this.denominator.getNumber())
+            && (operation != MULTIPLY && operation != DIVIDE)
+        ) {
             extendedFraction = new Fraction(
                 fraction.numerator.getOperatedNumber(MULTIPLY, this.denominator),
                 fraction.denominator.getOperatedNumber(MULTIPLY, this.denominator)
@@ -109,30 +114,34 @@ public final class Fraction {
     }
 
     /**
-     * Kürzt diesen {@link Fraction Bruch} auf das kleinste gemeinsame Vielfache, was der Zähler und der Nenner
-     * gemeinsam haben (Also der Bruch wird auf das minimum gekürzt).
+     * Kürzt diesen {@link Fraction Bruch} auf den kleinsten Wert, welcher ausfindig gemacht werden kann. Um diesen
+     * kleinsten Wert ausfindig zu machen, wird der größte gemeinsame Teiler genutzt, welcher mithilfe der Methode
+     * {@code getGGT} kalkuliert wird.
      */
     public void shorten() {
-        final int kgv = getKGV(this.numerator.getNumber(), this.denominator.getNumber());
+        final int kgv = getGGT(this.numerator.getNumber(), this.denominator.getNumber());
 
         this.numerator = this.numerator.getOperatedNumber(DIVIDE, new Number(kgv));
         this.denominator = this.denominator.getOperatedNumber(DIVIDE, new Number(kgv));
     }
 
     /**
-     * Berechnet aus zwei Werten das kleinste gemeinsame Vielfache.
+     * Berechnet aus zwei Werten den größten gemeinsamen Teiler. Dieser wird mithilfe des Euklidischen Algorithmus
+     * berechnet (es ist verkürzt aufgeschrieben, also ohne Schleife, die mithilfe von 3 Variablen immer wieder die
+     * Werte neu setzt, sondern die Methode wird so lange ausgeführt (und die Werte werden immer "um eins verschoben"),
+     * bis der gesuchte Wert erreicht ist).
      *
-     * @param one Der erste Wert, der genutzt wird, um das kleinste gemeinsame Vielfach zu berechnen.
-     * @param two Der zweite Wert, der genutzt wird, um das kleinste gemeinsame Vielfach zu berechnen.
+     * @param one Der erste Wert, der genutzt wird, um den größten gemeinsamen Teiler zu berechnen.
+     * @param two Der zweite Wert, der genutzt wird, um größten gemeinsamen Teiler zu berechnen.
      *
-     * @return Das kleinste gemeinsame Vielfache, der beiden Werte.
+     * @return Der größte gemeinsame Teiler der beiden Werte.
      */
-    private int getKGV(final double one, final double two) {
+    private int getGGT(final double one, final double two) {
         // check if the first value equals the second value
         if (one == two || two == 0) return (int) one;
 
         // recalculate values
-        return getKGV(two, one % two);
+        return getGGT(two, one % two);
     }
 
     /**
