@@ -13,11 +13,9 @@ public final class Main {
             new Number(10)
         );
 
-        fraction.doOperation(Number.Operation.SUBTRACT, fraction1);
+        final Number number = new Number(101);
 
-        System.out.println(fraction);
-
-        System.out.println(fraction.getDecimal());
+        System.out.println(number.isPrime());
     }
 
 }

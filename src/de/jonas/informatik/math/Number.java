@@ -101,7 +101,11 @@ public final class Number {
         if (isNegative()) return false;
 
         // check if number is not prime
-        for (int i = 2; i <= this.number / 2; i++) {
+        for (int i = 2; i <= (Math.sqrt(this.number) + 1); i++) {
+            // only check odd numbers
+            if (i % 2 == 0) continue;
+
+            // check if number can divide
             if (this.number % i == 0) {
                 return false;
             }
