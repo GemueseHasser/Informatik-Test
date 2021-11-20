@@ -1,5 +1,8 @@
 package de.jonas.informatik.math;
 
+import static de.jonas.informatik.math.Operation.DIVIDE;
+import static de.jonas.informatik.math.Operation.MULTIPLY;
+
 /**
  * Ein {@link Fraction Bruch} besteht aus zwei {@link Number Zahlen}, einmal dem Zähler und einmal dem Nenner. Mit
  * diesem Bruch lassen sich einige Überprüfungen und Operationen ausführen, um Eigenschaften des Bruches herauszufinden
@@ -37,28 +40,28 @@ public final class Fraction {
 
 
     /**
-     * Führt eine bestimmte {@link Number.Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link
-     * Number.Operation Operationen} und einem {@link Fraction Bruch}, welcher für jene Operation genutzt wird.
+     * Führt eine bestimmte {@link Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link
+     * Operation Operationen} und einem {@link Fraction Bruch}, welcher für jene Operation genutzt wird.
      *
-     * @param operation Die {@link Number.Operation Rechen-Operation}, die ausgeführt werden soll.
+     * @param operation Die {@link Operation Rechen-Operation}, die ausgeführt werden soll.
      * @param fraction  Der {@link Fraction Bruch}, welcher für diese Operation genutzt wird.
      */
-    public void doOperation(final Number.Operation operation, final Fraction fraction) {
+    public void doOperation(final Operation operation, final Fraction fraction) {
         final Fraction extendedFraction;
 
         // bring fraction to the same denominator
         if (fraction.getDenominator().getNumber() != this.denominator.getNumber()) {
             extendedFraction = new Fraction(
-                fraction.numerator.getOperatedNumber(Number.Operation.MULTIPLY, this.denominator),
-                fraction.denominator.getOperatedNumber(Number.Operation.MULTIPLY, this.denominator)
+                fraction.numerator.getOperatedNumber(MULTIPLY, this.denominator),
+                fraction.denominator.getOperatedNumber(MULTIPLY, this.denominator)
             );
 
             this.numerator = this.numerator.getOperatedNumber(
-                Number.Operation.MULTIPLY,
+                MULTIPLY,
                 fraction.getDenominator()
             );
             this.denominator = this.denominator.getOperatedNumber(
-                Number.Operation.MULTIPLY,
+                MULTIPLY,
                 fraction.getDenominator()
             );
         } else {
@@ -88,11 +91,11 @@ public final class Fraction {
 
             case DIVIDE:
                 this.numerator = this.numerator.getOperatedNumber(
-                    Number.Operation.MULTIPLY,
+                    MULTIPLY,
                     extendedFraction.getDenominator()
                 );
                 this.denominator = this.denominator.getOperatedNumber(
-                    Number.Operation.MULTIPLY,
+                    MULTIPLY,
                     extendedFraction.getNumerator()
                 );
                 break;
@@ -112,8 +115,8 @@ public final class Fraction {
     public void shorten() {
         final int kgv = getKGV(this.numerator.getNumber(), this.denominator.getNumber());
 
-        this.numerator = this.numerator.getOperatedNumber(Number.Operation.DIVIDE, new Number(kgv));
-        this.denominator = this.denominator.getOperatedNumber(Number.Operation.DIVIDE, new Number(kgv));
+        this.numerator = this.numerator.getOperatedNumber(DIVIDE, new Number(kgv));
+        this.denominator = this.denominator.getOperatedNumber(DIVIDE, new Number(kgv));
     }
 
     /**

@@ -13,7 +13,7 @@ public final class Main {
             new Number(10)
         );
 
-        final Number number = new Number(101);
+        final Number number = new Number(9);
 
         System.out.println(number.isPrime());
     }
