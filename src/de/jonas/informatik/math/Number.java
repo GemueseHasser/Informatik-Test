@@ -37,7 +37,7 @@ public final class Number {
      * @param value     Der Zahlenwert, welcher für diese Operation genutzt wird.
      */
     public Number getOperatedNumber(final Operation operation, final Number value) {
-        return new Number(operation.getOperatedNumber(this.number, value.getNumber()));
+        return new Number(operation.getOperatedNumber(this, value));
     }
 
     /**

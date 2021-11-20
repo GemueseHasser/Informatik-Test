@@ -19,9 +19,9 @@ public enum Operation {
 
 
     /**
-     * Führt die momentane {@link Operation Rechen-Operation} mit zwei angegebenen Werten aus. Die zwei angegebenen
-     * Werte sind einmal der Grundwert und der Wert, mit dessen Hilfe die Operation ausgeführt wird und der
-     * Grundwert verändert wird.
+     * Führt die aktuelle {@link Operation Rechen-Operation} mit zwei angegebenen Werten aus. Die zwei angegebenen Werte
+     * sind einmal der Grundwert und der Wert, mit dessen Hilfe die Operation ausgeführt wird und der Grundwert
+     * verändert wird.
      *
      * @param basic Der Grundwert, welcher verändert werden soll.
      * @param value Der Wert, mit dessen Hilfe die Operation ausgeführt wird.
@@ -45,5 +45,19 @@ public enum Operation {
             default:
                 return 0;
         }
+    }
+
+    /**
+     * Führt die aktuelle {@link Operation Rechen-Operation} mit zwei angegebenen {@link Number Nummern} aus. Die zwei
+     * angegebenen Nummern sind einmal der Grundwert und der Wert, mit dessen Hilfe die Operation ausgeführt wird und
+     * der Grundwert verändert wird.
+     *
+     * @param basic Der Grundwert, welcher verändert werden soll.
+     * @param value Der Wert, mit dessen Hilfe die Operation ausgeführt wird.
+     *
+     * @return Der veränderte Grundwert.
+     */
+    public double getOperatedNumber(final Number basic, final Number value) {
+        return getOperatedNumber(basic.getNumber(), value.getNumber());
     }
 }
