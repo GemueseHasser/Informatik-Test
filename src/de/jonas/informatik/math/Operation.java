@@ -1,25 +1,25 @@
 package de.jonas.informatik.math;
 
 /**
- * Eine {@link Number.Operation} hat keine Parameter. Sie dient dazu eine schnelle Rechen-Operation durchführen zu können,
+ * Eine {@link Operation} hat keine Parameter. Sie dient dazu eine schnelle Rechen-Operation durchführen zu können,
  * welche klar definiert ist.
  */
 public enum Operation {
 
     //<editor-fold desc="VALUES">
-    /** Die {@link Number.Operation Rechen-Operation}, mit der addiert wird. */
+    /** Die {@link Operation Rechen-Operation}, mit der addiert wird. */
     ADD,
-    /** Die {@link Number.Operation Rechen-Operation}, mit der subtrahiert wird. */
+    /** Die {@link Operation Rechen-Operation}, mit der subtrahiert wird. */
     SUBTRACT,
-    /** Die {@link Number.Operation Rechen-Operation}, mit der multipliziert wird. */
+    /** Die {@link Operation Rechen-Operation}, mit der multipliziert wird. */
     MULTIPLY,
-    /** Die {@link Number.Operation Rechen-Operation}, mit der dividiert wird. */
+    /** Die {@link Operation Rechen-Operation}, mit der dividiert wird. */
     DIVIDE;
     //</editor-fold>
 
 
     /**
-     * Führt die momentane {@link Number.Operation Rechen-Operation} mit zwei angegebenen Werten aus. Die zwei angegebenen
+     * Führt die momentane {@link Operation Rechen-Operation} mit zwei angegebenen Werten aus. Die zwei angegebenen
      * Werte sind einmal der Grundwert und der Wert, mit dessen Hilfe die Operation ausgeführt wird und der
      * Grundwert verändert wird.
      *
