@@ -119,10 +119,12 @@ public final class Fraction {
      * {@code getGGT} kalkuliert wird.
      */
     public void shorten() {
-        final int kgv = getGGT(this.numerator.getNumber(), this.denominator.getNumber());
+        final int ggt = getGGT(this.numerator.getNumber(), this.denominator.getNumber());
 
-        this.numerator = this.numerator.getOperatedNumber(DIVIDE, new Number(kgv));
-        this.denominator = this.denominator.getOperatedNumber(DIVIDE, new Number(kgv));
+        final Number ggtNumber = new Number(ggt);
+
+        this.numerator = this.numerator.getOperatedNumber(DIVIDE, ggtNumber);
+        this.denominator = this.denominator.getOperatedNumber(DIVIDE, ggtNumber);
     }
 
     /**
