@@ -4,8 +4,8 @@ public final class Main {
 
     public static void main(final String[] args) {
         final Fraction fraction = new Fraction(
-            new Number(10),
-            new Number(15)
+            new Number(2),
+            new Number(3)
         );
 
         final Fraction fraction1 = new Fraction(
@@ -15,7 +15,7 @@ public final class Main {
 
         final Number number = new Number(9);
 
-        fraction.doOperation(Operation.DIVIDE, fraction1);
+        System.out.println(fraction.getDecimal());
     }
 
 }

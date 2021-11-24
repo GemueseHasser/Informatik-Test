@@ -10,6 +10,12 @@ import static de.jonas.informatik.math.Operation.MULTIPLY;
  */
 public final class Fraction {
 
+    //<editor-fold desc="CONSTANTS">
+    /** Die Anzahl an Dezimalstellen, auf die der Bruch als Dezimalzahl gerundet wird. */
+    private static final int DECIMAL_PLACES = 4;
+    //</editor-fold>
+
+
     //<editor-fold desc="LOCAL FIELDS">
     /** Der Zähler des Bruchs. */
     private Number numerator;
@@ -191,7 +197,10 @@ public final class Fraction {
      * @return Der aktuelle Bruch in Form einer Dezimalzahl (einem {@link Double}).
      */
     public double getDecimal() {
-        return Math.round((this.numerator.getNumber() / this.denominator.getNumber()) * 10000D) / 10000D;
+        final double decimal = this.numerator.getNumber() / this.denominator.getNumber();
+        final double roundValue = Math.pow(10, DECIMAL_PLACES);
+
+        return Math.round(decimal * roundValue) / roundValue;
     }
 
     //<editor-fold desc="implementation">
