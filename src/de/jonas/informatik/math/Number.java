@@ -45,14 +45,8 @@ public final class Number {
      *
      * @param power Der Exponent.
      */
-    public void raiseToPower(final int power) {
-        // save current number
-        final double currentNumber = this.number;
-
-        // raise number to current power (with current number)
-        for (int i = 1; i < power; i++) {
-            this.number *= currentNumber;
-        }
+    public void pow(final int power) {
+        this.number = Math.pow(this.number, power);
     }
 
     /**

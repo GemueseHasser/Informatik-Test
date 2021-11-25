@@ -15,7 +15,9 @@ public final class Main {
 
         final Number number = new Number(9);
 
-        System.out.println(fraction.getDecimal());
+        number.pow(2);
+
+        System.out.println(number.getNumber());
     }
 
 }
