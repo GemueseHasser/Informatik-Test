@@ -214,7 +214,7 @@ public final class Fraction {
      * @return Der aktuelle Bruch in Form einer Dezimalzahl, dessen Periode gekennzeichnet ist (zufalls eine Periode
      *     vorhanden ist).
      */
-    public String getPeriodicNumber() {
+    public String getPeriodicDecimal() {
         final double decimal = this.numerator.getNumber() / this.denominator.getNumber();
         final LinkedList<Integer> splittedNumber = new LinkedList<>();
         final LinkedList<Integer> divisionRests = new LinkedList<>();
@@ -228,19 +228,21 @@ public final class Fraction {
             splittedDecimal[1] = splittedDecimal[1].substring(0, maxSize);
         }
 
-        int secondPart = Integer.parseInt(splittedDecimal[1]);
+        int secondPart = Integer.parseInt("1" + splittedDecimal[1]);
 
         while (secondPart > 0) {
             splittedNumber.push(secondPart % 10);
             secondPart /= 10;
         }
 
+        splittedNumber.removeFirst();
+
         for (Integer integer : splittedNumber) {
             divisionRests.add((int) (integer % this.denominator.getNumber()));
         }
 
         for (int i = 0; i < divisionRests.size(); i++) {
-            for (int j = 1; j < divisionRests.size() - i; j++) {
+            for (int j = divisionRests.size() - 1; j > 1; j--) {
                 if (!divisionRests.get(i).equals(divisionRests.get(j))) continue;
 
                 final StringBuilder periodBuilder = new StringBuilder();
