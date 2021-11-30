@@ -20,9 +20,9 @@ public final class Fraction {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Der Zähler des Bruchs. */
-    private Number numerator;
+    private final Number numerator;
     /** Der Nenner des Bruchs. */
-    private Number denominator;
+    private final Number denominator;
     //</editor-fold>
 
 
@@ -69,11 +69,11 @@ public final class Fraction {
                 fraction.denominator.getOperatedNumber(MULTIPLY, this.denominator)
             );
 
-            this.numerator = this.numerator.getOperatedNumber(
+            this.numerator.doOperation(
                 MULTIPLY,
                 fraction.getDenominator()
             );
-            this.denominator = this.denominator.getOperatedNumber(
+            this.denominator.doOperation(
                 MULTIPLY,
                 fraction.getDenominator()
             );
@@ -85,29 +85,29 @@ public final class Fraction {
         switch (operation) {
             case ADD:
             case SUBTRACT:
-                this.numerator = this.numerator.getOperatedNumber(
+                this.numerator.doOperation(
                     operation,
                     extendedFraction.getNumerator()
                 );
                 break;
 
             case MULTIPLY:
-                this.numerator = this.numerator.getOperatedNumber(
+                this.numerator.doOperation(
                     operation,
                     extendedFraction.getNumerator()
                 );
-                this.denominator = this.denominator.getOperatedNumber(
+                this.denominator.doOperation(
                     operation,
                     extendedFraction.getDenominator()
                 );
                 break;
 
             case DIVIDE:
-                this.numerator = this.numerator.getOperatedNumber(
+                this.numerator.doOperation(
                     MULTIPLY,
                     extendedFraction.getDenominator()
                 );
-                this.denominator = this.denominator.getOperatedNumber(
+                this.denominator.doOperation(
                     MULTIPLY,
                     extendedFraction.getNumerator()
                 );
@@ -131,8 +131,8 @@ public final class Fraction {
 
         final Number ggtNumber = new Number(ggt);
 
-        this.numerator = this.numerator.getOperatedNumber(DIVIDE, ggtNumber);
-        this.denominator = this.denominator.getOperatedNumber(DIVIDE, ggtNumber);
+        this.numerator.doOperation(DIVIDE, ggtNumber);
+        this.denominator.doOperation(DIVIDE, ggtNumber);
     }
 
     /**

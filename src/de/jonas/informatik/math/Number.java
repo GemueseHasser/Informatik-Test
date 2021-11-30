@@ -30,14 +30,28 @@ public final class Number {
 
 
     /**
+     * Erzeugt basierend auf dieser {@link Number} eine neue {@link Number}, bei der eine bestimmte {@link Operation}
+     * ausgeführt wurde.
+     *
+     * @param operation Die {@link Operation Rechen-Operation}, welche ausgeführt werden soll.
+     * @param value     Der Zahlenwert, welcher für diese Operation genutzt wird.
+     *
+     * @return Eine neue {@link Number} basierend auf dieser {@link Number}, bei der eine bestimmte {@link Operation}
+     *     ausgeführt wurde.
+     */
+    public Number getOperatedNumber(final Operation operation, final Number value) {
+        return new Number(operation.getOperatedNumber(this, value));
+    }
+
+    /**
      * Führt eine bestimmte {@link Operation Rechen-Operation} aus, mithilfe von vorgegebenen {@link Operation
      * Operationen} und einer {@link Number}, in Form einer Dezimalzahl, welche für jene Operation genutzt wird.
      *
      * @param operation Die {@link Operation Rechen-Operation}, welche ausgeführt werden soll.
      * @param value     Der Zahlenwert, welcher für diese Operation genutzt wird.
      */
-    public Number getOperatedNumber(final Operation operation, final Number value) {
-        return new Number(operation.getOperatedNumber(this, value));
+    public void doOperation(final Operation operation, final Number value) {
+        this.number = getOperatedNumber(operation, value).getNumber();
     }
 
     /**
@@ -118,4 +132,10 @@ public final class Number {
         return this.number;
     }
 
+    //<editor-fold desc="implementation">
+    @Override
+    public String toString() {
+        return String.valueOf(this.number);
+    }
+    //</editor-fold>
 }
