@@ -217,7 +217,7 @@ public final class Fraction {
     public String getPeriodicDecimal() {
         final double decimal = this.numerator.getNumber() / this.denominator.getNumber();
         final LinkedList<Integer> splittedNumber = new LinkedList<>();
-        final LinkedList<Integer> divisionRests = new LinkedList<>();
+        final LinkedList<Double> divisionRests = new LinkedList<>();
 
         final String[] splittedDecimal = Double.toString(decimal).split("\\.");
 
@@ -237,12 +237,18 @@ public final class Fraction {
 
         splittedNumber.removeFirst();
 
-        for (final int spNumber : splittedNumber) {
-            divisionRests.add((int) (spNumber % this.denominator.getNumber()));
+        double latestRest = this.numerator.getNumber();
+
+        for (int i = 0; i < splittedNumber.size(); i++) {
+            final double rest = (latestRest % this.denominator.getNumber()) * 10;
+
+            latestRest = rest;
+
+            divisionRests.add(rest);
         }
 
         for (int i = 0; i < divisionRests.size(); i++) {
-            for (int j = divisionRests.size() - 1; j > 1; j--) {
+            for (int j = 1; j < divisionRests.size() - i; j++) {
                 if (!divisionRests.get(i).equals(divisionRests.get(j))) continue;
 
                 final StringBuilder periodBuilder = new StringBuilder();

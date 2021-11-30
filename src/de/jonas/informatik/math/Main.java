@@ -78,7 +78,6 @@ public final class Main {
             calcNumerator,
             calcDenominator
         );
-        System.out.println(calcFraction.getPeriodicDecimal());
         for (final Operation operation : Operation.values()) {
             fraction.doOperation(operation, calcFraction);
             System.out.println(operation + " " + calcFraction + " <=> " + fraction);
