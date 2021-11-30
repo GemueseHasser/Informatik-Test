@@ -14,7 +14,7 @@ public final class Fraction {
 
     //<editor-fold desc="CONSTANTS">
     /** Die Anzahl an Dezimalstellen, auf die der Bruch als Dezimalzahl gerundet wird. */
-    private static final int DECIMAL_PLACES = 4;
+    private static final int DECIMAL_PLACES = 6;
     //</editor-fold>
 
 
