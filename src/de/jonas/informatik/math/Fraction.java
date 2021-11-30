@@ -15,6 +15,10 @@ public final class Fraction {
     //<editor-fold desc="CONSTANTS">
     /** Die Anzahl an Dezimalstellen, auf die der Bruch als Dezimalzahl gerundet wird. */
     private static final int DECIMAL_PLACES = 6;
+    /** Die Anzahl an Stellen, die ein Integer haben darf. */
+    private static final int MAX_INTEGER_PLACES = String.valueOf(Integer.MAX_VALUE).length() - 1;
+    /** Die Zeichenfolge, womit der Beginn einer Periode in einer Dezimalzahl gekennzeichnet wird. */
+    private static final String PERIOD_IDENTIFIER = "p";
     //</editor-fold>
 
 
@@ -215,56 +219,72 @@ public final class Fraction {
      *     vorhanden ist).
      */
     public String getPeriodicDecimal() {
+        // calculate decimal from this fraction
         final double decimal = this.numerator.getNumber() / this.denominator.getNumber();
-        final LinkedList<Integer> splittedNumber = new LinkedList<>();
-        final LinkedList<Double> divisionRests = new LinkedList<>();
 
+        // create lists to split the decimal places and values of division to identify the period
+        final LinkedList<Integer> splitNumber = new LinkedList<>();
+        final LinkedList<Double> divisionValues = new LinkedList<>();
+
+        // split the basic decimal by the dot
         final String[] splittedDecimal = Double.toString(decimal).split("\\.");
 
-        final int firstPart = Integer.parseInt(splittedDecimal[0]);
-        final int maxSize = String.valueOf(Integer.MAX_VALUE).length() - 1;
-
-        if (splittedDecimal[1].length() > maxSize) {
-            splittedDecimal[1] = splittedDecimal[1].substring(0, maxSize);
+        // check if the length of decimal places are less than the maximum of integer places
+        if (splittedDecimal[1].length() > MAX_INTEGER_PLACES) {
+            splittedDecimal[1] = splittedDecimal[1].substring(0, MAX_INTEGER_PLACES);
         }
 
-        int secondPart = Integer.parseInt("1" + splittedDecimal[1]);
+        // get all decimal places of the split number
+        int numberDecimal = Integer.parseInt("1" + splittedDecimal[1]);
 
-        while (secondPart > 0) {
-            splittedNumber.push(secondPart % 10);
-            secondPart /= 10;
+        // append decimal places to split-number-list while number decimal is preset
+        while (numberDecimal > 0) {
+            splitNumber.push(numberDecimal % 10);
+            numberDecimal /= 10;
         }
 
-        splittedNumber.removeFirst();
+        // remove unnecessary number (the number '1' prevents removing '0' at beginning)
+        splitNumber.removeFirst();
 
+        // the latest rest in the calculation (auxiliary variable)
         double latestRest = this.numerator.getNumber();
 
-        for (int i = 0; i < splittedNumber.size(); i++) {
+        // calculate the values of division to identify the period later
+        for (int i = 0; i < splitNumber.size(); i++) {
             final double rest = (latestRest % this.denominator.getNumber()) * 10;
 
             latestRest = rest;
 
-            divisionRests.add(rest);
+            divisionValues.add(rest);
         }
 
-        for (int i = 0; i < divisionRests.size(); i++) {
-            for (int j = 1; j < divisionRests.size() - i; j++) {
-                if (!divisionRests.get(i).equals(divisionRests.get(j))) continue;
+        // compare every numbers to find the period (if a period is preset)
+        for (int i = 0; i < divisionValues.size(); i++) {
+            for (int j = 1; j < divisionValues.size() - i; j++) {
+                // check if a period is preset (check if current numbers are equal)
+                if (!divisionValues.get(i).equals(divisionValues.get(j))) continue;
 
+                // create a string builder to build the period
                 final StringBuilder periodBuilder = new StringBuilder();
 
+                // build the period with the period builder (string builder)
                 for (int k = 0; k < j; k++) {
                     if (k == i) {
-                        periodBuilder.append("p");
+                        periodBuilder.append(PERIOD_IDENTIFIER);
                     }
 
-                    periodBuilder.append(splittedNumber.get(k));
+                    periodBuilder.append(splitNumber.get(k));
                 }
 
-                return firstPart + "," + periodBuilder;
+                // get the whole number before the dot
+                final int wholeNumber = Integer.parseInt(splittedDecimal[0]);
+
+                // return the whole number with decimal places (included period)
+                return wholeNumber + "," + periodBuilder;
             }
         }
 
+        // no period is preset - return basic decimal
         return String.valueOf(getDecimal());
     }
 
