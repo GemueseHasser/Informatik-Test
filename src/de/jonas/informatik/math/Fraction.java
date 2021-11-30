@@ -1,5 +1,7 @@
 package de.jonas.informatik.math;
 
+import java.util.LinkedList;
+
 import static de.jonas.informatik.math.Operation.DIVIDE;
 import static de.jonas.informatik.math.Operation.MULTIPLY;
 
@@ -201,6 +203,61 @@ public final class Fraction {
         final double roundValue = Math.pow(10, DECIMAL_PLACES);
 
         return Math.round(decimal * roundValue) / roundValue;
+    }
+
+    /**
+     * Gibt den aktuellen {@link Fraction Bruch} als Dezimalzahl, aber in Form eines Strings, zurück, da zufalls die
+     * Dezimalzahl eine periodische Zahl ist, die Periode der Zahl zu Beginn der Periode mit einem 'p' gekennzeichnet
+     * wird. Wenn aber keine Periode vorhanden ist, wird einfach die normale Dezimalzahl zurück gegeben (mithilfe von
+     * {@code getDecimal}).
+     *
+     * @return Der aktuelle Bruch in Form einer Dezimalzahl, dessen Periode gekennzeichnet ist (zufalls eine Periode
+     *     vorhanden ist).
+     */
+    public String getPeriodicNumber() {
+        final double decimal = this.numerator.getNumber() / this.denominator.getNumber();
+        final LinkedList<Integer> splittedNumber = new LinkedList<>();
+        final LinkedList<Integer> divisionRests = new LinkedList<>();
+
+        final String[] splittedDecimal = Double.toString(decimal).split("\\.");
+
+        final int firstPart = Integer.parseInt(splittedDecimal[0]);
+        final int maxSize = String.valueOf(Integer.MAX_VALUE).length() - 1;
+
+        if (splittedDecimal[1].length() > maxSize) {
+            splittedDecimal[1] = splittedDecimal[1].substring(0, maxSize);
+        }
+
+        int secondPart = Integer.parseInt(splittedDecimal[1]);
+
+        while (secondPart > 0) {
+            splittedNumber.push(secondPart % 10);
+            secondPart /= 10;
+        }
+
+        for (Integer integer : splittedNumber) {
+            divisionRests.add((int) (integer % this.denominator.getNumber()));
+        }
+
+        for (int i = 0; i < divisionRests.size(); i++) {
+            for (int j = 1; j < divisionRests.size() - i; j++) {
+                if (!divisionRests.get(i).equals(divisionRests.get(j))) continue;
+
+                final StringBuilder periodBuilder = new StringBuilder();
+
+                for (int k = 0; k < j; k++) {
+                    if (k == i) {
+                        periodBuilder.append("p");
+                    }
+
+                    periodBuilder.append(splittedNumber.get(k));
+                }
+
+                return firstPart + "," + periodBuilder;
+            }
+        }
+
+        return String.valueOf(getDecimal());
     }
 
     //<editor-fold desc="implementation">

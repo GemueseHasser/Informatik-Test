@@ -4,8 +4,8 @@ public final class Main {
 
     public static void main(final String[] args) {
         final Fraction fraction = new Fraction(
-            new Number(2),
-            new Number(3)
+            new Number(47),
+            new Number(5)
         );
 
         final Fraction fraction1 = new Fraction(
@@ -15,9 +15,7 @@ public final class Main {
 
         final Number number = new Number(9);
 
-        number.pow(2);
-
-        System.out.println(number.getNumber());
+        System.out.println(fraction.getPeriodicNumber());
     }
 
 }
