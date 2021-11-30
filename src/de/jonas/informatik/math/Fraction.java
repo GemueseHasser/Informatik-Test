@@ -237,8 +237,8 @@ public final class Fraction {
 
         splittedNumber.removeFirst();
 
-        for (Integer integer : splittedNumber) {
-            divisionRests.add((int) (integer % this.denominator.getNumber()));
+        for (final int spNumber : splittedNumber) {
+            divisionRests.add((int) (spNumber % this.denominator.getNumber()));
         }
 
         for (int i = 0; i < divisionRests.size(); i++) {
