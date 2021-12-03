@@ -62,6 +62,7 @@ public final class Fraction {
      * @param fraction  Der {@link Fraction Bruch}, welcher für diese Operation genutzt wird.
      */
     public void doOperation(final Operation operation, final Fraction fraction) {
+        // extended fraction
         final Fraction extendedFraction;
 
         // bring fraction to the same denominator
