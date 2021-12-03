@@ -159,13 +159,13 @@ public final class Fraction {
     }
 
     /**
-     * Prüft, ob der aktuelle {@link Fraction Bruch} negativ ist.
+     * Prüft, ob der aktuelle {@link Fraction Bruch} negativ ist, mithilfe des Xor-Operator, also wenn genau ein Wert
+     * des Zählers und Nenner negativ ist.
      *
      * @return Wenn der aktuelle Bruch negativ ist, {@code true}, ansonsten {@code false}.
      */
     public boolean isNegative() {
-        return (this.numerator.isNegative() || this.denominator.isNegative())
-            && !(this.numerator.isNegative() && this.denominator.isNegative());
+        return this.numerator.isNegative() ^ this.denominator.isNegative();
     }
 
     /**
