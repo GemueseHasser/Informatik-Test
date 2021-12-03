@@ -61,7 +61,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                de.jonas.informatik.math.Main
+                                de.jonas.informatik.Circlet
                             </mainClass>
                         </manifest>
                     </archive>
