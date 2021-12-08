@@ -26,7 +26,7 @@ public final class Sort {
      * @param args Die Argumente, die von der JRE übergeben werden.
      */
     public static void main(final String[] args) {
-        Sort sort = new Sort(NUMBERS);
+        final Sort sort = new Sort(NUMBERS);
         sort.show();
         sort.selection_sort();
         System.out.print("\n\n");
