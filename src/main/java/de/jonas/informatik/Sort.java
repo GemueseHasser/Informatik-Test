@@ -1,5 +1,7 @@
 package de.jonas.informatik;
 
+import java.util.Arrays;
+
 /**
  * Mit einem {@link Sort} lässt sich ein Array aus Zahlen auf verschiedene Arten bearbeiten und sortieren.
  */
@@ -52,11 +54,8 @@ public final class Sort {
      * Zeigt den aktuellen Stand der {@code numbers} an, bzw. gibt die aktuellen {@code numbers} aus.
      */
     public void show() {
-        System.out.print("\n  ");
-
-        for (final int number : this.numbers) {
-            System.out.print(number + "  ");
-        }
+        System.out.println();
+        Arrays.stream(this.numbers).forEach(i -> System.out.print(i + " "));
     }
 
     /**
