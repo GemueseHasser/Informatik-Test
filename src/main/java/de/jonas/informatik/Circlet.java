@@ -21,7 +21,7 @@ public final class Circlet extends JFrame {
     //<editor-fold desc="LOCAL FIELDS">
     /** Der insgesamte Radius des {@link Circlet}. */
     private final int radius;
-    /** DIe Anzahl an Kreisen, aus denen das {@link Circlet} bestehen soll. */
+    /** Die Anzahl an Kreisen, aus denen das {@link Circlet} bestehen soll. */
     private final int circleAmount;
     //</editor-fold>
 
@@ -52,7 +52,8 @@ public final class Circlet extends JFrame {
      * {@link Circlet}. Ein {@link Circlet} besteht aus einer beliebigen Anzahl an Kreisen, die alle kreisförmig
      * angeordnet sind. Der Radius des (imaginären) großen Kreises ist beliebig konfigurierbar (wird bei der
      * Instanziierung festgelegt) und die Anzahl an Kreisen, die auf dem (imaginären) großen Kreis liegen ist ebenfalls
-     * beliebig konfigurierbar (wird auch bei der Instanziierung festgelegt).
+     * beliebig konfigurierbar (wird auch bei der Instanziierung festgelegt). Die Größe eines jeden kleinen Kreises wird
+     * mithilfe des Kosinussatzes berechnet.
      *
      * @param radius       Der Radius, den dieses {@link Circlet} insgesamt haben soll.
      * @param circleAmount Die Anzahl an Kreisen, aus denen dieses {@link Circlet} insgesamt bestehen soll.
@@ -76,8 +77,10 @@ public final class Circlet extends JFrame {
         final int middleX = super.getWidth() / 2;
         final int middleY = super.getHeight() / 2;
 
-        // calculate the size of every circle
-        final int circleSize = (int) ((2 * Math.PI * radius) / circleAmount);
+        // calculate the size of every circle with the 'cosine law'
+        final int circleSize = (int) Math.sqrt(
+            (radius * radius) + (radius * radius) - ((2 * radius * radius) * Math.cos(2 * Math.PI / this.circleAmount))
+        );
 
         // draw all circles
         for (int i = 0; i < circleAmount; i++) {
