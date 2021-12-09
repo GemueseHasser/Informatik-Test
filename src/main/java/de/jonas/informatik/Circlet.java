@@ -79,7 +79,7 @@ public final class Circlet extends JFrame {
 
         // calculate the size of every circle with the 'cosine law'
         final int circleSize = (int) Math.sqrt(
-            (radius * radius) + (radius * radius) - ((2 * radius * radius) * Math.cos(2 * Math.PI / this.circleAmount))
+            (radius * radius) + (radius * radius) - ((2 * radius * radius) * Math.cos(2 * Math.PI / circleAmount))
         );
 
         // draw all circles
