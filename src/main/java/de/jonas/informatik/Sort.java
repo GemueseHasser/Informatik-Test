@@ -68,7 +68,7 @@ public final class Sort {
             // pos_min: position of the smallest number
             int pos_min = i;
             for (int j = i + 1; j < this.numbers.length; j++) {
-                if (this.numbers[j] < this.numbers[i]) {
+                if (this.numbers[j] < this.numbers[pos_min]) {
                     pos_min = j;
                 }
             }
