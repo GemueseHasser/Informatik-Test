@@ -361,6 +361,32 @@ public final class ColorfulHouse extends JFrame implements ComponentListener {
         }
 
         @Override
+        public void setBounds(
+            final int x,
+            final int y,
+            final int width,
+            final int height
+        ) {
+            // get max size
+            final int maxSize = Math.max(width, height);
+
+            // set bounds
+            super.setBounds(x, y, maxSize, maxSize);
+        }
+
+        @Override
+        public void setSize(
+            final int width,
+            final int height
+        ) {
+            // get max size
+            final int maxSize = Math.max(width, height);
+
+            // set size
+            super.setSize(maxSize, maxSize);
+        }
+
+        @Override
         public void mouseClicked(final MouseEvent e) {
             mouseX = e.getX();
             mouseY = e.getY();
