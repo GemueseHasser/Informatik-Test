@@ -95,4 +95,21 @@ public class List<ObjectType> {
         this.objects = Arrays.copyOf(this.objects, this.objects.length + 1);
     }
 
+    /**
+     * Erzeugt eine Liste auf der Basis einiger Werte.
+     *
+     * @param objects Die Objekte, welche in die Liste zu Beginn herein sollen.
+     *
+     * @return Eine Liste auf der Basis einiger Werte.
+     */
+    public List<ObjectType> of(final ObjectType[] objects) {
+        final List<ObjectType> list = new List<>();
+
+        for (final ObjectType object : objects) {
+            list.add(object);
+        }
+
+        return list;
+    }
+
 }
