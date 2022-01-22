@@ -1,9 +1,9 @@
-package de.jonas.informatik.math;
+package de.jonas.informatik.temp.math;
 
 import java.util.LinkedList;
 
-import static de.jonas.informatik.math.Operation.DIVIDE;
-import static de.jonas.informatik.math.Operation.MULTIPLY;
+import static de.jonas.informatik.temp.math.Operation.DIVIDE;
+import static de.jonas.informatik.temp.math.Operation.MULTIPLY;
 
 /**
  * Ein {@link Fraction Bruch} besteht aus zwei {@link Number Zahlen}, einmal dem Zähler und einmal dem Nenner. Mit

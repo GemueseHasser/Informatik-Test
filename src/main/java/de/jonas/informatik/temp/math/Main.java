@@ -1,4 +1,4 @@
-package de.jonas.informatik.math;
+package de.jonas.informatik.temp.math;
 
 public final class Main {
 

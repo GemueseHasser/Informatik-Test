@@ -1,4 +1,4 @@
-package de.jonas.informatik.object;
+package de.jonas.informatik.temp.object;
 
 import java.util.Arrays;
 

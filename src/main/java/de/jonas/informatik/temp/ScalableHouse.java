@@ -1,4 +1,4 @@
-package de.jonas.informatik;
+package de.jonas.informatik.temp;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package de.jonas.informatik;
+package de.jonas.informatik.temp;
 
 /**
  * Die Aufgabe 'Umgang mit Methoden II'.

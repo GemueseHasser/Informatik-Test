@@ -1,4 +1,4 @@
-package de.jonas.informatik.math;
+package de.jonas.informatik.temp.math;
 
 /**
  * Eine {@link Number} ist eine Dezimalzahl, welche auf einem {@link Double} basiert. Mit jeder neuen Instanz einer

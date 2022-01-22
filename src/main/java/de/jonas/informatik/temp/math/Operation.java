@@ -1,4 +1,4 @@
-package de.jonas.informatik.math;
+package de.jonas.informatik.temp.math;
 
 /**
  * Eine {@link Operation} hat keine Parameter. Sie dient dazu eine schnelle Rechen-Operation durchführen zu können,
