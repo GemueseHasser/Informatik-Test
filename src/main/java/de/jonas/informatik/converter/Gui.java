@@ -2,7 +2,6 @@ package de.jonas.informatik.converter;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,7 +18,7 @@ public final class Gui extends JFrame {
     /** Die Breite des Fensters. */
     private static final int WIDTH = 500;
     /** Die Höhe des Fensters. */
-    private static final int HEIGHT = 410;
+    private static final int HEIGHT = 390;
     /** Die Schriftart, die standardmäßig genutzt wird. */
     private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
     /** Die Breite eines Feldes, in welches man eine Zahl eingeben kann. */
@@ -30,6 +29,13 @@ public final class Gui extends JFrame {
     private static final int FIELD_X = 170;
     /** Die X-Koordinate eines jeden Schriftzugs. */
     private static final int LABEL_X = 10;
+    /** Alle Felder, die erzeugt werden sollen, um ein bestimmtes Zahlensystem widerzuspiegeln. */
+    private static final ConverterField[] CONVERTER_FIELDS = {
+        getFormattedConverterField(50, Converter.DECIMAL_FUNCTION),
+        getFormattedConverterField(120, Converter.BINARY_FUNCTION),
+        getFormattedConverterField(190, Converter.OCTAL_FUNCTION),
+        getFormattedConverterField(260, Converter.HEX_FUNCTION),
+    };
     //</editor-fold>
 
 
@@ -41,20 +47,30 @@ public final class Gui extends JFrame {
      * Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
      */
     public Gui() {
+        // create gui
         super(TITLE);
+
+        // set properties
         super.setBounds(0, 0, WIDTH, HEIGHT);
         super.setLocationRelativeTo(null);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
         super.setLayout(null);
 
-        super.add(getFormattedTextField(100));
-        super.add(getFormattedTextField(170));
-        super.add(getFormattedTextField(240));
+        // enable just decimal entry
+        CONVERTER_FIELDS[0].setEnabled(true);
 
-        super.add(getFormattedLabel("Dezimal:", 100 + DEFAULT_FONT.getSize() / 2));
-        super.add(getFormattedLabel("Binär:", 170 + DEFAULT_FONT.getSize() / 2));
-        super.add(getFormattedLabel("Hexadezimal:", 240 + DEFAULT_FONT.getSize() / 2));
+        // add key listeners
+        for (final ConverterField field : CONVERTER_FIELDS) {
+            field.addKeyListener(new ConverterKeyListener(field, CONVERTER_FIELDS));
+            super.add(field);
+        }
+
+        // add labels
+        super.add(getFormattedLabel("Dezimal:", 50 + DEFAULT_FONT.getSize() / 2));
+        super.add(getFormattedLabel("Binär:", 120 + DEFAULT_FONT.getSize() / 2));
+        super.add(getFormattedLabel("Oktal:", 190 + DEFAULT_FONT.getSize() / 2));
+        super.add(getFormattedLabel("Hexadezimal:", 260 + DEFAULT_FONT.getSize() / 2));
     }
     //</editor-fold>
 
@@ -89,18 +105,21 @@ public final class Gui extends JFrame {
     //<editor-fold desc="utility">
 
     /**
-     * Gibt mithilfe einer Y-Koordinate ein {@link JTextField} zurück, welches bereits korrekt formatiert ist.
+     * Gibt mithilfe einer Y-Koordinate ein {@link ConverterField} zurück, welches bereits korrekt formatiert ist.
      *
-     * @param y Die Y-Koordinate, an der sich das Textfeld befinden soll.
+     * @param y        Die Y-Koordinate, an der sich das Textfeld befinden soll.
+     * @param function Die Funktion, mit welcher das Feld formatiert werden soll.
      *
-     * @return Ein {@link JTextField}, welches bereits korrekt formatiert ist.
+     * @return Ein {@link ConverterField}, welches bereits korrekt formatiert ist.
      */
-    private static JTextField getFormattedTextField(final int y) {
-        final JTextField field = new JTextField();
+    private static ConverterField getFormattedConverterField(final int y, final ConverterFunction function) {
+        final ConverterField field = new ConverterField(function);
         field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
         field.setFont(DEFAULT_FONT);
         field.setOpaque(true);
+        field.setEnabled(false);
         field.setBackground(Color.LIGHT_GRAY);
+        field.setDisabledTextColor(Color.BLACK);
         field.setForeground(Color.BLACK);
 
         return field;
