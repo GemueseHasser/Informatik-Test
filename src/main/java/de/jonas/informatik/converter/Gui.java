@@ -57,9 +57,6 @@ public final class Gui extends JFrame {
         super.setResizable(false);
         super.setLayout(null);
 
-        // enable just decimal entry
-        CONVERTER_FIELDS[0].setEnabled(true);
-
         // add key listeners
         for (final ConverterField field : CONVERTER_FIELDS) {
             field.addKeyListener(new ConverterKeyListener(field, CONVERTER_FIELDS));
@@ -117,9 +114,7 @@ public final class Gui extends JFrame {
         field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
         field.setFont(DEFAULT_FONT);
         field.setOpaque(true);
-        field.setEnabled(false);
         field.setBackground(Color.LIGHT_GRAY);
-        field.setDisabledTextColor(Color.BLACK);
         field.setForeground(Color.BLACK);
 
         return field;

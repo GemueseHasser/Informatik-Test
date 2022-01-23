@@ -69,4 +69,13 @@ public final class ConverterFunction {
         return builder.toString();
     }
 
+    /**
+     * Gibt Die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen) zurück.
+     *
+     * @return Die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen).
+     */
+    public int getSystemIdentifier() {
+        return this.system;
+    }
+
 }

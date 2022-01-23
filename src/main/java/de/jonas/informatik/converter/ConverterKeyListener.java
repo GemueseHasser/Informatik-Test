@@ -55,7 +55,10 @@ public final class ConverterKeyListener implements KeyListener {
             }
 
             try {
-                field.setText(field.getConverterFunction().convert(Integer.parseInt(this.current.getText())));
+                field.setText(field.getConverterFunction().convert(Integer.parseInt(
+                    this.current.getText(),
+                    this.current.getConverterFunction().getSystemIdentifier()
+                )));
             } catch (final NumberFormatException ignored) {
                 return;
             }
