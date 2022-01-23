@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public final class ConverterFunction {
 
-    //<editor-fold desc="LOCLA FIELDS">
+    //<editor-fold desc="LOCAL FIELDS">
     /** Die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen). */
     private final int system;
     /** Alle Zahlen, die dieses Zahlensystem beinhaltet (null, wenn normale Dezimalzahlen genutzt werden). */
