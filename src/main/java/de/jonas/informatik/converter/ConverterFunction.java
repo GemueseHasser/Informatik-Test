@@ -70,7 +70,7 @@ public final class ConverterFunction {
     }
 
     /**
-     * Gibt Die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen) zurück.
+     * Gibt die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen) zurück.
      *
      * @return Die Systematik, mit der dieses Zahlensystem aufgebaut ist (Anzahl an Zahlen).
      */
