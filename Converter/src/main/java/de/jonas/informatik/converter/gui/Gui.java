@@ -1,7 +1,11 @@
-package de.jonas.informatik.converter;
+package de.jonas.informatik.converter.gui;
+
+import de.jonas.informatik.converter.Converter;
+import de.jonas.informatik.converter.ConverterField;
+import de.jonas.informatik.converter.ConverterFunction;
+import de.jonas.informatik.converter.ConverterKeyListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.awt.Color;
@@ -12,10 +16,10 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Ein {@link Gui} stellt eine Instanz eines {@link JFrame} dar. In diesem Gui können Zahlen eingegeben werden, die dann
+ * Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar. In diesem Gui können Zahlen eingegeben werden, die dann
  * konvertiert werden sollen, in andere Formate, wie zum Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
  */
-public final class Gui extends JFrame {
+public final class Gui extends AbstractGui {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Title des Fensters. */
@@ -47,20 +51,13 @@ public final class Gui extends JFrame {
     //<editor-fold desc="CONSTRUCTORS">
 
     /**
-     * Erzeugt eine neue Instanz eines {@link Gui}. Ein {@link Gui} stellt eine Instanz eines {@link JFrame} dar. In
+     * Erzeugt eine neue Instanz eines {@link Gui}. Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar. In
      * diesem Gui können Zahlen eingegeben werden, die dann konvertiert werden sollen, in andere Formate, wie zum
      * Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
      */
     public Gui() {
         // create gui
-        super(TITLE);
-
-        // set properties
-        super.setBounds(0, 0, WIDTH, HEIGHT);
-        super.setLocationRelativeTo(null);
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        super.setResizable(false);
-        super.setLayout(null);
+        super(TITLE, WIDTH, HEIGHT);
 
         // add key listeners
         for (final ConverterField field : CONVERTER_FIELDS) {
@@ -73,23 +70,9 @@ public final class Gui extends JFrame {
         super.add(getFormattedLabel("Binär:", 120 + DEFAULT_FONT.getSize() / 2 - 5));
         super.add(getFormattedLabel("Oktal:", 190 + DEFAULT_FONT.getSize() / 2 - 5));
         super.add(getFormattedLabel("Hexadezimal:", 260 + DEFAULT_FONT.getSize() / 2 - 5));
-
-        final Draw draw = new Draw();
-        draw.setBounds(0, 0, WIDTH, HEIGHT);
-        draw.setVisible(true);
-
-        super.add(draw);
     }
     //</editor-fold>
 
-
-    /**
-     * Öffnet dieses Fenster bzw. macht die bereits erzeugte Instanz dieses Fensters auf dem Bildschirm sichtbar, sodass
-     * es den Anschein macht, als dass es geöffnet wird.
-     */
-    public void open() {
-        super.setVisible(true);
-    }
 
     /**
      * Gibt mithilfe eines Textes und einer Y-Koordinate einen korrekt formatierten Schriftzug zurück.
@@ -135,37 +118,25 @@ public final class Gui extends JFrame {
     }
     //</editor-fold>
 
+    //<editor-fold desc="implementation">
+    @Override
+    public void draw(final Graphics g) {
+        final Image basicBackground;
 
-    //<editor-fold desc="Draw">
+        try {
+            // get background image url
+            final URL backgroundUrl = this.getClass().getResource("/background.jpg");
 
-    /**
-     * Mithilfe eines {@link Draw} wird das Hintergrundbild gezeichnet.
-     */
-    private static final class Draw extends JLabel {
-
-        //<editor-fold desc="implementation">
-        @Override
-        protected void paintComponent(final Graphics g) {
-            super.paintComponent(g);
-
-            final Image basicBackground;
-
-            try {
-                // get background image url
-                final URL backgroundUrl = this.getClass().getResource("/background.jpg");
-
-                // read image from url
-                assert backgroundUrl != null;
-                basicBackground = ImageIO.read(backgroundUrl);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            // draw background image
-            g.drawImage(basicBackground, 0, 0, super.getWidth(), super.getHeight(), null);
+            // read image from url
+            assert backgroundUrl != null;
+            basicBackground = ImageIO.read(backgroundUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
-        //</editor-fold>
+
+        // draw background image
+        g.drawImage(basicBackground, 0, 0, super.getWidth(), super.getHeight(), null);
     }
     //</editor-fold>
 }
