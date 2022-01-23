@@ -22,7 +22,7 @@ public final class Gui extends JFrame {
     /** Die Schriftart, die standardmäßig genutzt wird. */
     private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
     /** Die Breite eines Feldes, in welches man eine Zahl eingeben kann. */
-    private static final int FIELD_WIDTH = 150;
+    private static final int FIELD_WIDTH = 250;
     /** Die Höhe eines Feldes, in welches man eine Zahl eingeben kann. */
     private static final int FIELD_HEIGHT = 40;
     /** Die X-Koordinate eines jeden Feldes, in welches man eine Zahl eingeben kann. */
