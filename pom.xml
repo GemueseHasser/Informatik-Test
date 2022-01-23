@@ -3,9 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
     <name>Informatik</name>
-    <description>Ein Projekt für temporäre Test-Dateien der Informatik.</description>
+    <description>Ein Projekt für die schulische Informatik.</description>
+
+    <modules>
+        <module>Converter</module>
+        <module>Utility</module>
+    </modules>
 
     <groupId>de</groupId>
     <artifactId>jonas</artifactId>
@@ -49,22 +55,6 @@
                     <showWarnings>true</showWarnings>
                     <source>8</source>
                     <target>8</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>
-                                de.jonas.informatik.temp.Circlet
-                            </mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
         </plugins>

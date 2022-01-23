@@ -6,11 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Informatik" />
+        <module name="Converter" />
+        <module name="Utility" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Converter" target="8" />
       <module name="Informatik" target="8" />
+      <module name="Utility" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
