@@ -19,7 +19,7 @@ public final class Gui extends JFrame {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Title des Fensters. */
-    private static final String TITLE = "Zahlen Konverter";
+    private static final String TITLE = "Zahlen Konverter - by Jonas";
     /** Die Breite des Fensters. */
     private static final int WIDTH = 500;
     /** Die Höhe des Fensters. */
