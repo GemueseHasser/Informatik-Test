@@ -1,10 +1,15 @@
 package de.jonas.informatik.converter;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Ein {@link Gui} stellt eine Instanz eines {@link JFrame} dar. In diesem Gui können Zahlen eingegeben werden, die dann
@@ -64,10 +69,16 @@ public final class Gui extends JFrame {
         }
 
         // add labels
-        super.add(getFormattedLabel("Dezimal:", 50 + DEFAULT_FONT.getSize() / 2));
-        super.add(getFormattedLabel("Binär:", 120 + DEFAULT_FONT.getSize() / 2));
-        super.add(getFormattedLabel("Oktal:", 190 + DEFAULT_FONT.getSize() / 2));
-        super.add(getFormattedLabel("Hexadezimal:", 260 + DEFAULT_FONT.getSize() / 2));
+        super.add(getFormattedLabel("Dezimal:", 50 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(getFormattedLabel("Binär:", 120 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(getFormattedLabel("Oktal:", 190 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(getFormattedLabel("Hexadezimal:", 260 + DEFAULT_FONT.getSize() / 2 - 5));
+
+        final Draw draw = new Draw();
+        draw.setBounds(0, 0, WIDTH, HEIGHT);
+        draw.setVisible(true);
+
+        super.add(draw);
     }
     //</editor-fold>
 
@@ -93,8 +104,11 @@ public final class Gui extends JFrame {
 
         final int width = super.getFontMetrics(DEFAULT_FONT).stringWidth(text);
 
-        label.setBounds(LABEL_X, y, width, DEFAULT_FONT.getSize() + 5);
+        label.setBounds(LABEL_X, y, width, DEFAULT_FONT.getSize() + 10);
         label.setFont(DEFAULT_FONT);
+        label.setOpaque(true);
+        label.setBackground(Color.LIGHT_GRAY);
+        label.setForeground(Color.BLACK);
 
         return label;
     }
@@ -118,6 +132,40 @@ public final class Gui extends JFrame {
         field.setForeground(Color.BLACK);
 
         return field;
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="Draw">
+
+    /**
+     * Mithilfe eines {@link Draw} wird das Hintergrundbild gezeichnet.
+     */
+    private static final class Draw extends JLabel {
+
+        //<editor-fold desc="implementation">
+        @Override
+        protected void paintComponent(final Graphics g) {
+            super.paintComponent(g);
+
+            final Image basicBackground;
+
+            try {
+                // get background image url
+                final URL backgroundUrl = this.getClass().getResource("/background.jpg");
+
+                // read image from url
+                assert backgroundUrl != null;
+                basicBackground = ImageIO.read(backgroundUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            // draw background image
+            g.drawImage(basicBackground, 0, 0, super.getWidth(), super.getHeight(), null);
+        }
+        //</editor-fold>
     }
     //</editor-fold>
 }
