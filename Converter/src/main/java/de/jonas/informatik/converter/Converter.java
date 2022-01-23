@@ -9,11 +9,18 @@ import java.util.Map;
  */
 public final class Converter {
 
+    //<editor-fold desc="CONSTANTS">
+    /** Alle Zahlen, die im Hexadezimalsystem vorkommen mit Bezug auf das Dezimalsystem. */
     public static final Map<Integer, String> HEX_SYSTEM = new HashMap<>();
+    /** Die Funktion, womit sich Dezimalzahlen konvertieren lassen. */
     public static final ConverterFunction DECIMAL_FUNCTION = new ConverterFunction(10, null);
+    /** Die Funktion, womit sich Binärzahlen konvertieren lassen. */
     public static final ConverterFunction BINARY_FUNCTION = new ConverterFunction(2, null);
+    /** Die Funktion, womit sich Oktalzahlen konvertieren lassen. */
     public static final ConverterFunction OCTAL_FUNCTION = new ConverterFunction(8, null);
+    /** Die Funktion, womit sich Hexadezimalzahlen konvertieren lassen. */
     public static final ConverterFunction HEX_FUNCTION = new ConverterFunction(16, HEX_SYSTEM);
+    //</editor-fold>
 
 
     //<editor-fold desc="main">
