@@ -6,18 +6,18 @@ import de.jonas.informatik.converter.ConverterFunction;
 import de.jonas.informatik.converter.ConverterKeyListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 
 /**
- * Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar. In diesem Gui können Zahlen eingegeben werden, die dann
- * konvertiert werden sollen, in andere Formate, wie zum Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
+ * Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar. In diesem Gui können Zahlen eingegeben werden, die
+ * dann konvertiert werden sollen, in andere Formate, wie zum Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen,
+ * etc.
  */
 public final class Gui extends AbstractGui {
 
@@ -27,32 +27,50 @@ public final class Gui extends AbstractGui {
     /** Die Breite des Fensters. */
     private static final int WIDTH = 500;
     /** Die Höhe des Fensters. */
-    private static final int HEIGHT = 390;
-    /** Die Schriftart, die standardmäßig genutzt wird. */
-    private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
+    private static final int HEIGHT = 450;
+
+    //<editor-fold desc="field">
     /** Die Breite eines Feldes, in welches man eine Zahl eingeben kann. */
     private static final int FIELD_WIDTH = 250;
     /** Die Höhe eines Feldes, in welches man eine Zahl eingeben kann. */
     private static final int FIELD_HEIGHT = 40;
     /** Die X-Koordinate eines jeden Feldes, in welches man eine Zahl eingeben kann. */
     private static final int FIELD_X = 170;
-    /** Die X-Koordinate eines jeden Schriftzugs. */
-    private static final int LABEL_X = 10;
     /** Alle Felder, die erzeugt werden sollen, um ein bestimmtes Zahlensystem widerzuspiegeln. */
     private static final ConverterField[] CONVERTER_FIELDS = {
-        getFormattedConverterField(50, Converter.DECIMAL_FUNCTION),
-        getFormattedConverterField(120, Converter.BINARY_FUNCTION),
-        getFormattedConverterField(190, Converter.OCTAL_FUNCTION),
-        getFormattedConverterField(260, Converter.HEX_FUNCTION),
+        getConverterField(50, Converter.DECIMAL_FUNCTION),
+        getConverterField(120, Converter.BINARY_FUNCTION),
+        getConverterField(190, Converter.OCTAL_FUNCTION),
+        getConverterField(260, Converter.HEX_FUNCTION),
     };
+    //</editor-fold>
+
+    //<editor-fold desc="label">
+    /** Die X-Koordinate eines jeden Schriftzugs. */
+    private static final int LABEL_X = 10;
+    //</editor-fold>
+
+    //<editor-fold desc="custom-convert">
+    /** Der Text des Buttons für die individuelle Konvertierung. */
+    private static final String CUSTOM_CONVERT_BUTTON = "Individuelle Konvertierung";
+    /** Die X-Koordinate des Buttons um eine individuelle Konvertierung vorzunehmen. */
+    private static final int CUSTOM_CONVERT_X = 42;
+    /** Die Y-Koordinate des Buttons um eine individuelle Konvertierung vorzunehmen. */
+    private static final int CUSTOM_CONVERT_Y = 350;
+    /** Die Breite des Buttons um eine individuelle Konvertierung vorzunehmen. */
+    private static final int CUSTOM_CONVERT_WIDTH = 400;
+    /** Die Höhe des Buttons um eine individuelle Konvertierung vorzunehmen. */
+    private static final int CUSTOM_CONVERT_HEIGHT = 40;
+    //</editor-fold>
+
     //</editor-fold>
 
 
     //<editor-fold desc="CONSTRUCTORS">
 
     /**
-     * Erzeugt eine neue Instanz eines {@link Gui}. Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar. In
-     * diesem Gui können Zahlen eingegeben werden, die dann konvertiert werden sollen, in andere Formate, wie zum
+     * Erzeugt eine neue Instanz eines {@link Gui}. Ein {@link Gui} stellt eine Instanz eines {@link AbstractGui} dar.
+     * In diesem Gui können Zahlen eingegeben werden, die dann konvertiert werden sollen, in andere Formate, wie zum
      * Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
      */
     public Gui() {
@@ -66,55 +84,38 @@ public final class Gui extends AbstractGui {
         }
 
         // add labels
-        super.add(getFormattedLabel("Dezimal:", 50 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(getFormattedLabel("Binär:", 120 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(getFormattedLabel("Oktal:", 190 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(getFormattedLabel("Hexadezimal:", 260 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Dezimal:", LABEL_X, 50 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Binär:", LABEL_X, 120 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Oktal:", LABEL_X, 190 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Hexadezimal:", LABEL_X, 260 + DEFAULT_FONT.getSize() / 2 - 5));
+
+        // custom convert
+        final JButton customConvert = new JButton(CUSTOM_CONVERT_BUTTON);
+        customConvert.setBounds(CUSTOM_CONVERT_X, CUSTOM_CONVERT_Y, CUSTOM_CONVERT_WIDTH, CUSTOM_CONVERT_HEIGHT);
+        customConvert.setFont(DEFAULT_FONT);
+        customConvert.setFocusable(false);
+        customConvert.setOpaque(true);
+        customConvert.setBackground(Color.DARK_GRAY);
+        customConvert.setForeground(Color.WHITE);
+        customConvert.addActionListener(actionEvent -> new CustomConverterGui().open());
+
+        super.add(customConvert);
     }
     //</editor-fold>
 
 
-    /**
-     * Gibt mithilfe eines Textes und einer Y-Koordinate einen korrekt formatierten Schriftzug zurück.
-     *
-     * @param text Der Text, welchen der Schriftzug beinhalten soll.
-     * @param y    Die Y-Koordinate, an der sich der Schriftzug befinden soll.
-     *
-     * @return Einen korrekt formatierten Schriftzug.
-     */
-    private JLabel getFormattedLabel(final String text, final int y) {
-        final JLabel label = new JLabel(text);
-
-        final int width = super.getFontMetrics(DEFAULT_FONT).stringWidth(text);
-
-        label.setBounds(LABEL_X, y, width, DEFAULT_FONT.getSize() + 10);
-        label.setFont(DEFAULT_FONT);
-        label.setOpaque(true);
-        label.setBackground(Color.LIGHT_GRAY);
-        label.setForeground(Color.BLACK);
-
-        return label;
-    }
-
     //<editor-fold desc="utility">
 
     /**
-     * Gibt mithilfe einer Y-Koordinate ein {@link ConverterField} zurück, welches bereits korrekt formatiert ist.
+     * Gibt ein {@link ConverterField} auf der Basis von {@code getFormattedConverterField} zurück.
      *
-     * @param y        Die Y-Koordinate, an der sich das Textfeld befinden soll.
+     * @param y        Die Y-Koordinate des {@link ConverterField}.
      * @param function Die Funktion, mit welcher das Feld formatiert werden soll.
      *
-     * @return Ein {@link ConverterField}, welches bereits korrekt formatiert ist.
+     * @return Ein {@link ConverterField} auf der Basis von {@code getFormattedConverterField}.
      */
-    private static ConverterField getFormattedConverterField(final int y, final ConverterFunction function) {
-        final ConverterField field = new ConverterField(function);
-        field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
-        field.setFont(DEFAULT_FONT);
-        field.setOpaque(true);
-        field.setBackground(Color.LIGHT_GRAY);
-        field.setForeground(Color.BLACK);
-
-        return field;
+    private static ConverterField getConverterField(final int y, final ConverterFunction function) {
+        return getFormattedConverterField(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT, function);
     }
     //</editor-fold>
 
@@ -136,7 +137,7 @@ public final class Gui extends AbstractGui {
         }
 
         // draw background image
-        g.drawImage(basicBackground, 0, 0, super.getWidth(), super.getHeight(), null);
+        g.drawImage(basicBackground, 0, 0, WIDTH, HEIGHT, null);
     }
     //</editor-fold>
 }
