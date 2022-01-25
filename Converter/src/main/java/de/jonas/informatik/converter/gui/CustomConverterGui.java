@@ -151,12 +151,28 @@ public final class CustomConverterGui extends AbstractGui {
                 this.leftField.setConverterFunction(
                     new ConverterFunction(selectedItem, null)
                 );
+
+                // format field instant
+                if (!this.leftField.getText().isEmpty()) {
+                    this.leftField.setText(this.leftField.getConverterFunction().convert(Integer.parseInt(
+                        this.rightField.getText(),
+                        this.rightField.getConverterFunction().getSystemIdentifier()
+                    )));
+                }
                 return;
             }
 
             this.rightField.setConverterFunction(
                 new ConverterFunction(selectedItem, null)
             );
+
+            // format field instant
+            if (!this.rightField.getText().isEmpty()) {
+                this.rightField.setText(this.rightField.getConverterFunction().convert(Integer.parseInt(
+                    this.leftField.getText(),
+                    this.leftField.getConverterFunction().getSystemIdentifier()
+                )));
+            }
         });
 
         return box;
