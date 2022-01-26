@@ -139,7 +139,10 @@ public final class CustomConverterGui extends AbstractGui {
         final JButton leftButton = getFormattedButton(20);
         leftButton.addActionListener(actionEvent -> {
             // load custom number-system
-            loadCustomNumberSystem(this.leftField, this.leftBox);
+            final boolean success = loadCustomNumberSystem(this.leftField, this.leftBox);
+
+            // check if loading was successful
+            if (!success) return;
 
             // format field instant
             if (!this.leftField.getText().isEmpty()) {
@@ -161,7 +164,10 @@ public final class CustomConverterGui extends AbstractGui {
         final JButton rightButton = getFormattedButton(250);
         rightButton.addActionListener(actionEvent -> {
             // load custom number-system
-            loadCustomNumberSystem(this.rightField, rightBox);
+            final boolean success = loadCustomNumberSystem(this.rightField, rightBox);
+
+            // check if loading was successful
+            if (!success) return;
 
             // format field instant
             if (!this.rightField.getText().isEmpty()) {
@@ -295,8 +301,10 @@ public final class CustomConverterGui extends AbstractGui {
      * @param field Das Textfeld, welches dieses Zahlensystem injiziert bekommt, sodass eine Konvertierung mit diesen
      *              Zahlen stattfinden kann.
      * @param box   Die Box, welche die Potenz des Zahlensystems enthält.
+     *
+     * @return Wenn der Prozess erfolgreich war {@code true}, ansonsten {@code false}.
      */
-    private void loadCustomNumberSystem(final ConverterField field, final JComboBox<Integer> box) {
+    private boolean loadCustomNumberSystem(final ConverterField field, final JComboBox<Integer> box) {
         final int selectedItem = (box.getSelectedItem() == null) ? 0 : (int) box.getSelectedItem();
 
         final Map<Integer, String> numberSystem = showNumberSystemInputDialog(selectedItem);
@@ -308,13 +316,18 @@ public final class CustomConverterGui extends AbstractGui {
                 "Error",
                 JOptionPane.ERROR_MESSAGE
             );
-            return;
+
+            // error
+            return false;
         }
 
         field.setConverterFunction(new ConverterFunction(
             field.getConverterFunction().getSystemIdentifier(),
             numberSystem
         ));
+
+        // success
+        return true;
     }
 
     /**
