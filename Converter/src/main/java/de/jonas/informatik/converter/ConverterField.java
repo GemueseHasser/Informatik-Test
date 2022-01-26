@@ -10,7 +10,7 @@ public final class ConverterField extends JTextField {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die {@link ConverterFunction} dieses Textfeldes. */
-    private final ConverterFunction converterFunction;
+    private ConverterFunction converterFunction;
     //</editor-fold>
 
 
@@ -39,6 +39,17 @@ public final class ConverterField extends JTextField {
      */
     public ConverterFunction getConverterFunction() {
         return this.converterFunction;
+    }
+
+    /**
+     * Setzt die {@link ConverterFunction} dieses {@link ConverterField} neu, mit der dieses {@link ConverterField}
+     * konvertiert bzw. übersetzt werden soll.
+     *
+     * @param function Die neue {@link ConverterFunction}, mit der dieses {@link ConverterField} konvertiert bzw.
+     *                 übersetzt werden soll.
+     */
+    public void setConverterFunction(final ConverterFunction function) {
+        this.converterFunction = function;
     }
 
 }
