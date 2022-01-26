@@ -25,8 +25,6 @@ public final class ConverterField extends JTextField {
      *                          soll.
      */
     public ConverterField(final ConverterFunction converterFunction) {
-        super();
-
         this.converterFunction = converterFunction;
     }
     //</editor-fold>

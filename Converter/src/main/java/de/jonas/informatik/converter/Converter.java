@@ -32,6 +32,7 @@ public final class Converter {
      *
      * @param args Die Argumente, die von der JRE übergeben werden.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public static void main(final String[] args) {
         // fill hex system map
         HEX_SYSTEM.put(0, "0");

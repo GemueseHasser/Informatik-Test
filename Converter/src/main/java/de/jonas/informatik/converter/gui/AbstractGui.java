@@ -84,12 +84,13 @@ public abstract class AbstractGui extends JFrame {
      *
      * @return Einen korrekt formatierten Schriftzug.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public JLabel getFormattedLabel(final String text, final int x, final int y) {
         final JLabel label = new JLabel(text);
 
-        final int width = super.getFontMetrics(DEFAULT_FONT).stringWidth(text);
+        final int labelWidth = super.getFontMetrics(DEFAULT_FONT).stringWidth(text);
 
-        label.setBounds(x, y, width, DEFAULT_FONT.getSize() + 10);
+        label.setBounds(x, y, labelWidth, DEFAULT_FONT.getSize() + 10);
         label.setFont(DEFAULT_FONT);
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
@@ -105,7 +106,7 @@ public abstract class AbstractGui extends JFrame {
      *
      * @param g Die {@link Graphics}, mit denen auf dieses Fenster gezeichnet werden soll.
      */
-    public abstract void draw(final Graphics g);
+    public abstract void draw(Graphics g);
 
     //<editor-fold desc="utility">
 

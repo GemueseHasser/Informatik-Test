@@ -34,6 +34,10 @@ public final class CustomConverterGui extends AbstractGui {
     private static final int HEIGHT = 250;
 
     //<editor-fold desc="box">
+    /** Die X-Koordinate der linken Box, mit der man das jeweilige Zahlensystem des linken Textfeldes wählen kann. */
+    private static final int LEFT_BOX_X = 50;
+    /** Die X-Koordinate der rechten Box, mit der man das jeweilige Zahlensystem des rechten Textfeldes wählen kann. */
+    private static final int RIGHT_BOX_X = 300;
     /** Die Y-Koordinate aller Boxen, mit denen man das jeweilige Zahlensystem wählen kann. */
     private static final int BOX_Y = 50;
     /** Die Breite aller Boxen, mit denen man das jeweilige Zahlensystem wählen kann. */
@@ -47,6 +51,10 @@ public final class CustomConverterGui extends AbstractGui {
     //</editor-fold>
 
     //<editor-fold desc="field">
+    /** Die X-Koordinate des linken Feldes. */
+    private static final int LEFT_FIELD_X = 20;
+    /** Die X-Koordinate des rechten Feldes. */
+    private static final int RIGHT_FIELD_X = 250;
     /** Die Y-Koordinate aller Textfelder. */
     private static final int FIELD_Y = 100;
     /** Die Breite aller Textfelder. */
@@ -64,7 +72,10 @@ public final class CustomConverterGui extends AbstractGui {
     private static final int CUSTOM_NUMBER_SYSTEM_WIDTH = 200;
     /** Die Höhe aller Buttons, mit denen man ein neues Zahlensystem laden kann. */
     private static final int CUSTOM_NUMBER_SYSTEM_HEIGHT = 30;
+    /** Die Schriftgröße der Schrift aller Buttons, mit denen man ein neues Zahlensystem laden kann. */
+    private static final float CUSTOM_NUMBER_FONT_SIZE = 10F;
     //</editor-fold>
+
     //</editor-fold>
 
 
@@ -93,14 +104,14 @@ public final class CustomConverterGui extends AbstractGui {
 
         // create converter-fields
         this.leftField = getFormattedConverterField(
-            20,
+            LEFT_FIELD_X,
             FIELD_Y,
             FIELD_WIDTH,
             FIELD_HEIGHT,
             Converter.DECIMAL_FUNCTION
         );
         this.rightField = getFormattedConverterField(
-            250,
+            RIGHT_FIELD_X,
             FIELD_Y,
             FIELD_WIDTH,
             FIELD_HEIGHT,
@@ -118,8 +129,8 @@ public final class CustomConverterGui extends AbstractGui {
         // create combo-boxes and add them to the gui
         final JComboBox<Integer> rightBox = new JComboBox<>();
 
-        super.add(getFormattedBox(this.leftBox, 50));
-        super.add(getFormattedBox(rightBox, 300));
+        super.add(getFormattedBox(this.leftBox, LEFT_BOX_X));
+        super.add(getFormattedBox(rightBox, RIGHT_BOX_X));
 
         // set start value to '10'
         this.leftBox.setSelectedItem(BOX_SELECTED_ITEM);
@@ -251,7 +262,7 @@ public final class CustomConverterGui extends AbstractGui {
     private JButton getFormattedButton(final int x) {
         final JButton button = new JButton(CUSTOM_NUMBER_SYSTEM_TEXT);
         button.setBounds(x, CUSTOM_NUMBER_SYSTEM_Y, CUSTOM_NUMBER_SYSTEM_WIDTH, CUSTOM_NUMBER_SYSTEM_HEIGHT);
-        button.setFont(DEFAULT_FONT.deriveFont(10F));
+        button.setFont(DEFAULT_FONT.deriveFont(CUSTOM_NUMBER_FONT_SIZE));
         button.setFocusable(false);
         button.setOpaque(true);
         button.setBackground(Color.DARK_GRAY);
@@ -266,7 +277,7 @@ public final class CustomConverterGui extends AbstractGui {
      *
      * @param field Das {@link ConverterField}, zu dem ein {@link ConverterKeyListener} hinzugefügt werden soll.
      */
-    private void addKeyListener(ConverterField field) {
+    private void addKeyListener(final ConverterField field) {
         final ConverterField[] overallFields = {
             this.leftField,
             this.rightField,

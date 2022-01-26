@@ -48,6 +48,14 @@ public final class Gui extends AbstractGui {
     //<editor-fold desc="label">
     /** Die X-Koordinate eines jeden Schriftzugs. */
     private static final int LABEL_X = 10;
+    /** Die Y-Koordinate des Schriftzuges für das Dezimalsystem. */
+    private static final int DECIMAL_Y = 50;
+    /** Die Y-Koordinate des Schriftzuges für das Binärsystem. */
+    private static final int BINARY_Y = 120;
+    /** Die Y-Koordinate des Schriftzuges für das Oktalsystem. */
+    private static final int OCTAL_Y = 190;
+    /** Die Y-Koordinate des Schriftzuges für das Hexadezimalsystem. */
+    private static final int HEX_Y = 260;
     //</editor-fold>
 
     //<editor-fold desc="custom-convert">
@@ -73,6 +81,7 @@ public final class Gui extends AbstractGui {
      * In diesem Gui können Zahlen eingegeben werden, die dann konvertiert werden sollen, in andere Formate, wie zum
      * Beispiel in Binärzahlen, Oktalzahlen, Hexadezimalzahlen, etc.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public Gui() {
         // create gui
         super(TITLE, WIDTH, HEIGHT);
@@ -84,10 +93,10 @@ public final class Gui extends AbstractGui {
         }
 
         // add labels
-        super.add(super.getFormattedLabel("Dezimal:", LABEL_X, 50 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(super.getFormattedLabel("Binär:", LABEL_X, 120 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(super.getFormattedLabel("Oktal:", LABEL_X, 190 + DEFAULT_FONT.getSize() / 2 - 5));
-        super.add(super.getFormattedLabel("Hexadezimal:", LABEL_X, 260 + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Dezimal:", LABEL_X, DECIMAL_Y + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Binär:", LABEL_X, BINARY_Y + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Oktal:", LABEL_X, OCTAL_Y + DEFAULT_FONT.getSize() / 2 - 5));
+        super.add(super.getFormattedLabel("Hexadezimal:", LABEL_X, HEX_Y + DEFAULT_FONT.getSize() / 2 - 5));
 
         // custom convert
         final JButton customConvert = new JButton(CUSTOM_CONVERT_BUTTON);
@@ -131,7 +140,7 @@ public final class Gui extends AbstractGui {
             // read image from url
             assert backgroundUrl != null;
             basicBackground = ImageIO.read(backgroundUrl);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             return;
         }
