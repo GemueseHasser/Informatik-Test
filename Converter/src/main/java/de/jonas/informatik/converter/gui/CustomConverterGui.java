@@ -6,11 +6,16 @@ import de.jonas.informatik.converter.ConverterFunction;
 import de.jonas.informatik.converter.ConverterKeyListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Ein {@link CustomConverterGui} stellt eine Instanz eines {@link AbstractGui} dar. In diesem Fenster können Zahlen mit
@@ -48,6 +53,17 @@ public final class CustomConverterGui extends AbstractGui {
     private static final int FIELD_WIDTH = 200;
     /** Die Höhe aller Textfelder. */
     private static final int FIELD_HEIGHT = 30;
+    //</editor-fold>
+
+    //<editor-fold desc="custom number-system">
+    /** Der Text eines Buttons, mit dem man ein neues Zahlensystem laden kann. */
+    private static final String CUSTOM_NUMBER_SYSTEM_TEXT = "» Individuelles System «";
+    /** Die Y-Koordinate aller Buttons, mit denen man ein neues Zahlensystem laden kann. */
+    private static final int CUSTOM_NUMBER_SYSTEM_Y = 150;
+    /** Die Breite aller Buttons, mit denen man ein neues Zahlensystem laden kann. */
+    private static final int CUSTOM_NUMBER_SYSTEM_WIDTH = 200;
+    /** Die Höhe aller Buttons, mit denen man ein neues Zahlensystem laden kann. */
+    private static final int CUSTOM_NUMBER_SYSTEM_HEIGHT = 30;
     //</editor-fold>
     //</editor-fold>
 
@@ -108,6 +124,53 @@ public final class CustomConverterGui extends AbstractGui {
         // set start value to '10'
         this.leftBox.setSelectedItem(BOX_SELECTED_ITEM);
         rightBox.setSelectedItem(BOX_SELECTED_ITEM);
+
+        final JButton leftButton = getFormattedButton(20);
+        leftButton.addActionListener(actionEvent -> {
+            // load custom number-system
+            loadCustomNumberSystem(this.leftField, this.leftBox);
+
+            // format field instant
+            if (!this.leftField.getText().isEmpty()) {
+                this.leftField.setText(this.leftField.getConverterFunction().convert(Integer.parseInt(
+                    this.rightField.getText(),
+                    this.rightField.getConverterFunction().getSystemIdentifier()
+                )));
+            }
+
+            // show success message
+            JOptionPane.showMessageDialog(
+                null,
+                "Das Zahlensystem wurde erfolgreich geladen!",
+                "Erfolg",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
+        final JButton rightButton = getFormattedButton(250);
+        rightButton.addActionListener(actionEvent -> {
+            // load custom number-system
+            loadCustomNumberSystem(this.rightField, rightBox);
+
+            // format field instant
+            if (!this.rightField.getText().isEmpty()) {
+                this.rightField.setText(this.rightField.getConverterFunction().convert(Integer.parseInt(
+                    this.leftField.getText(),
+                    this.leftField.getConverterFunction().getSystemIdentifier()
+                )));
+            }
+
+            // show success message
+            JOptionPane.showMessageDialog(
+                null,
+                "Das Zahlensystem wurde erfolgreich geladen!",
+                "Erfolg",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
+        super.add(leftButton);
+        super.add(rightButton);
     }
     //</editor-fold>
 
@@ -179,6 +242,25 @@ public final class CustomConverterGui extends AbstractGui {
     }
 
     /**
+     * Erzeugt einen fertig konfigurierten Button.
+     *
+     * @param x Die X-Koordinate, die dieser Button haben soll.
+     *
+     * @return Einen fertig konfigurierten Button.
+     */
+    private JButton getFormattedButton(final int x) {
+        final JButton button = new JButton(CUSTOM_NUMBER_SYSTEM_TEXT);
+        button.setBounds(x, CUSTOM_NUMBER_SYSTEM_Y, CUSTOM_NUMBER_SYSTEM_WIDTH, CUSTOM_NUMBER_SYSTEM_HEIGHT);
+        button.setFont(DEFAULT_FONT.deriveFont(10F));
+        button.setFocusable(false);
+        button.setOpaque(true);
+        button.setBackground(Color.DARK_GRAY);
+        button.setForeground(Color.WHITE);
+
+        return button;
+    }
+
+    /**
      * Fügt einen {@link ConverterKeyListener} zu einem bestimmten {@link ConverterField} hinzu, welcher sich auf die
      * aktuellen Textfelder dieses Fensters bezieht.
      *
@@ -194,6 +276,79 @@ public final class CustomConverterGui extends AbstractGui {
             field,
             overallFields
         ));
+    }
+
+    /**
+     * Lädt ein bestimmtes Zahlensystem, welches zur Konvertierung genutzt wird.
+     *
+     * @param field Das Textfeld, welches dieses Zahlensystem injiziert bekommt, sodass eine Konvertierung mit diesen
+     *              Zahlen stattfinden kann.
+     * @param box   Die Box, welche die Potenz des Zahlensystems enthält.
+     */
+    private void loadCustomNumberSystem(final ConverterField field, final JComboBox<Integer> box) {
+        final int selectedItem = (box.getSelectedItem() == null) ? 0 : (int) box.getSelectedItem();
+
+        final Map<Integer, String> numberSystem = showNumberSystemInputDialog(selectedItem);
+
+        if (numberSystem == null) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Beim Laden ist ein Fehler aufgetreten!",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        field.setConverterFunction(new ConverterFunction(
+            field.getConverterFunction().getSystemIdentifier(),
+            numberSystem
+        ));
+    }
+
+    /**
+     * Öffnet dem Nutzer ein Fenster, wo er sein individuelles Zahlensystem eingeben kann. Dieses wird erst als ein
+     * gültiges System erkannt, wenn jedes Feld ausgefüllt wurde.
+     *
+     * @param entryAmount Die Anzahl an Einträgen, die dieses Fenster haben soll.
+     *
+     * @return Das Zahlensystem, welches der Nutzer ausgewählt hat bzw. einfach {@code null}, wenn die Eingabe ungültig
+     *     war.
+     */
+    private Map<Integer, String> showNumberSystemInputDialog(final int entryAmount) {
+        final Map<Integer, String> numberSystem = new HashMap<>();
+
+        final Object[] messageEntries = new Object[entryAmount * 2];
+
+        for (int i = 0; i < entryAmount * 2; i++) {
+            if (i % 2 == 0) {
+                messageEntries[i] = String.valueOf(i / 2);
+                continue;
+            }
+
+            messageEntries[i] = new JTextField();
+        }
+
+        final int option = JOptionPane.showConfirmDialog(
+            null,
+            messageEntries,
+            "Individuelles System",
+            JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (option != JOptionPane.OK_OPTION) return null;
+
+        for (int i = 0; i < entryAmount * 2; i++) {
+            if (!(messageEntries[i] instanceof JTextField)) continue;
+
+            final JTextField field = (JTextField) messageEntries[i];
+
+            if (field.getText().isEmpty()) return null;
+
+            numberSystem.put(i / 2, field.getText());
+        }
+
+        return numberSystem;
     }
 
     //<editor-fold desc="implementation">
