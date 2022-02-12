@@ -5,7 +5,6 @@ import de.jonas.informatik.converter.object.ConverterField;
 import de.jonas.informatik.converter.handler.ConverterFunction;
 import de.jonas.informatik.converter.listener.ConverterKeyListener;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -44,10 +43,6 @@ public final class CustomConverterGui extends AbstractGui {
     private static final int BOX_WIDTH = 75;
     /** Die Höhe aller Boxen, mit denen man das jeweilige Zahlensystem wählen kann. */
     private static final int BOX_HEIGHT = 35;
-    /** Die maximale Auswahl aller Boxen, mit denen man das jeweilige Zahlensystem wählen kann. */
-    private static final int BOX_SELECT_SIZE = 50;
-    /** Das von Beginn ausgewählte Zahlensystem aller Boxen, mit denen man das jeweilige Zahlensystem wählen kann. */
-    private static final int BOX_SELECTED_ITEM = 10;
     //</editor-fold>
 
     //<editor-fold desc="field">
@@ -81,7 +76,7 @@ public final class CustomConverterGui extends AbstractGui {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die linke Auswahl-Box, mit der man das jeweilige Zahlensystem für das linke Feld auswählen kann. */
-    private final JComboBox<Integer> leftBox = new JComboBox<>();
+    private final JComboBox<Integer> leftBox = getFormattedBox(LEFT_BOX_X, BOX_Y, BOX_WIDTH, BOX_HEIGHT);
     /** Das linke Textfeld. */
     private final ConverterField leftField;
     /** Das rechte Textfeld. */
@@ -127,14 +122,10 @@ public final class CustomConverterGui extends AbstractGui {
         super.add(this.rightField);
 
         // create combo-boxes and add them to the gui
-        final JComboBox<Integer> rightBox = new JComboBox<>();
+        final JComboBox<Integer> rightBox = getFormattedBox(RIGHT_BOX_X, BOX_Y, BOX_WIDTH, BOX_HEIGHT);
 
-        super.add(getFormattedBox(this.leftBox, LEFT_BOX_X));
-        super.add(getFormattedBox(rightBox, RIGHT_BOX_X));
-
-        // set start value to '10'
-        this.leftBox.setSelectedItem(BOX_SELECTED_ITEM);
-        rightBox.setSelectedItem(BOX_SELECTED_ITEM);
+        super.add(getBoxWithListener(this.leftBox));
+        super.add(getBoxWithListener(rightBox));
 
         final JButton leftButton = getFormattedConverterButton(20);
         leftButton.addActionListener(actionEvent -> {
@@ -194,31 +185,15 @@ public final class CustomConverterGui extends AbstractGui {
 
     /**
      * Gibt eine bereits fertig formatierte {@link JComboBox} zurück, mit der man dann ein beliebiges Zahlensystem
-     * auswählen kann. Es werden alle nötigen Eigenschaften hinzugefügt. Zudem findet auch direkt die Registrierung des
-     * {@link ConverterKeyListener} statt, damit die entsprechenden Textfelder direkt auf die getroffene Auswahl in
-     * dieser Box vorkonfiguriert werden.
+     * auswählen kann. Es findet direkt die Registrierung des {@link ConverterKeyListener} statt, damit die
+     * entsprechenden Textfelder direkt auf die getroffene Auswahl in dieser Box vorkonfiguriert werden.
      *
      * @param box Die Instanz einer {@link JComboBox}, die vollständig formatiert zurückgegeben werden soll.
-     * @param x   Die X-Koordinate dieser Box, an der sich diese befinden soll.
      *
      * @return Eine bereits fertig formatierte {@link JComboBox}, mit der man dann ein beliebiges Zahlensystem auswählen
      *     kann.
      */
-    private JComboBox<Integer> getFormattedBox(final JComboBox<Integer> box, final int x) {
-        // create combo-box-model
-        final DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
-
-        // fill model
-        for (int i = 1; i < BOX_SELECT_SIZE; i++) {
-            model.addElement(i);
-        }
-
-        // set properties
-        box.setBounds(x, BOX_Y, BOX_WIDTH, BOX_HEIGHT);
-        box.setOpaque(true);
-        box.setBackground(Color.LIGHT_GRAY);
-        box.setForeground(Color.BLACK);
-        box.setModel(model);
+    private JComboBox<Integer> getBoxWithListener(final JComboBox<Integer> box) {
         box.addActionListener(actionEvent -> {
             // check if selected item is null
             if (box.getSelectedItem() == null) return;

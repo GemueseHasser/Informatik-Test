@@ -8,7 +8,7 @@ public final class CalculationHandler {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die {@link ConverterFunction}, mit der der Term berechnet wird. */
-    private final ConverterFunction function;
+    private ConverterFunction function;
     //</editor-fold>
 
 
@@ -150,6 +150,15 @@ public final class CalculationHandler {
                 return x;
             }
         }.parse();
+    }
+
+    /**
+     * Setzt die {@link ConverterFunction} dieses {@link CalculationHandler} neu, mit der dieser Rechner rechnen soll.
+     *
+     * @param function Die neue {@link ConverterFunction}, mit der dieser Rechner rechnen soll.
+     */
+    public void setConverterFunction(final ConverterFunction function) {
+        this.function = function;
     }
 
 }

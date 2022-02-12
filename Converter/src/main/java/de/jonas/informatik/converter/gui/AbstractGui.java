@@ -3,7 +3,9 @@ package de.jonas.informatik.converter.gui;
 import de.jonas.informatik.converter.object.ConverterField;
 import de.jonas.informatik.converter.handler.ConverterFunction;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -20,6 +22,10 @@ public abstract class AbstractGui extends JFrame {
     //<editor-fold desc="CONSTANTS">
     /** Die Schriftart, die standardmäßig genutzt wird. */
     public static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
+    /** Das Limit, welches man maximal in einer Box auswählen kann, welche mit {@code getFormattedBox} erzeugt wird. */
+    private static final int BOX_SELECT_LIMIT = 50;
+    /** Der von Beginn an ausgewählte Wert einer Box, welche mit {@code getFormattedBox} erzeugt wird. */
+    private static final int BOX_SELECTED_ITEM = 10;
     //</editor-fold>
 
 
@@ -168,6 +174,45 @@ public abstract class AbstractGui extends JFrame {
         button.setForeground(Color.WHITE);
 
         return button;
+    }
+
+    /**
+     * Gibt mithilfe von Koordinaten und Maßen eine korrekt formatierte Box zurück, mit welcher sich Zahlen von 1 bis
+     * {@code BOX_SELECT_LIMIT} auswählen lassen.
+     *
+     * @param x      Die X-Koordinate der Box.
+     * @param y      Die Y-Koordinate der Box.
+     * @param width  Die Breite der Box.
+     * @param height Die Höhe der Box.
+     *
+     * @return Eine korrekt formatierte Box, mit welcher sich Zahlen von 1 bis {@code BOX_SELECT_LIMIT} auswählen
+     *     lassen.
+     */
+    public static JComboBox<Integer> getFormattedBox(
+        final int x,
+        final int y,
+        final int width,
+        final int height
+    ) {
+        final JComboBox<Integer> box = new JComboBox<>();
+
+        // create combo-box-model
+        final DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
+
+        // fill model
+        for (int i = 1; i < BOX_SELECT_LIMIT; i++) {
+            model.addElement(i);
+        }
+
+        // set properties
+        box.setBounds(x, y, width, height);
+        box.setOpaque(true);
+        box.setBackground(Color.LIGHT_GRAY);
+        box.setForeground(Color.BLACK);
+        box.setModel(model);
+        box.setSelectedItem(BOX_SELECTED_ITEM);
+
+        return box;
     }
     //</editor-fold>
 
