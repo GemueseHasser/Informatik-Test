@@ -3,6 +3,7 @@ package de.jonas.informatik.converter.gui;
 import de.jonas.informatik.converter.ConverterField;
 import de.jonas.informatik.converter.ConverterFunction;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -111,7 +112,8 @@ public abstract class AbstractGui extends JFrame {
     //<editor-fold desc="utility">
 
     /**
-     * Gibt mithilfe einer Y-Koordinate ein {@link ConverterField} zurück, welches bereits korrekt formatiert ist.
+     * Gibt mithilfe der Koordinaten, den Maßen und einer {@link ConverterFunction} ein {@link ConverterField} zurück,
+     * welches bereits korrekt formatiert ist.
      *
      * @param x        Die X-Koordinate, an der sich das Textfeld befinden soll.
      * @param y        Die Y-Koordinate, an der sich das Textfeld befinden soll.
@@ -136,6 +138,36 @@ public abstract class AbstractGui extends JFrame {
         field.setForeground(Color.BLACK);
 
         return field;
+    }
+
+    /**
+     * Gibt mithilfe der Koordinaten, den Maßen und des Textes einen {@link JButton} zurück, welcher bereits korrekt
+     * formatiert ist.
+     *
+     * @param text   Der Text des Buttons.
+     * @param x      Die X-Koordinate des Buttons.
+     * @param y      Die Y-Koordinate des Buttons.
+     * @param width  Die Breite des Buttons.
+     * @param height Die Höhe des Buttons.
+     *
+     * @return Einen {@link JButton}, welcher bereits korrekt formatiert ist.
+     */
+    public static JButton getFormattedButton(
+        final String text,
+        final int x,
+        final int y,
+        final int width,
+        final int height
+    ) {
+        final JButton button = new JButton(text);
+        button.setBounds(x, y, width, height);
+        button.setFont(DEFAULT_FONT);
+        button.setFocusable(false);
+        button.setOpaque(true);
+        button.setBackground(Color.DARK_GRAY);
+        button.setForeground(Color.WHITE);
+
+        return button;
     }
     //</editor-fold>
 

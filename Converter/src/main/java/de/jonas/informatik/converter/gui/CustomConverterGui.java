@@ -136,7 +136,7 @@ public final class CustomConverterGui extends AbstractGui {
         this.leftBox.setSelectedItem(BOX_SELECTED_ITEM);
         rightBox.setSelectedItem(BOX_SELECTED_ITEM);
 
-        final JButton leftButton = getFormattedButton(20);
+        final JButton leftButton = getFormattedConverterButton(20);
         leftButton.addActionListener(actionEvent -> {
             // load custom number-system
             final boolean success = loadCustomNumberSystem(this.leftField, this.leftBox);
@@ -161,7 +161,7 @@ public final class CustomConverterGui extends AbstractGui {
             );
         });
 
-        final JButton rightButton = getFormattedButton(250);
+        final JButton rightButton = getFormattedConverterButton(250);
         rightButton.addActionListener(actionEvent -> {
             // load custom number-system
             final boolean success = loadCustomNumberSystem(this.rightField, rightBox);
@@ -265,14 +265,15 @@ public final class CustomConverterGui extends AbstractGui {
      *
      * @return Einen fertig konfigurierten Button.
      */
-    private JButton getFormattedButton(final int x) {
-        final JButton button = new JButton(CUSTOM_NUMBER_SYSTEM_TEXT);
-        button.setBounds(x, CUSTOM_NUMBER_SYSTEM_Y, CUSTOM_NUMBER_SYSTEM_WIDTH, CUSTOM_NUMBER_SYSTEM_HEIGHT);
+    private JButton getFormattedConverterButton(final int x) {
+        final JButton button = getFormattedButton(
+            CUSTOM_NUMBER_SYSTEM_TEXT,
+            x,
+            CUSTOM_NUMBER_SYSTEM_Y,
+            CUSTOM_NUMBER_SYSTEM_WIDTH,
+            CUSTOM_NUMBER_SYSTEM_HEIGHT
+        );
         button.setFont(DEFAULT_FONT.deriveFont(CUSTOM_NUMBER_FONT_SIZE));
-        button.setFocusable(false);
-        button.setOpaque(true);
-        button.setBackground(Color.DARK_GRAY);
-        button.setForeground(Color.WHITE);
 
         return button;
     }

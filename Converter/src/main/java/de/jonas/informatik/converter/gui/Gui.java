@@ -8,7 +8,6 @@ import de.jonas.informatik.converter.ConverterKeyListener;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
@@ -27,7 +26,7 @@ public final class Gui extends AbstractGui {
     /** Die Breite des Fensters. */
     private static final int WIDTH = 500;
     /** Die Höhe des Fensters. */
-    private static final int HEIGHT = 450;
+    private static final int HEIGHT = 500;
 
     //<editor-fold desc="field">
     /** Die Breite eines Feldes, in welches man eine Zahl eingeben kann. */
@@ -60,7 +59,7 @@ public final class Gui extends AbstractGui {
 
     //<editor-fold desc="custom-convert">
     /** Der Text des Buttons für die individuelle Konvertierung. */
-    private static final String CUSTOM_CONVERT_BUTTON = "Individuelle Konvertierung";
+    private static final String CUSTOM_CONVERT_TEXT = "Individuelle Konvertierung";
     /** Die X-Koordinate des Buttons um eine individuelle Konvertierung vorzunehmen. */
     private static final int CUSTOM_CONVERT_X = 42;
     /** Die Y-Koordinate des Buttons um eine individuelle Konvertierung vorzunehmen. */
@@ -69,6 +68,19 @@ public final class Gui extends AbstractGui {
     private static final int CUSTOM_CONVERT_WIDTH = 400;
     /** Die Höhe des Buttons um eine individuelle Konvertierung vorzunehmen. */
     private static final int CUSTOM_CONVERT_HEIGHT = 40;
+    //</editor-fold>
+
+    //<editor-fold desc="calculator">
+    /** Der Text des Buttons, um den Rechner zu öffnen. */
+    private static final String CALCULATION_TEXT = "Rechner";
+    /** Die X-Koordinate des Buttons, um den Rechner zu öffnen. */
+    private static final int CALCULATION_X = 42;
+    /** Die Y-Koordinate des Buttons, um den Rechner zu öffnen. */
+    private static final int CALCULATION_Y = 410;
+    /** Die Breite des Buttons, um den Rechner zu öffnen. */
+    private static final int CALCULATION_WIDTH = 400;
+    /** Die Höhe des Buttons, um den Rechner zu öffnen. */
+    private static final int CALCULATION_HEIGHT = 40;
     //</editor-fold>
 
     //</editor-fold>
@@ -99,16 +111,27 @@ public final class Gui extends AbstractGui {
         super.add(super.getFormattedLabel("Hexadezimal:", LABEL_X, HEX_Y + DEFAULT_FONT.getSize() / 2 - 5));
 
         // custom convert
-        final JButton customConvert = new JButton(CUSTOM_CONVERT_BUTTON);
-        customConvert.setBounds(CUSTOM_CONVERT_X, CUSTOM_CONVERT_Y, CUSTOM_CONVERT_WIDTH, CUSTOM_CONVERT_HEIGHT);
-        customConvert.setFont(DEFAULT_FONT);
-        customConvert.setFocusable(false);
-        customConvert.setOpaque(true);
-        customConvert.setBackground(Color.DARK_GRAY);
-        customConvert.setForeground(Color.WHITE);
+        final JButton customConvert = getFormattedButton(
+            CUSTOM_CONVERT_TEXT,
+            CUSTOM_CONVERT_X,
+            CUSTOM_CONVERT_Y,
+            CUSTOM_CONVERT_WIDTH,
+            CUSTOM_CONVERT_HEIGHT
+        );
         customConvert.addActionListener(actionEvent -> new CustomConverterGui().open());
 
+        // calculator
+        final JButton calculator = getFormattedButton(
+            CALCULATION_TEXT,
+            CALCULATION_X,
+            CALCULATION_Y,
+            CALCULATION_WIDTH,
+            CALCULATION_HEIGHT
+        );
+        calculator.addActionListener(actionEvent -> new CalculationGui().open());
+
         super.add(customConvert);
+        super.add(calculator);
     }
     //</editor-fold>
 
