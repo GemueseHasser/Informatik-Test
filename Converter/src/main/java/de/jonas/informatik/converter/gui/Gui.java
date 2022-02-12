@@ -1,9 +1,9 @@
 package de.jonas.informatik.converter.gui;
 
 import de.jonas.informatik.converter.Converter;
-import de.jonas.informatik.converter.ConverterField;
-import de.jonas.informatik.converter.ConverterFunction;
-import de.jonas.informatik.converter.ConverterKeyListener;
+import de.jonas.informatik.converter.object.ConverterField;
+import de.jonas.informatik.converter.handler.ConverterFunction;
+import de.jonas.informatik.converter.listener.ConverterKeyListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;

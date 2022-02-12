@@ -1,4 +1,6 @@
-package de.jonas.informatik.converter;
+package de.jonas.informatik.converter.listener;
+
+import de.jonas.informatik.converter.object.ConverterField;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

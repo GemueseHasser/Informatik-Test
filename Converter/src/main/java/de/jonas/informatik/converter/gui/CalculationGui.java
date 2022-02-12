@@ -2,6 +2,7 @@ package de.jonas.informatik.converter.gui;
 
 import javax.swing.JFrame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -37,7 +38,8 @@ public final class CalculationGui extends AbstractGui {
     //<editor-fold desc="implementation">
     @Override
     public void draw(final Graphics g) {
-
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
     }
     //</editor-fold>
 }

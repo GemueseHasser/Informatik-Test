@@ -1,7 +1,7 @@
 package de.jonas.informatik.converter.gui;
 
-import de.jonas.informatik.converter.ConverterField;
-import de.jonas.informatik.converter.ConverterFunction;
+import de.jonas.informatik.converter.object.ConverterField;
+import de.jonas.informatik.converter.handler.ConverterFunction;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

@@ -1,4 +1,6 @@
-package de.jonas.informatik.converter;
+package de.jonas.informatik.converter.object;
+
+import de.jonas.informatik.converter.handler.ConverterFunction;
 
 import javax.swing.JTextField;
 

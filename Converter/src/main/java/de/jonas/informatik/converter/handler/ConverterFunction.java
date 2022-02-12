@@ -1,4 +1,4 @@
-package de.jonas.informatik.converter;
+package de.jonas.informatik.converter.handler;
 
 import java.util.LinkedList;
 import java.util.Map;

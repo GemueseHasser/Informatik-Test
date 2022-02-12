@@ -1,6 +1,7 @@
 package de.jonas.informatik.converter;
 
 import de.jonas.informatik.converter.gui.Gui;
+import de.jonas.informatik.converter.handler.ConverterFunction;
 
 import java.util.HashMap;
 import java.util.Map;
