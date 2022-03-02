@@ -1,9 +1,15 @@
 package de.jonas.informatik.encryptor;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -19,6 +25,48 @@ public final class Gui extends JFrame {
     private static final int WIDTH = 600;
     /** Die Höhe dieses Fensters. */
     private static final int HEIGHT = 500;
+    /** Die Standard-Schriftart, welche in diesem Fenster genutzt wird. */
+    private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
+
+    //<editor-fold desc="field">
+    /** Die X-Koordinate aller Textfelder. */
+    private static final int FIELD_X = 50;
+    /** Die Breite aller Textfelder. */
+    private static final int FIELD_WIDTH = 500;
+    /** Die Höhe aller Textfelder. */
+    private static final int FIELD_HEIGHT = 50;
+    //</editor-fold>
+
+    //<editor-fold desc="key-box">
+    /** Die X-Koordinate der Box, womit man den aktuellen Schlüssel wählen kann. */
+    private static final int KEY_BOX_X = 50;
+    /** Die Y-Koordinate der Box, womit man den aktuellen Schlüssel wählen kann. */
+    private static final int KEY_BOX_Y = 350;
+    /** Die Breite der Box, womit man den aktuellen Schlüssel wählen kann. */
+    private static final int KEY_BOX_WIDTH = 75;
+    /** Die Höhe der Box, womit man den aktuellen Schlüssel wählen kann. */
+    private static final int KEY_BOX_HEIGHT = 40;
+    //</editor-fold>
+
+    //<editor-fold desc="encryption-button">
+    /** Der Text, welchen der Button trägt, mit dem man den Text verschlüsseln kann. */
+    private static final String ENCRYPTION_BUTTON_TEXT = "Verschlüsseln";
+    /** Die X-Koordinate des Buttons, womit man den Text verschlüsseln kann. */
+    private static final int ENCRYPTION_BUTTON_X = 200;
+    /** Die Y-Koordinate des Buttons, womit man den Text verschlüsseln kann. */
+    private static final int ENCRYPTION_BUTTON_Y = 350;
+    /** Die Breite des Buttons, womit man den Text verschlüsseln kann. */
+    private static final int ENCRYPTION_BUTTON_WIDTH = 300;
+    /** Die Höhe des Buttons, womit man den Text verschlüsseln kann. */
+    private static final int ENCRYPTION_BUTTON_HEIGHT = 40;
+    //</editor-fold>
+
+    //</editor-fold>
+
+
+    //<editor-fold desc="LOCAL FIELDS">
+    /** Der aktuell ausgewählte Schlüssel, mit dem der Text verschlüsselt werden soll. */
+    private int currentKey;
     //</editor-fold>
 
 
@@ -45,13 +93,86 @@ public final class Gui extends JFrame {
         draw.setBounds(0, 0, WIDTH, HEIGHT);
         draw.setVisible(true);
 
+        // create text fields
+        final JTextField defaultField = getFormattedTextField(60, true);
+        final JTextField encryptionField = getFormattedTextField(200, false);
+
+        // create key box
+        final JComboBox<Integer> keyBox = new JComboBox<>();
+        keyBox.setBounds(KEY_BOX_X, KEY_BOX_Y, KEY_BOX_WIDTH, KEY_BOX_HEIGHT);
+
+        // create combo-box-model
+        final DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
+
+        // fill model
+        for (int i = 1; i < 26; i++) {
+            model.addElement(i);
+        }
+
+        keyBox.setModel(model);
+        keyBox.addActionListener(actionEvent -> {
+            if (keyBox.getSelectedItem() == null) {
+                currentKey = 26;
+                return;
+            }
+
+            currentKey = (int) keyBox.getSelectedItem();
+        });
+
+        // create encryption-button
+        final JButton encryptionButton = new JButton(ENCRYPTION_BUTTON_TEXT);
+        encryptionButton.setBounds(ENCRYPTION_BUTTON_X, ENCRYPTION_BUTTON_Y,
+            ENCRYPTION_BUTTON_WIDTH, ENCRYPTION_BUTTON_HEIGHT
+        );
+        encryptionButton.setFont(DEFAULT_FONT);
+        setBasicProperties(encryptionButton);
+
         // add components
+        super.add(defaultField);
+        super.add(encryptionField);
+        super.add(keyBox);
+        super.add(encryptionButton);
         super.add(draw);
 
         // open gui
         super.setVisible(true);
     }
     //</editor-fold>
+
+
+    /**
+     * Erzeugt ein vollständig formatiertes {@link JTextField} und gibt dieses zurück.
+     *
+     * @param y       Die Y-Koordinate dieses Textfeldes.
+     * @param enabled Der Zustand, ob man in das Feld schreiben darf.
+     *
+     * @return Ein neues und vollständig formatiertes {@link JTextField}.
+     */
+    private JTextField getFormattedTextField(
+        final int y,
+        final boolean enabled
+    ) {
+        final JTextField field = new JTextField();
+        field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
+        field.setFont(DEFAULT_FONT);
+        setBasicProperties(field);
+        field.setEnabled(enabled);
+        field.setDisabledTextColor(Color.BLACK);
+
+        return field;
+    }
+
+    /**
+     * Legt die grundlegenden Eigenschaften eines {@link JComponent} fest.
+     *
+     * @param component Der {@link JComponent}, dessen grundlegenden Eigenschaften festgelegt werden.
+     */
+    private void setBasicProperties(final JComponent component) {
+        component.setOpaque(true);
+        component.setBackground(Color.LIGHT_GRAY);
+        component.setForeground(Color.BLACK);
+        component.setFocusable(false);
+    }
 
 
     //<editor-fold desc="Draw">
@@ -67,6 +188,12 @@ public final class Gui extends JFrame {
 
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, super.getWidth(), super.getHeight());
+
+            g.setFont(DEFAULT_FONT);
+            g.setColor(Color.WHITE);
+
+            g.drawString("Texteingabe:", 50, 40);
+            g.drawString("Verschlüsselte Ausgabe:", 50, 180);
         }
     }
     //</editor-fold>
