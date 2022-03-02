@@ -130,6 +130,12 @@ public final class Gui extends JFrame {
         );
         encryptionButton.setFont(DEFAULT_FONT);
         setBasicProperties(encryptionButton);
+        encryptionButton.addActionListener(actionEvent -> {
+            final String defaultText = defaultField.getText();
+            final String encryptedText = EncryptionHandler.encrypt(defaultText, this.currentKey);
+
+            encryptionField.setText(encryptedText);
+        });
 
         // add components
         super.add(defaultField);
