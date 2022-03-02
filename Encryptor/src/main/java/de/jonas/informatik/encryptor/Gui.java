@@ -100,6 +100,7 @@ public final class Gui extends JFrame {
         // create key box
         final JComboBox<Integer> keyBox = new JComboBox<>();
         keyBox.setBounds(KEY_BOX_X, KEY_BOX_Y, KEY_BOX_WIDTH, KEY_BOX_HEIGHT);
+        setBasicProperties(keyBox);
 
         // create combo-box-model
         final DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
@@ -121,8 +122,11 @@ public final class Gui extends JFrame {
 
         // create encryption-button
         final JButton encryptionButton = new JButton(ENCRYPTION_BUTTON_TEXT);
-        encryptionButton.setBounds(ENCRYPTION_BUTTON_X, ENCRYPTION_BUTTON_Y,
-            ENCRYPTION_BUTTON_WIDTH, ENCRYPTION_BUTTON_HEIGHT
+        encryptionButton.setBounds(
+            ENCRYPTION_BUTTON_X,
+            ENCRYPTION_BUTTON_Y,
+            ENCRYPTION_BUTTON_WIDTH,
+            ENCRYPTION_BUTTON_HEIGHT
         );
         encryptionButton.setFont(DEFAULT_FONT);
         setBasicProperties(encryptionButton);
@@ -154,8 +158,9 @@ public final class Gui extends JFrame {
     ) {
         final JTextField field = new JTextField();
         field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
-        field.setFont(DEFAULT_FONT);
+        field.setFont(DEFAULT_FONT.deriveFont(16F));
         setBasicProperties(field);
+        field.setFocusable(true);
         field.setEnabled(enabled);
         field.setDisabledTextColor(Color.BLACK);
 
