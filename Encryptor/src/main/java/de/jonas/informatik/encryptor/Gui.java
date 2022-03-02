@@ -149,25 +149,24 @@ public final class Gui extends JFrame {
     }
     //</editor-fold>
 
-
     /**
      * Erzeugt ein vollständig formatiertes {@link JTextField} und gibt dieses zurück.
      *
-     * @param y       Die Y-Koordinate dieses Textfeldes.
-     * @param enabled Der Zustand, ob man in das Feld schreiben darf.
+     * @param y        Die Y-Koordinate dieses Textfeldes.
+     * @param editable Der Zustand, ob man in das Feld schreiben darf.
      *
      * @return Ein neues und vollständig formatiertes {@link JTextField}.
      */
     private JTextField getFormattedTextField(
         final int y,
-        final boolean enabled
+        final boolean editable
     ) {
         final JTextField field = new JTextField();
         field.setBounds(FIELD_X, y, FIELD_WIDTH, FIELD_HEIGHT);
         field.setFont(DEFAULT_FONT.deriveFont(16F));
         setBasicProperties(field);
         field.setFocusable(true);
-        field.setEnabled(enabled);
+        field.setEditable(editable);
         field.setDisabledTextColor(Color.BLACK);
 
         return field;
