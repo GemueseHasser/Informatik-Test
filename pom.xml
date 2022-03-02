@@ -11,6 +11,7 @@
     <modules>
         <module>Converter</module>
         <module>Utility</module>
+        <module>Encryptor</module>
     </modules>
 
     <groupId>de</groupId>
