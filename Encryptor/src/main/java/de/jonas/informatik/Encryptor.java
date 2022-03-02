@@ -8,7 +8,8 @@ import de.jonas.informatik.encryptor.Gui;
  *
  * <p>Ein {@link Encryptor} wird zum Verschlüsseln eines Textes genutzt. Man kann also einen Text eingeben und
  * diesen wieder verschlüsselt ausgeben lassen. Umlaute werden auch verschlüsselt, jedoch in normalen Buchstaben
- * ausgegeben, also ein 'ä' wird beispielsweise zu einem 'ae'.</p>
+ * ausgegeben, also ein 'ä' wird beispielsweise zu einem 'ae', ein 'ö' zu einem 'oe', usw. Als Verschlüsselungsmethode
+ * wird die Caesar-Verschlüsselung genutzt.</p>
  */
 public final class Encryptor {
 

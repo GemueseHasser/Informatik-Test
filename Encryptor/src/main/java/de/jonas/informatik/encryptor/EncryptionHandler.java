@@ -6,6 +6,8 @@ package de.jonas.informatik.encryptor;
  */
 public final class EncryptionHandler {
 
+    //<editor-fold desc="encryption">
+
     /**
      * Verschlüsselt einen Text mithilfe eines Schlüssels, also der Anzahl an Stellen, um den jeder einzelne Buchstabe
      * verschoben wird und gibt diesen verschlüsselten Text dann zurück.
@@ -71,5 +73,6 @@ public final class EncryptionHandler {
 
         return encryptedText.toString();
     }
+    //</editor-fold>
 
 }

@@ -149,6 +149,7 @@ public final class Gui extends JFrame {
     }
     //</editor-fold>
 
+
     /**
      * Erzeugt ein vollständig formatiertes {@link JTextField} und gibt dieses zurück.
      *
