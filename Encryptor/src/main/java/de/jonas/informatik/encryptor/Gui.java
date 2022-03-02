@@ -113,7 +113,7 @@ public final class Gui extends JFrame {
         keyBox.setModel(model);
         keyBox.addActionListener(actionEvent -> {
             if (keyBox.getSelectedItem() == null) {
-                currentKey = 26;
+                currentKey = 0;
                 return;
             }
 

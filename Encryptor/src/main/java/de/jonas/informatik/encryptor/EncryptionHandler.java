@@ -58,12 +58,14 @@ public final class EncryptionHandler {
                 continue;
             }
 
+            // check if encrypted char would be out of bounds
             if (translatedDefaultText.charAt(i) + key > 'Z') {
                 final int distance = 'Z' - translatedDefaultText.charAt(i) + 1;
                 encryptedText.append((char) ('A' + (key - distance)));
                 continue;
             }
 
+            // basic encryption
             encryptedText.append((char) (translatedDefaultText.charAt(i) + key));
         }
 
