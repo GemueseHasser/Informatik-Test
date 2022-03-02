@@ -66,7 +66,7 @@ public final class Gui extends JFrame {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Der aktuell ausgewählte Schlüssel, mit dem der Text verschlüsselt werden soll. */
-    private int currentKey;
+    private int currentKey = 1;
     //</editor-fold>
 
 
