@@ -28,7 +28,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                de.jonas.informatik.encryptor.Encryptor
+                                de.jonas.informatik.Encryptor
                             </mainClass>
                         </manifest>
                     </archive>
