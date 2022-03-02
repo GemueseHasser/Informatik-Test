@@ -197,14 +197,17 @@ public final class Gui extends JFrame {
         protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
 
+            // draw background
             g.setColor(Color.DARK_GRAY);
             g.fillRect(0, 0, super.getWidth(), super.getHeight());
 
             g.setFont(DEFAULT_FONT);
             g.setColor(Color.WHITE);
 
-            g.drawString("Texteingabe:", 50, 40);
-            g.drawString("Verschlüsselte Ausgabe:", 50, 180);
+            // draw texts
+            g.drawString("Texteingabe:", FIELD_X, 40);
+            g.drawString("Verschlüsselte Ausgabe:", FIELD_X, 180);
+            g.drawString("Schlüssel:", KEY_BOX_X, KEY_BOX_Y - 20);
         }
     }
     //</editor-fold>
