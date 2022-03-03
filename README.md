@@ -1,6 +1,6 @@
 # Informatik-Test
 ## Dieses Projekt ist ein Projekt, welches sich auf den Informatik-Unterricht bezieht.
-Dieses Projekt besteht aus zwei Modules:
+Dieses Projekt besteht aus folgenden Modules:
 - Converter
 - Encryptor
 - Utility
@@ -13,7 +13,7 @@ Darstellung der Ziffern.
 
 > ## Encryptor Module
 In dem Encryptor Module befindet sich eine Software, womit man einen vom Nutzer eingegebenen Text mithilfe des Caesar-
-Verschlüsselungsverfahren mit einem individuell ausgewählten Schlüssel, verschlüsseln kann. Mögliche Schlüssel sind alle
+Verschlüsselungsverfahren mit einem individuell ausgewählten Schlüssel verschlüsseln kann. Mögliche Schlüssel sind alle
 Schlüssel von 1 bis 25. 
 
 > ## Utility Module
