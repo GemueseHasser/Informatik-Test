@@ -12,8 +12,9 @@ Konvertierung vorzunehmen, wodurch man dann frei ist in dem Zahlensystem, welche
 Darstellung der Ziffern.
 
 > ## Encryptor Module
-In dem Encryptor Module befindet sich eine Software, womit man einen vom Nutzer eingegebenen Text mithilfe des Caesar-Verschlüsselungs-
-verfahren mit einem individuell ausgewählten Schlüssel, verschlüsseln kann. Mögliche Schlüssel sind alle Schlüssel von 1 bis 25. 
+In dem Encryptor Module befindet sich eine Software, womit man einen vom Nutzer eingegebenen Text mithilfe des Caesar-
+Verschlüsselungsverfahren mit einem individuell ausgewählten Schlüssel, verschlüsseln kann. Mögliche Schlüssel sind alle
+Schlüssel von 1 bis 25. 
 
 > ## Utility Module
 In dem Utility Module befinden sich temporäre Klassen des Informatik-Unterrichts. Unter anderem individuelle Listen,
