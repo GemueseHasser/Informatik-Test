@@ -16,7 +16,7 @@ public final class EncryptionHandler {
      * @param key         Der Schlüssel, mit dem der Text verschlüsselt wird, also die Anzahl an Stellen, um die jeder
      *                    einzelne Buchstabe verschoben wird.
      *
-     * @return Einen vollständig mit dem Schlüssel {@code key} verschlüsselter Text.
+     * @return Einen vollständig mit dem Schlüssel {@code key} verschlüsselten Text.
      */
     public static String encrypt(final String defaultText, final int key) {
         final StringBuilder defaultTextBuilder = new StringBuilder();
