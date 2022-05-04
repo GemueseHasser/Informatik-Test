@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/2DGame/2DGame.iml" filepath="$PROJECT_DIR$/2DGame/2DGame.iml" />
       <module fileurl="file://$PROJECT_DIR$/Converter/Converter.iml" filepath="$PROJECT_DIR$/Converter/Converter.iml" />
       <module fileurl="file://$PROJECT_DIR$/Encryptor/Encryptor.iml" filepath="$PROJECT_DIR$/Encryptor/Encryptor.iml" />
       <module fileurl="file://$PROJECT_DIR$/Informatik.iml" filepath="$PROJECT_DIR$/Informatik.iml" />
