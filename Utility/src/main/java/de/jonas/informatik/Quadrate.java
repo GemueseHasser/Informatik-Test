@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * <p>Beim Erstellen einer Instanz des {@link BlackSquares}, wird ein Fenster erzeugt, auf dem 25 (5 x 5) Kästchen
+ * <p>Beim Erstellen einer Instanz des {@link Quadrate}, wird ein Fenster erzeugt, auf dem 25 (5 x 5) Kästchen
  * angezeigt werden. Beim Anklicken dieser Kästchen verändert sich die Farbe immer wieder. Alle Kästchen sind zu Beginn
  * schwarz, wenn man sie dann anklickt, verändert sich die Farbe zu gelb und wenn man sie dann nochmals anklickt, wird
  * das Kästchen wieder schwarz. Das ist ein Prozess, den man endlos ausführen kann.</p>
@@ -58,7 +58,7 @@ public final class Quadrate extends JFrame implements ComponentListener {
 
 
     /**
-     * <p>Erzeugt eine neue Instanz eines {@link Quadrate}. Beim Erstellen einer Instanz des {@link BlackSquares}, wird
+     * <p>Erzeugt eine neue Instanz eines {@link Quadrate}. Beim Erstellen einer Instanz des {@link Quadrate}, wird
      * ein Fenster erzeugt, auf dem 25 (5 x 5) Kästchen angezeigt werden. Beim Anklicken dieser Kästchen verändert sich
      * die Farbe immer wieder. Alle Kästchen sind zu Beginn schwarz, wenn man sie dann anklickt, verändert sich die
      * Farbe zu gelb und wenn man sie dann nochmals anklickt, wird das Kästchen wieder schwarz. Das ist ein Prozess, den
