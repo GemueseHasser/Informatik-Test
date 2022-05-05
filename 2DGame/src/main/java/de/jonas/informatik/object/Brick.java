@@ -1,15 +1,20 @@
-package de.jonas.informatik;
+package de.jonas.informatik.object;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
-public class Brick5 {
+public final class Brick {
 
     private final int posX;
     private final int posY;
     private final int length;
 
 
-    public Brick5(final int posX, final int posY, final int length) {
+    public Brick(
+        final int posX,
+        final int posY,
+        final int length
+    ) {
         this.posX = posX;
         this.posY = posY;
         this.length = length;
@@ -17,11 +22,11 @@ public class Brick5 {
 
 
     public void draw(final Graphics g){
-        // red background
+        // draw red background
         g.setColor(Color.RED);
         g.fillRect(posX, posY, length + 1, length / 2 + 1);
 
-        // black lines
+        // set color to black
         g.setColor(Color.BLACK);
 
         final int y = posY + ((length / 4) + (length / 8));
