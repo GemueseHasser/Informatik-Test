@@ -1,9 +1,11 @@
 package de.jonas.informatik.graphic;
 
-import de.jonas.informatik.object.Brick;
+import de.jonas.informatik.Game;
 
 import javax.swing.JFrame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 public final class Gui extends JFrame {
@@ -11,6 +13,7 @@ public final class Gui extends JFrame {
     private static final String TITLE = "2D-Spiel";
     private static final int WIDTH = 700;
     private static final int HEIGHT = 500;
+    private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
 
 
     public Gui() {
@@ -26,10 +29,15 @@ public final class Gui extends JFrame {
 
 
     @Override
-    public void paint(final Graphics graphics) {
-        super.paint(graphics);
+    public void paint(final Graphics g) {
+        super.paint(g);
 
-        final Brick brick = new Brick(100, 100, 100);
-        brick.draw(graphics);
+        // set black color and default font
+        g.setColor(Color.BLACK);
+        g.setFont(DEFAULT_FONT);
+
+        // write data
+        g.drawString("Punkte: " + Game.getGameInstance().getPoints(), WIDTH - 200, 60);
+        g.drawString("Zeit: " + Game.getGameInstance().getCurrentTime(), 20, 60);
     }
 }

@@ -1,4 +1,4 @@
-package de.jonas.informatik.object;
+package de.jonas.informatik.object.material;
 
 import java.awt.Color;
 import java.awt.Graphics;
