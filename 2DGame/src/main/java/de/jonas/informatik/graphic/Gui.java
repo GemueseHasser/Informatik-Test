@@ -5,7 +5,7 @@ import de.jonas.informatik.object.material.Brick;
 import de.jonas.informatik.object.material.BrickSelection;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,18 +15,39 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+/**
+ * Ein {@link Gui} stellt ein Fenster, welches auf einer Instanz eines {@link JFrame} basiert, dar, worin das gesamte
+ * 2D-Spiel angezeigt wird bzw. worin das hauptsächliche Spiel stattfindet.
+ */
 public final class Gui extends JFrame {
 
+    //<editor-fold desc="CONSTANTS">
+    /** Der Titel des Fensters. */
     private static final String TITLE = "2D-Spiel";
+    /** Die Breite des Fensters. */
     private static final int WIDTH = 700;
+    /** Die Höhe des Fensters. */
     private static final int HEIGHT = 500;
+    /** Die standard Schriftart, die in diesem Fenster genutzt wird. */
     private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
+    //</editor-fold>
 
 
+    //<editor-fold desc="LOCAL FIELDS">
+    /** Das Bild, welches durch eine {@link BrickSelection} erzeugt wird und woraus der sich bewegende Boden besteht. */
     private final BufferedImage groundImage;
+    /** Die aktuelle X-Koordinate des Bodens, womit die Bewegung erzeugt wird. */
     private int currentX = 0;
+    //</editor-fold>
 
 
+    //<editor-fold desc="CONSTRUCTORS">
+
+    /**
+     * Erzeugt eine neue Instanz eines {@link Gui}. Ein {@link Gui} stellt ein Fenster, welches auf einer Instanz eines
+     * {@link JFrame} basiert, dar, worin das gesamte 2D-Spiel angezeigt wird bzw. worin das hauptsächliche Spiel
+     * stattfindet.
+     */
     public Gui() {
         super(TITLE);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +72,14 @@ public final class Gui extends JFrame {
         super.add(draw);
         super.setVisible(true);
     }
+    //</editor-fold>
 
-    public void reduceX() {
+
+    /**
+     * Bewegt den Boden um eine Koordinate weiter nach links bzw. reduziert die X-Koordinate des Bodens um 1, sodass
+     * sich der Boden um eine Stelle weiter nach links schiebt.
+     */
+    public void moveGround() {
         this.currentX -= 1;
 
         if (this.currentX <= -1 * this.groundImage.getWidth()) {
@@ -61,8 +88,16 @@ public final class Gui extends JFrame {
     }
 
 
-    private final class Draw extends JLabel {
+    //<editor-fold desc="Draw">
 
+    /**
+     * Mithilfe eines {@link Draw} werden alle Grafiken auf das Fenster gezeichnet. Die Zeichnungen werden so schnell es
+     * geht immer wieder aktualisiert, sodass fortlaufende Bewegungen und Animationen, wie die des Bodens, flüssig
+     * angezeigt werden können.
+     */
+    private final class Draw extends JPanel {
+
+        //<editor-fold desc="implementation">
         @Override
         protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
@@ -76,7 +111,7 @@ public final class Gui extends JFrame {
             g.setFont(DEFAULT_FONT);
 
             // write data
-            g.drawString("Punkte: " + Game.getGameInstance().getPoints(), WIDTH - 300, 30);
+            g.drawString("Punkte: " + Game.getGameInstance().getPoints(), Gui.WIDTH - 200, 30);
             g.drawString("Zeit: " + Game.getGameInstance().getCurrentTime(), 20, 30);
 
             // draw ground
@@ -85,6 +120,8 @@ public final class Gui extends JFrame {
 
             repaint();
         }
+        //</editor-fold>
 
     }
+    //</editor-fold>
 }
