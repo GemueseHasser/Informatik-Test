@@ -50,4 +50,16 @@ public final class Brick {
         }
     }
 
+    public int getPosX() {
+        return this.posX;
+    }
+
+    public int getPosY() {
+        return this.posY;
+    }
+
+    public int getLength() {
+        return this.length;
+    }
+
 }

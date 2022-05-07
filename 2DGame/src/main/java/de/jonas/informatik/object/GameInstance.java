@@ -18,11 +18,6 @@ public final class GameInstance {
         this.points = 0;
     }
 
-
-    public void update() {
-        gui.repaint();
-    }
-
     public int getPoints() {
         return this.points;
     }
@@ -38,6 +33,10 @@ public final class GameInstance {
         final int seconds = (int) (duration.getSeconds() % 60);
 
         return minutes + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+    }
+
+    public Gui getGui() {
+        return this.gui;
     }
 
 }
