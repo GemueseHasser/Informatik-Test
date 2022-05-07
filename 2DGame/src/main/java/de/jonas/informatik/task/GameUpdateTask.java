@@ -19,7 +19,7 @@ public final class GameUpdateTask {
 
 
     /**
-     * Startet dieses Task.
+     * Startet diesen {@link GameUpdateTask}.
      */
     public void startPeriodicScheduling() {
         final ActionListener task = actionEvent -> Game.getGameInstance().getGui().moveGround();
