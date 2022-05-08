@@ -2,6 +2,7 @@ package de.jonas.informatik.graphic;
 
 import de.jonas.informatik.Game;
 import de.jonas.informatik.listener.KeyListener;
+import de.jonas.informatik.object.entity.Obstacle;
 import de.jonas.informatik.object.material.Brick;
 import de.jonas.informatik.object.material.BrickSelection;
 
@@ -24,12 +25,12 @@ import java.util.List;
 public final class Gui extends JFrame {
 
     //<editor-fold desc="CONSTANTS">
-    /** Der Titel des Fensters. */
-    private static final String TITLE = "2D-Spiel";
     /** Die Breite des Fensters. */
-    private static final int WIDTH = 700;
+    public static final int WIDTH = 700;
     /** Die Höhe des Fensters. */
     private static final int HEIGHT = 500;
+    /** Der Titel des Fensters. */
+    private static final String TITLE = "2D-Spiel";
     /** Die standard Schriftart, die in diesem Fenster genutzt wird. */
     private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
     //</editor-fold>
@@ -123,6 +124,11 @@ public final class Gui extends JFrame {
 
             // draw player
             Game.getGameInstance().getPlayer().draw(g);
+
+            // draw obstacles
+            for (final Obstacle obstacle : Game.getGameInstance().getObstacles()) {
+                obstacle.draw(g);
+            }
 
             repaint();
         }

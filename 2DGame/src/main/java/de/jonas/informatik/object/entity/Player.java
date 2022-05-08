@@ -16,7 +16,7 @@ public final class Player extends Entity {
     /** Die Größe des Spielers. */
     private static final int SIZE = 35;
     /** Die Sprunghöhe des Spielers. */
-    private static final int JUMP_HEIGHT = 70;
+    private static final int JUMP_HEIGHT = 120;
     /** Die Sprunggeschwindigkeit des Spielers. */
     private static final int JUMP_SPEED = 2;
     //</editor-fold>

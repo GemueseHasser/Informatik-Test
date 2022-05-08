@@ -1,6 +1,7 @@
 package de.jonas.informatik.task;
 
 import de.jonas.informatik.Game;
+import de.jonas.informatik.object.entity.Obstacle;
 import de.jonas.informatik.object.entity.Player;
 
 import javax.swing.Timer;
@@ -53,6 +54,17 @@ public final class GameUpdateTask {
 
             // move ground
             Game.getGameInstance().getGui().moveGround();
+
+            // move obstacles
+            for (final Obstacle obstacle : Game.getGameInstance().getObstacles()) {
+                if (obstacle.getX() < -(Obstacle.SIZE / 2)) {
+                    Game.getGameInstance().getObstacles().remove(obstacle);
+                    Game.getGameInstance().addObstacle();
+                    return;
+                }
+
+                obstacle.move();
+            }
         };
 
         final Timer timer = new Timer(DELAY, task);
