@@ -17,7 +17,7 @@ public final class GameUpdateTask {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Abstand in Millisekunden, in dem dieser {@link GameUpdateTask} konstant ausgeführt wird. */
-    private static final int DELAY = 10;
+    public static final int DELAY = 10;
     /** Die Zeit in Millisekunden, ab wann sich der Boden bewegen soll. */
     private static final int GROUND_MOVE_BEGIN = 1000;
     //</editor-fold>
@@ -36,6 +36,11 @@ public final class GameUpdateTask {
             // check if player is currently jumping
             if (player.isJumping()) {
                 player.jump();
+            }
+
+            // check if player is flying
+            if (player.isFlying()) {
+                player.fly();
             }
 
             // check if player is currently falling

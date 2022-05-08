@@ -1,5 +1,7 @@
 package de.jonas.informatik.object.entity;
 
+import de.jonas.informatik.task.GameUpdateTask;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -19,14 +21,20 @@ public final class Player extends Entity {
     private static final int JUMP_HEIGHT = 120;
     /** Die Sprunggeschwindigkeit des Spielers. */
     private static final int JUMP_SPEED = 2;
+    /** Die Zeit in Millisekunden, die sich der Spieler in maximaler Sprunghöhe befinden soll. */
+    private static final int FLY_TIME = 200;
     //</editor-fold>
 
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Der Zustand, ob der Spieler gerade springt. */
     private boolean jumping;
+    /** Der Zustand, ob der Spieler gerade fliegt. */
+    private boolean flying;
     /** Der Zustand, ob der Spieler gerade fällt (dieser Zustand wird nach jedem Sprung wahr). */
     private boolean falling;
+    /** Die aktuelle Zeit, die der Spieler sich auf maximaler Sprunghöhe befindet. */
+    private int currentFlyTime;
     //</editor-fold>
 
 
@@ -51,8 +59,23 @@ public final class Player extends Entity {
 
         if (BEGIN_Y - super.getY() <= JUMP_HEIGHT) return;
 
-        this.falling = true;
+        this.flying = true;
         this.jumping = false;
+    }
+
+    /**
+     * Lässt den Spieler in aktueller Höhe fliegen, bis die Flugzeit erreicht ist und sobald das der Fall ist, fällt der
+     * Spieler herunter.
+     */
+    public void fly() {
+        this.currentFlyTime += GameUpdateTask.DELAY;
+
+        if (this.currentFlyTime <= FLY_TIME) return;
+
+        this.currentFlyTime = 0;
+
+        this.falling = true;
+        this.flying = false;
     }
 
     /**
@@ -97,6 +120,15 @@ public final class Player extends Entity {
      */
     public boolean isFalling() {
         return this.falling;
+    }
+
+    /**
+     * Gibt den Zustand wieder, ob der Spieler gerade fliegt oder nicht.
+     *
+     * @return Wenn der Spieler gerade fliegt {@code true}, ansonsten {@code false}.
+     */
+    public boolean isFlying() {
+        return this.flying;
     }
 
     //<editor-fold desc="implementation">
