@@ -13,7 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ein {@link Gui} stellt ein Fenster, welches auf einer Instanz eines {@link JFrame} basiert, dar, worin das gesamte
@@ -37,7 +38,7 @@ public final class Gui extends JFrame {
     /** Das Bild, welches durch eine {@link BrickSelection} erzeugt wird und woraus der sich bewegende Boden besteht. */
     private final BufferedImage groundImage;
     /** Die aktuelle X-Koordinate des Bodens, womit die Bewegung erzeugt wird. */
-    private int currentX = 0;
+    private int currentGroundX = 0;
     //</editor-fold>
 
 
@@ -56,13 +57,13 @@ public final class Gui extends JFrame {
         super.setLayout(null);
         super.setResizable(false);
 
-        final Brick[] ground = new Brick[8];
+        final List<Brick> ground = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
-            ground[i] = new Brick(i * 100, 0, 100);
+            ground.add(new Brick(i * 100, 0, 100));
         }
 
-        final BrickSelection groundSelection = new BrickSelection(Arrays.asList(ground));
+        final BrickSelection groundSelection = new BrickSelection(ground);
         this.groundImage = groundSelection.createImage();
 
         final Draw draw = new Draw();
@@ -80,10 +81,10 @@ public final class Gui extends JFrame {
      * sich der Boden um eine Stelle weiter nach links schiebt.
      */
     public void moveGround() {
-        this.currentX -= 1;
+        this.currentGroundX -= 1;
 
-        if (this.currentX <= -1 * this.groundImage.getWidth()) {
-            this.currentX = 0;
+        if (this.currentGroundX <= -1 * this.groundImage.getWidth()) {
+            this.currentGroundX = 0;
         }
     }
 
@@ -115,8 +116,8 @@ public final class Gui extends JFrame {
             g.drawString("Zeit: " + Game.getGameInstance().getCurrentTime(), 20, 30);
 
             // draw ground
-            g.drawImage(groundImage, currentX, 420, this);
-            g.drawImage(groundImage, currentX + groundImage.getWidth(), 420, this);
+            g.drawImage(groundImage, currentGroundX, 420, this);
+            g.drawImage(groundImage, currentGroundX + groundImage.getWidth(), 420, this);
 
             repaint();
         }
