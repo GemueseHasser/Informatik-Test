@@ -17,7 +17,7 @@ public final class GameUpdateTask {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Abstand in Millisekunden, in dem dieser {@link GameUpdateTask} konstant ausgeführt wird. */
-    public static final int DELAY = 10;
+    public static final int DELAY = 5;
     /** Die Zeit in Millisekunden, ab wann sich der Boden bewegen soll. */
     private static final int GROUND_MOVE_BEGIN = 1000;
     //</editor-fold>

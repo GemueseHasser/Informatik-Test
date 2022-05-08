@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Eine {@link GameInstance} stellt eine Instanz eines Spiels dar, d.h. mit einer {@link GameInstance} wird der gesamte
@@ -51,7 +52,9 @@ public final class GameInstance {
         this.points = 0;
 
         for (int i = 0; i < BEGIN_OBSTACLE_AMOUNT; i++) {
-            obstacles.add(new Obstacle(i * 170));
+            final int randomNumber = ThreadLocalRandom.current().nextInt(170, 200);
+
+            obstacles.add(new Obstacle(i * randomNumber));
         }
     }
     //</editor-fold>
@@ -70,7 +73,9 @@ public final class GameInstance {
      * Fügt der aktuellen Liste mit Hindernissen ein neues Hindernis hinzu.
      */
     public void addObstacle() {
-        this.obstacles.add(new Obstacle(0));
+        final int xAddition = ThreadLocalRandom.current().nextInt(0, 45);
+
+        this.obstacles.add(new Obstacle(xAddition));
     }
 
     /**
