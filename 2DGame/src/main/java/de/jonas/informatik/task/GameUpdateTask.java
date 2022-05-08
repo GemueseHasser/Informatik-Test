@@ -1,6 +1,7 @@
 package de.jonas.informatik.task;
 
 import de.jonas.informatik.Game;
+import de.jonas.informatik.constants.JumpState;
 import de.jonas.informatik.object.entity.Obstacle;
 import de.jonas.informatik.object.entity.Player;
 
@@ -34,17 +35,17 @@ public final class GameUpdateTask {
             final Player player = Game.getGameInstance().getPlayer();
 
             // check if player is currently jumping
-            if (player.isJumping()) {
+            if (player.getJumpState() == JumpState.JUMPING) {
                 player.jump();
             }
 
             // check if player is flying
-            if (player.isFlying()) {
+            if (player.getJumpState() == JumpState.FLYING) {
                 player.fly();
             }
 
             // check if player is currently falling
-            if (player.isFalling()) {
+            if (player.getJumpState() == JumpState.FALLING) {
                 player.fall();
             }
 

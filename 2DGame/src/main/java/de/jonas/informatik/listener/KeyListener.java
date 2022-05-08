@@ -23,7 +23,7 @@ public final class KeyListener implements java.awt.event.KeyListener {
         if (keyEvent.getKeyCode() != KeyEvent.VK_UP && keyEvent.getKeyCode() != KeyEvent.VK_SPACE) return;
 
         // jump
-        Game.getGameInstance().getPlayer().setJumping(true);
+        Game.getGameInstance().getPlayer().initJump();
     }
 
     @Override

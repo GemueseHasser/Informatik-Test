@@ -1,5 +1,6 @@
 package de.jonas.informatik.object.entity;
 
+import de.jonas.informatik.constants.JumpState;
 import de.jonas.informatik.task.GameUpdateTask;
 
 import java.awt.Color;
@@ -27,12 +28,8 @@ public final class Player extends Entity {
 
 
     //<editor-fold desc="LOCAL FIELDS">
-    /** Der Zustand, ob der Spieler gerade springt. */
-    private boolean jumping;
-    /** Der Zustand, ob der Spieler gerade fliegt. */
-    private boolean flying;
-    /** Der Zustand, ob der Spieler gerade fällt (dieser Zustand wird nach jedem Sprung wahr). */
-    private boolean falling;
+    /** Der aktuelle Status des Springens des Spielers. */
+    private JumpState jumpState = JumpState.DEFAULT;
     /** Die aktuelle Zeit, die der Spieler sich auf maximaler Sprunghöhe befindet. */
     private int currentFlyTime;
     //</editor-fold>
@@ -59,8 +56,7 @@ public final class Player extends Entity {
 
         if (BEGIN_Y - super.getY() <= JUMP_HEIGHT) return;
 
-        this.flying = true;
-        this.jumping = false;
+        this.jumpState = JumpState.FLYING;
     }
 
     /**
@@ -73,9 +69,7 @@ public final class Player extends Entity {
         if (this.currentFlyTime <= FLY_TIME) return;
 
         this.currentFlyTime = 0;
-
-        this.falling = true;
-        this.flying = false;
+        this.jumpState = JumpState.FALLING;
     }
 
     /**
@@ -85,7 +79,7 @@ public final class Player extends Entity {
     public void fall() {
         if (super.getY() >= BEGIN_Y) {
             super.setY(BEGIN_Y);
-            this.falling = false;
+            this.jumpState = JumpState.DEFAULT;
 
             return;
         }
@@ -94,41 +88,19 @@ public final class Player extends Entity {
     }
 
     /**
-     * Setzt den Zustand des Springens neu.
-     *
-     * @param jumping Der Zustand, ob der Spieler springen soll oder nicht.
+     * Leitet einen Sprung ein.
      */
-    public void setJumping(final boolean jumping) {
-        if (super.getY() != BEGIN_Y) return;
-
-        this.jumping = jumping;
+    public void initJump() {
+        this.jumpState = JumpState.JUMPING;
     }
 
     /**
-     * Gibt den Zustand wieder, ob der Spieler gerade springt oder nicht.
+     * Gibt den aktuellen Status des Springens des Spielers zurück.
      *
-     * @return Wenn der Spieler gerade springt {@code true}, ansonsten {@code false}.
+     * @return Der aktuelle Status des Springens.
      */
-    public boolean isJumping() {
-        return this.jumping;
-    }
-
-    /**
-     * Gibt den Zustand wieder, ob der Spieler gerade fällt oder nicht.
-     *
-     * @return Wenn der Spieler gerade fällt {@code true}, ansonsten {@code false}.
-     */
-    public boolean isFalling() {
-        return this.falling;
-    }
-
-    /**
-     * Gibt den Zustand wieder, ob der Spieler gerade fliegt oder nicht.
-     *
-     * @return Wenn der Spieler gerade fliegt {@code true}, ansonsten {@code false}.
-     */
-    public boolean isFlying() {
-        return this.flying;
+    public JumpState getJumpState() {
+        return this.jumpState;
     }
 
     //<editor-fold desc="implementation">
