@@ -158,6 +158,15 @@ public final class GameInstance {
     }
 
     /**
+     * Gibt den Moment zurück, in dem das Spiel beginnt.
+     *
+     * @return Der Moment, in dem das Spiel beginnt.
+     */
+    public Instant getBeginMoment() {
+        return this.beginMoment;
+    }
+
+    /**
      * Gibt den Spieler dieses Spiels zurück.
      *
      * @return Der Spieler dieses Spiels.

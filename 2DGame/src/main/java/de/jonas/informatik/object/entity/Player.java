@@ -23,7 +23,7 @@ public final class Player extends Entity {
     /** Die Sprunggeschwindigkeit des Spielers. */
     private static final int JUMP_SPEED = 4;
     /** Die Zeit in Millisekunden, die sich der Spieler in maximaler Sprunghöhe befinden soll. */
-    private static final int FLY_TIME = 370;
+    private static final int FLY_TIME = 390;
     //</editor-fold>
 
 

@@ -8,7 +8,8 @@ import de.jonas.informatik.object.entity.Player;
 import javax.swing.Timer;
 
 import java.awt.event.ActionListener;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * Der {@link GameUpdateTask} stellt eine sich konstant wiederholende Prozedur dar, womit alle Inhalte des Spiels auf
@@ -28,8 +29,6 @@ public final class GameUpdateTask {
      * Startet diesen {@link GameUpdateTask}.
      */
     public void startPeriodicScheduling() {
-        final AtomicInteger currentTime = new AtomicInteger();
-
         final ActionListener task = actionEvent -> {
             // get player
             final Player player = Game.getGameInstance().getPlayer();
@@ -50,8 +49,10 @@ public final class GameUpdateTask {
             }
 
             // check if ground should move already
-            if (currentTime.get() <= GROUND_MOVE_BEGIN) {
-                currentTime.addAndGet(DELAY);
+            if (Duration.between(
+                Game.getGameInstance().getBeginMoment(),
+                Instant.now()
+            ).toMillis() <= GROUND_MOVE_BEGIN) {
 
                 player.setX(player.getX() + 1);
 
