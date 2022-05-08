@@ -1,6 +1,7 @@
 package de.jonas.informatik.graphic;
 
 import de.jonas.informatik.Game;
+import de.jonas.informatik.listener.KeyListener;
 import de.jonas.informatik.object.material.Brick;
 import de.jonas.informatik.object.material.BrickSelection;
 
@@ -56,6 +57,7 @@ public final class Gui extends JFrame {
         super.setLocationRelativeTo(null);
         super.setLayout(null);
         super.setResizable(false);
+        super.addKeyListener(new KeyListener());
 
         final List<Brick> ground = new ArrayList<>();
 
@@ -112,12 +114,15 @@ public final class Gui extends JFrame {
             g.setFont(DEFAULT_FONT);
 
             // write data
-            g.drawString("Punkte: " + Game.getGameInstance().getPoints(), Gui.WIDTH - 200, 30);
             g.drawString("Zeit: " + Game.getGameInstance().getCurrentTime(), 20, 30);
+            g.drawString("Punkte: " + Game.getGameInstance().getPoints(), Gui.WIDTH - 200, 30);
 
             // draw ground
             g.drawImage(groundImage, currentGroundX, 420, this);
             g.drawImage(groundImage, currentGroundX + groundImage.getWidth(), 420, this);
+
+            // draw player
+            Game.getGameInstance().getPlayer().draw(g);
 
             repaint();
         }

@@ -1,6 +1,7 @@
 package de.jonas.informatik.object;
 
 import de.jonas.informatik.graphic.Gui;
+import de.jonas.informatik.object.entity.Player;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,6 +18,8 @@ public final class GameInstance {
     private final Gui gui;
     /** Der Moment, an dem diese {@link GameInstance} erzeugt bzw. gestartet wird. */
     private final Instant beginMoment;
+    /** Der Spieler dieses Spiels. */
+    private final Player player = new Player();
     /** Die aktuelle Anzahl an Punkten in diesem Spiel. */
     private int points;
     //</editor-fold>
@@ -80,6 +83,15 @@ public final class GameInstance {
      */
     public Gui getGui() {
         return this.gui;
+    }
+
+    /**
+     * Gibt den Spieler dieses Spiels zurück.
+     *
+     * @return Der Spieler dieses Spiels.
+     */
+    public Player getPlayer() {
+        return this.player;
     }
 
 }
