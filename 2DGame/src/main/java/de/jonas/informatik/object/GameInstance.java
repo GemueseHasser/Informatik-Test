@@ -35,8 +35,6 @@ public final class GameInstance {
     private final Player player = new Player();
     /** Alle Hindernisse, die sich aktuell im Spiel befinden. */
     private final List<Obstacle> obstacles = new ArrayList<>();
-    /** Die aktuelle Anzahl an Punkten in diesem Spiel. */
-    private int points;
     //</editor-fold>
 
 
@@ -52,7 +50,6 @@ public final class GameInstance {
     public GameInstance(final Gui gui) {
         this.gui = gui;
         this.beginMoment = Instant.now();
-        this.points = 0;
 
         for (int i = 0; i < BEGIN_OBSTACLE_AMOUNT; i++) {
             final int randomNumber = ThreadLocalRandom.current().nextInt(170, 200);
@@ -106,30 +103,12 @@ public final class GameInstance {
     }
 
     /**
-     * Erhöht die aktuelle Anzahl an Punkten um eine bestimmte Anzahl an Punkten.
-     *
-     * @param points Die Anzahl an Punkten, um die die aktuelle Anzahl an Punkten erhöht werden soll.
-     */
-    public void incrementPoints(final int points) {
-        this.points += points;
-    }
-
-    /**
      * Fügt der aktuellen Liste mit Hindernissen ein neues Hindernis hinzu.
      */
     public void addObstacle() {
         final int xAddition = ThreadLocalRandom.current().nextInt(0, 45);
 
         this.obstacles.add(new Obstacle(xAddition));
-    }
-
-    /**
-     * Gibt die aktuelle Anzahl an Punkten in diesem Spiel zurück.
-     *
-     * @return Die aktuelle Anzahl an Punkten in diesem Spiel.
-     */
-    public int getPoints() {
-        return this.points;
     }
 
     /**

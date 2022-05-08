@@ -116,7 +116,6 @@ public final class Gui extends JFrame {
 
             // write data
             g.drawString("Zeit: " + Game.getGameInstance().getCurrentTime(), 20, 30);
-            g.drawString("Punkte: " + Game.getGameInstance().getPoints(), Gui.WIDTH - 200, 30);
 
             // draw ground
             g.drawImage(groundImage, currentGroundX, 420, this);
