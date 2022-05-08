@@ -71,6 +71,9 @@ public final class GameUpdateTask {
 
                 obstacle.move();
             }
+
+            // check if player is colliding with obstacles
+            Game.getGameInstance().checkPlayerCollide();
         };
 
         final Timer timer = new Timer(DELAY, task);

@@ -12,12 +12,12 @@ import java.awt.Graphics;
 public final class Player extends Entity {
 
     //<editor-fold desc="CONSTANTS">
+    /** Die Größe des Spielers. */
+    public static final int SIZE = 35;
     /** Die anfängliche X-Koordinate des Spielers. */
     private static final int BEGIN_X = 100;
     /** Die anfängliche Y-Koordinate des Spielers. */
     private static final int BEGIN_Y = 385;
-    /** Die Größe des Spielers. */
-    private static final int SIZE = 35;
     /** Die Sprunghöhe des Spielers. */
     private static final int JUMP_HEIGHT = 90;
     /** Die Sprunggeschwindigkeit des Spielers. */

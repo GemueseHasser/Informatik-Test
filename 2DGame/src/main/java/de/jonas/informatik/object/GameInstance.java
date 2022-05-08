@@ -1,8 +1,11 @@
 package de.jonas.informatik.object;
 
+import de.jonas.informatik.Game;
 import de.jonas.informatik.graphic.Gui;
 import de.jonas.informatik.object.entity.Obstacle;
 import de.jonas.informatik.object.entity.Player;
+
+import javax.swing.JOptionPane;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -59,6 +62,48 @@ public final class GameInstance {
     }
     //</editor-fold>
 
+
+    /**
+     * Prüft, ob der Spieler aktuell mit einem Hindernis kollidiert.
+     */
+    public void checkPlayerCollide() {
+        // check all obstacles
+        for (final Obstacle obstacle : this.obstacles) {
+            // check if player jumped already above this obstacle
+            if (this.player.getX() > obstacle.getX() + (Obstacle.SIZE / 2)) continue;
+
+            // check if player is colliding with current obstacle
+            if (this.player.getX() + Player.SIZE < obstacle.getX() || this.player.getY() + Player.SIZE < obstacle.getY())
+                continue;
+
+            // handle collide
+            handleCollide();
+            return;
+        }
+    }
+
+    /**
+     * Verarbeitet die Kollision und öffnet dem Spieler ein Pop-up-Fenster, worin er auswählen kann, ob er erneut
+     * spielen möchte oder das Spiel beenden möchte.
+     */
+    private void handleCollide() {
+        // create popup window
+        final int result = JOptionPane.showConfirmDialog(
+            null,
+            "Möchtest du erneut spielen?",
+            "Erneut spielen?",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        // check if user clicked 'yes'
+        if (result == 0) {
+            Game.startGame();
+            return;
+        }
+
+        // exit game
+        System.exit(0);
+    }
 
     /**
      * Erhöht die aktuelle Anzahl an Punkten um eine bestimmte Anzahl an Punkten.

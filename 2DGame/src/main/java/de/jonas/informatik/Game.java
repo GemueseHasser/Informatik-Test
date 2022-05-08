@@ -11,6 +11,12 @@ import de.jonas.informatik.task.GameUpdateTask;
  */
 public final class Game {
 
+    //<editor-fold desc="CONSTANTS">
+    /** Das Fenster dieses Spiels, in dem das Spiel angezeigt wird. */
+    private static final Gui GUI = new Gui();
+    //</editor-fold>
+
+
     //<editor-fold desc="STATIC FIELDS">
     /** Die {@link GameInstance} dieses Spiels. */
     private static GameInstance gameInstance;
@@ -26,17 +32,21 @@ public final class Game {
      * @param args Die Argumente, die von der JRE übergeben werden.
      */
     public static void main(final String[] args) {
-        // create gui
-        final Gui gui = new Gui();
-
-        // create game instance
-        gameInstance = new GameInstance(gui);
+        startGame();
 
         // schedule periodic game updating
         new GameUpdateTask().startPeriodicScheduling();
     }
     //</editor-fold>
 
+
+    /**
+     * Startet das Spiel zum ersten Mal oder startet das Spiel neu.
+     */
+    public static void startGame() {
+        // create game instance
+        gameInstance = new GameInstance(GUI);
+    }
 
     /**
      * Gibt die {@link GameInstance} dieses Spiels zurück.
