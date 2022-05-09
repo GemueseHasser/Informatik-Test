@@ -53,7 +53,7 @@ public final class GameInstance {
 
         // fill obstacle list
         for (int i = 0; i < BEGIN_OBSTACLE_AMOUNT; i++) {
-            final int randomNumber = ThreadLocalRandom.current().nextInt(170, 200);
+            final int randomNumber = ThreadLocalRandom.current().nextInt(190, 225);
 
             obstacles.add(new Obstacle(i * randomNumber));
         }
@@ -107,7 +107,7 @@ public final class GameInstance {
      * Fügt der aktuellen Liste mit Hindernissen ein neues Hindernis hinzu.
      */
     public void addObstacle() {
-        final int xAddition = ThreadLocalRandom.current().nextInt(0, 45);
+        final int xAddition = ThreadLocalRandom.current().nextInt(0, 30);
 
         this.obstacles.add(new Obstacle(xAddition));
     }
