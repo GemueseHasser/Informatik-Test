@@ -110,6 +110,9 @@ public final class Gui extends JFrame {
 
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+            // draw background image if image is preset
+            g.drawImage(Game.GAME.getBackgroundImage(), 0, 0, Gui.WIDTH, 420, this);
+
             // set black color and default font
             g.setColor(Color.BLACK);
             g.setFont(DEFAULT_FONT);
