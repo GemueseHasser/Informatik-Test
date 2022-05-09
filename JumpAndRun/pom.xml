@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>2DGame</artifactId>
-    <description>Ein 2D-Spiel, welches sich nach und nach entwickeln wird.</description>
+    <artifactId>JumpAndRun</artifactId>
+    <description>Ein Jump-and-run Spiel, in dem man automatisch läuft und über die Hindernisse springen muss.</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
