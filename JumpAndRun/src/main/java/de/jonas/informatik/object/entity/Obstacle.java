@@ -15,9 +15,9 @@ public final class Obstacle extends Entity {
     /** Die Größe des Hindernisses. */
     public static final int SIZE = 130;
     /** Die Toleranz, die es links und rechts beim Sprung für den Spieler gibt. */
-    public static final int IMAGE_TOLERANCE_SIDE = 35;
+    public static final int PLAYER_TOLERANCE_SIDE = 35;
     /** Die Toleranz, die es oben beim Sprung für den Spieler gibt. */
-    public static final int IMAGE_TOLERANCE_TOP = 5;
+    public static final int PLAYER_TOLERANCE_TOP = 5;
     /** Die anfängliche X-Koordinate des Hindernisses. */
     private static final int START_X = Gui.WIDTH;
     /** Die anfängliche Y-Koordinate des Hindernisses. */

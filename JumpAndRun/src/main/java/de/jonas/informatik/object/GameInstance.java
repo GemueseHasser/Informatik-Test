@@ -68,11 +68,11 @@ public final class GameInstance {
         // check all obstacles
         for (final Obstacle obstacle : this.obstacles) {
             // check if player jumped already above this obstacle
-            if (this.player.getX() > obstacle.getX() + Obstacle.SIZE - Obstacle.IMAGE_TOLERANCE_SIDE * 1.5) continue;
+            if (this.player.getX() > obstacle.getX() + Obstacle.SIZE - Obstacle.PLAYER_TOLERANCE_SIDE * 1.5) continue;
 
             // check if player is colliding with current obstacle
-            if (this.player.getX() + Player.SIZE < obstacle.getX() + Obstacle.IMAGE_TOLERANCE_SIDE
-                    || this.player.getY() + Player.SIZE < obstacle.getY() + Obstacle.IMAGE_TOLERANCE_TOP) continue;
+            if (this.player.getX() + Player.SIZE < obstacle.getX() + Obstacle.PLAYER_TOLERANCE_SIDE
+                    || this.player.getY() + Player.SIZE < obstacle.getY() + Obstacle.PLAYER_TOLERANCE_TOP) continue;
 
             // handle collide
             handleCollide();
