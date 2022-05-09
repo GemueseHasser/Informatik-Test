@@ -12,7 +12,7 @@
         <module>Converter</module>
         <module>Utility</module>
         <module>Encryptor</module>
-        <module>2DGame</module>
+        <module>JumpAndRun</module>
     </modules>
 
     <groupId>de</groupId>
