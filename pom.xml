@@ -13,6 +13,7 @@
         <module>Utility</module>
         <module>Encryptor</module>
         <module>JumpAndRun</module>
+        <module>Pacman</module>
     </modules>
 
     <groupId>de</groupId>

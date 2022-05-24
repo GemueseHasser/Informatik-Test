@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Converter" />
         <module name="JumpAndRun" />
+        <module name="Pacman" />
         <module name="Utility" />
         <module name="Encryptor" />
       </profile>
@@ -17,6 +18,7 @@
       <module name="Encryptor" target="8" />
       <module name="Informatik" target="8" />
       <module name="JumpAndRun" target="8" />
+      <module name="Pacman" target="8" />
       <module name="Utility" target="8" />
     </bytecodeTargetLevel>
   </component>

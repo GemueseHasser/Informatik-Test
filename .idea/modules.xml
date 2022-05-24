@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Encryptor/Encryptor.iml" filepath="$PROJECT_DIR$/Encryptor/Encryptor.iml" />
       <module fileurl="file://$PROJECT_DIR$/Informatik.iml" filepath="$PROJECT_DIR$/Informatik.iml" />
       <module fileurl="file://$PROJECT_DIR$/JumpAndRun/JumpAndRun.iml" filepath="$PROJECT_DIR$/JumpAndRun/JumpAndRun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pacman/Pacman.iml" filepath="$PROJECT_DIR$/Pacman/Pacman.iml" />
       <module fileurl="file://$PROJECT_DIR$/Utility/Utility.iml" filepath="$PROJECT_DIR$/Utility/Utility.iml" />
     </modules>
   </component>
