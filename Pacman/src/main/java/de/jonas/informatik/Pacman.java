@@ -1,6 +1,6 @@
 package de.jonas.informatik;
 
-import de.jonas.informatik.graphics.Gui;
+import de.jonas.informatik.graphic.Gui;
 
 /**
  * Dies ist die Haupt- und Main-Klasse dieser Anwendung bzw. dieses Pacman-Spiels. Das Spiel ähnelt dem herkömmlichen
