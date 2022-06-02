@@ -59,7 +59,7 @@ public final class BrickSelection {
         final Graphics2D g = image.createGraphics();
 
         // draw background
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 
         // draw brick selection
