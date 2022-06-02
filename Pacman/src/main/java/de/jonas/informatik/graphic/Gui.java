@@ -1,7 +1,6 @@
 package de.jonas.informatik.graphic;
 
 import de.jonas.informatik.object.MapBuilder;
-import de.jonas.informatik.object.material.Brick;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,8 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Ein {@link Gui} stellt ein Fenster dar, worin das {@link de.jonas.informatik.Pacman Spiel} angezeigt wird.
@@ -42,12 +39,8 @@ public final class Gui extends JFrame {
         super.setResizable(false);
         super.setLayout(null);
 
-        final Map<Integer, Integer> backgroundBricks = new HashMap<>();
-        backgroundBricks.put(0, 0);
-        backgroundBricks.put(WIDTH - 60, HEIGHT - 60);
-
         // create draw-object to draw graphics
-        final Draw draw = new Draw(backgroundBricks, 50);
+        final Draw draw = new Draw();
         draw.setBounds(0, 0, WIDTH, HEIGHT);
         draw.setVisible(true);
 
@@ -77,16 +70,9 @@ public final class Gui extends JFrame {
          * Erzeugt eine neue Instanz eines {@link Draw}, welches eine Instanz eines {@link JPanel} darstellt. Mithilfe
          * eines {@link Draw} werden alle Grafiken auf das Fenster gezeichnet. Die Zeichnungen werden so schnell es geht
          * immer wieder aktualisiert, sodass fortlaufende Bewegungen und Animationen flüssig angezeigt werden können.
-         *
-         * @param coordinates Die Koordinaten, an denen überall {@link Brick Ziegel} in die Karte aufgenommen werden
-         *                    sollen.
-         * @param brickLength Die Größe aller einzelnen {@link Brick Ziegel}, die auf der Karte angezeigt werden.
          */
-        public Draw(
-            final Map<Integer, Integer> coordinates,
-            final int brickLength
-        ) {
-            final MapBuilder mapBuilder = new MapBuilder(coordinates, brickLength);
+        public Draw() {
+            final MapBuilder mapBuilder = new MapBuilder();
             this.map = mapBuilder.getBuiltMap();
         }
         //</editor-fold>
@@ -102,7 +88,7 @@ public final class Gui extends JFrame {
             // define render quality
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // draw background
+            // draw map
             g.drawImage(this.map, 0, 0, this);
 
             repaint();
