@@ -1,12 +1,17 @@
 package de.jonas.informatik.graphic;
 
+import de.jonas.informatik.object.MapBuilder;
+import de.jonas.informatik.object.material.Brick;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Ein {@link Gui} stellt ein Fenster dar, worin das {@link de.jonas.informatik.Pacman Spiel} angezeigt wird.
@@ -37,7 +42,12 @@ public final class Gui extends JFrame {
         super.setResizable(false);
         super.setLayout(null);
 
-        final Draw draw = new Draw();
+        final Map<Integer, Integer> backgroundBricks = new HashMap<>();
+        backgroundBricks.put(0, 0);
+        backgroundBricks.put(WIDTH - 60, HEIGHT - 60);
+
+        // create draw-object to draw graphics
+        final Draw draw = new Draw(backgroundBricks, 50);
         draw.setBounds(0, 0, WIDTH, HEIGHT);
         draw.setVisible(true);
 
@@ -55,6 +65,33 @@ public final class Gui extends JFrame {
      */
     private static final class Draw extends JPanel {
 
+        //<editor-fold desc="LOCAL FIELDS">
+        /** Die Karte, die als Hintergrund genutzt wird und welches das Spielfeld darstellt. */
+        private final BufferedImage map;
+        //</editor-fold>
+
+
+        //<editor-fold desc="CONSTRUCTORS">
+
+        /**
+         * Erzeugt eine neue Instanz eines {@link Draw}, welches eine Instanz eines {@link JPanel} darstellt. Mithilfe
+         * eines {@link Draw} werden alle Grafiken auf das Fenster gezeichnet. Die Zeichnungen werden so schnell es geht
+         * immer wieder aktualisiert, sodass fortlaufende Bewegungen und Animationen flüssig angezeigt werden können.
+         *
+         * @param coordinates Die Koordinaten, an denen überall {@link Brick Ziegel} in die Karte aufgenommen werden
+         *                    sollen.
+         * @param brickLength Die Größe aller einzelnen {@link Brick Ziegel}, die auf der Karte angezeigt werden.
+         */
+        public Draw(
+            final Map<Integer, Integer> coordinates,
+            final int brickLength
+        ) {
+            final MapBuilder mapBuilder = new MapBuilder(coordinates, brickLength);
+            this.map = mapBuilder.getBuiltMap();
+        }
+        //</editor-fold>
+
+
         //<editor-fold desc="implementation">
         @Override
         protected void paintComponent(final Graphics g) {
@@ -65,9 +102,8 @@ public final class Gui extends JFrame {
             // define render quality
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // draw black background
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, Gui.WIDTH, Gui.HEIGHT);
+            // draw background
+            g.drawImage(this.map, 0, 0, this);
 
             repaint();
         }

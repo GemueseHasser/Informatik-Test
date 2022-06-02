@@ -14,12 +14,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Converter" target="8" />
-      <module name="Encryptor" target="8" />
-      <module name="Informatik" target="8" />
-      <module name="JumpAndRun" target="8" />
-      <module name="Pacman" target="8" />
-      <module name="Utility" target="8" />
+      <module name="Converter" target="1.8" />
+      <module name="Encryptor" target="1.8" />
+      <module name="Informatik" target="1.8" />
+      <module name="JumpAndRun" target="1.8" />
+      <module name="Pacman" target="1.8" />
+      <module name="Utility" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
