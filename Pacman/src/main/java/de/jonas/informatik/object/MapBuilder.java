@@ -5,9 +5,7 @@ import de.jonas.informatik.object.material.BrickSelection;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Mithilfe eines {@link MapBuilder} wird eine Map zusammengesetzt, die als Spielfeld in diesem Spiel dient. Sie wird in
@@ -23,7 +21,7 @@ public final class MapBuilder {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die Koordinaten aller Ziegel, die auf die Map gesetzt werden sollen. */
-    private final Map<Integer, Integer> coordinates = new HashMap<>();
+    private final List<Coordinate> coordinates = new ArrayList<>();
     /** Die Karte, die schlussendlich entsteht. */
     private final BufferedImage map;
     //</editor-fold>
@@ -44,11 +42,8 @@ public final class MapBuilder {
         final List<Brick> bricks = new ArrayList<>();
 
         // fill brick list
-        for (final Map.Entry<Integer, Integer> entry : coordinates.entrySet()) {
-            final int x = entry.getKey();
-            final int y = entry.getValue();
-
-            bricks.add(new Brick(x, y, BRICK_LENGTH));
+        for (final Coordinate coordinate : this.coordinates) {
+            bricks.add(new Brick(coordinate.getX(), coordinate.getY(), BRICK_LENGTH));
         }
 
         // create one object from all bricks
@@ -64,10 +59,12 @@ public final class MapBuilder {
      * Legt alle einzelnen Koordinaten fest, an denen Ziegel auf die Map gesetzt werden sollen.
      */
     private void build() {
-        // left upper corner
-        this.coordinates.put(0, 0);
-        // lower right corner
-        this.coordinates.put(540, 442);
+        // fill map with bricks
+        for (int x = 0; x < 575; x += BRICK_LENGTH) {
+            for (int y = 0; y < 475; y += BRICK_LENGTH / 2) {
+                this.coordinates.add(new Coordinate(x, y));
+            }
+        }
     }
 
     /**
