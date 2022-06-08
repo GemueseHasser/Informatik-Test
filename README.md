@@ -5,6 +5,7 @@ Dieses Projekt besteht aus folgenden Modules:
 - Encryptor
 - Utility
 - JumpAndRun
+- Pacman
 
 > ## Converter Module
 In dem Converter Module befindet sich ein Konverter für verschiedene Zahlensysteme. Standardmäßig kann man Zahlen im Dezimal-,
@@ -24,3 +25,7 @@ mathematische Objekte und Anwendungen mit grafischem Interface.
 > ## JumpAndRun
 In dem JumpAndRun Module befindet sich ein 2D-Jump-and-run Spiel, in dem man automatisch läuft und mit der Leertaste oder
 dem Pfeil nach oben über die Hindernisse springen muss.
+
+> ## Pacman
+In dem Pacman Module befindet sich ein Spiel, welches Pacman ähnlich ist und in dem man durch logisches Denken und mit
+logischem Verschieben von Objekten, durch den Spieler, zum Ziel kommen muss.
