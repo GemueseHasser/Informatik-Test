@@ -5,7 +5,7 @@ Dieses Projekt besteht aus folgenden Modules:
 - Encryptor
 - Utility
 - JumpAndRun
-- Pacman
+- Eulersche Konstante
 
 > ## Converter Module
 In dem Converter Module befindet sich ein Konverter für verschiedene Zahlensysteme. Standardmäßig kann man Zahlen im Dezimal-,
@@ -26,6 +26,7 @@ mathematische Objekte und Anwendungen mit grafischem Interface.
 In dem JumpAndRun Module befindet sich ein 2D-Jump-and-run Spiel, in dem man automatisch läuft und mit der Leertaste oder
 dem Pfeil nach oben über die Hindernisse springen muss.
 
-> ## Pacman
-In dem Pacman Module befindet sich ein Spiel, welches Pacman ähnlich ist und in dem man durch logisches Denken und mit
-logischem Verschieben von Objekten, durch den Spieler, zum Ziel kommen muss.
+> ## Eulersche Konstante
+In diesem Module befindet sich ein grafischer Rechner, der die Eulersche Konstante in einem bestimmten Intervall ([0; X]),
+welches vom Nutzer selber ausgewählt werden kann, in Form eines Graphen darstellt und den besten gefundenen Näherungswert
+für jenes Intervall anzeigt.

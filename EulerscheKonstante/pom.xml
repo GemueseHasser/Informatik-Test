@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Pacman</artifactId>
-    <description>Ein Spiel, welches Pacman ähnlich ist und wobei man durch logisches Denken ans Ziel kommt.</description>
+    <artifactId>informatik</artifactId>
+    <description>Ein Projekt, welches die Eulersche Konstante grafisch darstellt.</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -22,13 +22,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                de.jonas.informatik.Pacman
+                                de.jonas.de.jonas.informatik.EulerscheKonstante
                             </mainClass>
                         </manifest>
                     </archive>
