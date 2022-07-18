@@ -1,5 +1,7 @@
 package de.jonas.informatik.tictactoe.gui;
 
+import de.jonas.informatik.ExtendedTicTacToe;
+import de.jonas.informatik.tictactoe.object.game.GameManager;
 import de.jonas.informatik.tictactoe.object.gui.Draw;
 
 import javax.swing.JFrame;
@@ -14,9 +16,9 @@ public final class Gui extends JFrame {
     /** Der Titel dieses Fensters. */
     private static final String TITLE = "Tic-Tac-Toe (20 x 20)";
     /** Die Breite dieses Fensters. */
-    private static final int WIDTH = 800;
+    private static final int WIDTH = 1200;
     /** Die Höhe dieses Fensters. */
-    private static final int HEIGHT = 600;
+    private static final int HEIGHT = 1100;
     //</editor-fold>
 
 
@@ -35,6 +37,17 @@ public final class Gui extends JFrame {
         super.setLayout(null);
         super.setResizable(false);
 
+        // get game manager
+        final GameManager gameManager = ExtendedTicTacToe.getGameManager();
+
+        // add all fields
+        for (int i = 0; i < gameManager.getFields().length; i++) {
+            for (int j = 0; j < gameManager.getFields()[i].length; j++) {
+                super.add(gameManager.getFields()[i][j].getButton());
+            }
+        }
+
+        // create new draw instance
         final Draw draw = new Draw();
         draw.setBounds(0, 0, WIDTH, HEIGHT);
         draw.setVisible(true);
