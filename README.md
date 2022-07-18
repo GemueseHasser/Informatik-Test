@@ -6,6 +6,7 @@ Dieses Projekt besteht aus folgenden Modules:
 - Utility
 - JumpAndRun
 - Eulersche Konstante
+- ExtendedTicTacToe
 
 > ## Converter Module
 In dem Converter Module befindet sich ein Konverter für verschiedene Zahlensysteme. Standardmäßig kann man Zahlen im Dezimal-,
@@ -30,3 +31,7 @@ dem Pfeil nach oben über die Hindernisse springen muss.
 In diesem Module befindet sich ein grafischer Rechner, der die Eulersche Konstante in einem bestimmten Intervall ([0; X]),
 welches vom Nutzer selber ausgewählt werden kann, in Form eines Graphen darstellt und den besten gefundenen Näherungswert
 für jenes Intervall anzeigt.
+
+> ## ExtendedTicTacToe
+In diesem Module befindet sich ein erweitertes Tic-Tac-Toe Spiel, welches auf einem 20 x 20 Feld gespielt wird, wobei man
+gewinnt, wenn man 5 nebeneinander liegende Kästchen horizontal, diagonal oder vertikal belegt hat.

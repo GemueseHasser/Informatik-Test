@@ -14,6 +14,7 @@
         <module>Encryptor</module>
         <module>JumpAndRun</module>
         <module>EulerscheKonstante</module>
+        <module>ExtendedTicTacToe</module>
     </modules>
 
     <groupId>de</groupId>
