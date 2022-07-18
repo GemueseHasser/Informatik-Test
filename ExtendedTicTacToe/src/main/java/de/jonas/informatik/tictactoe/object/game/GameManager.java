@@ -1,6 +1,7 @@
 package de.jonas.informatik.tictactoe.object.game;
 
 import de.jonas.informatik.tictactoe.constant.PlayerType;
+import de.jonas.informatik.tictactoe.listener.ClickListener;
 
 import javax.swing.JButton;
 
@@ -19,6 +20,10 @@ public final class GameManager {
     //<editor-fold desc="LOCAL FIELDS">
     /** Die {@link TicTacToeField Felder}, aus denen das Spielfeld besteht. */
     private final TicTacToeField[][] fields = new TicTacToeField[20][20];
+    /** Der {@link Computer} dieses Spiels, welcher automatisch platzieren kann. */
+    private final Computer computer = new Computer();
+    /** Der Zustand, ob der Spieler momentan platzieren darf. */
+    private boolean playersTurn = true;
     //</editor-fold>
 
 
@@ -59,8 +64,18 @@ public final class GameManager {
         button.setBounds(30 + column * FIELD_SIZE, 30 + row * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
         button.setContentAreaFilled(false);
         button.setFocusable(false);
+        button.addActionListener(new ClickListener(row, column));
 
         return button;
+    }
+
+    /**
+     * Setzt den Zustand neu, ob der Spieler platzieren darf.
+     *
+     * @param playersTurn Der Zustand, ob der Spieler platzieren darf.
+     */
+    public void setPlayersTurn(final boolean playersTurn) {
+        this.playersTurn = playersTurn;
     }
 
     /**
@@ -70,6 +85,24 @@ public final class GameManager {
      */
     public TicTacToeField[][] getFields() {
         return this.fields;
+    }
+
+    /**
+     * Gibt den Computer zurück, welcher automatisch platzieren kann.
+     *
+     * @return Der Computer, welcher automatisch platzieren kann.
+     */
+    public Computer getComputer() {
+        return this.computer;
+    }
+
+    /**
+     * Gibt zurück, ob der Spieler momentan platzieren darf.
+     *
+     * @return Wenn der Spieler platzieren darf {@code true}, ansonsten {@code false}.
+     */
+    public boolean isPlayersTurn() {
+        return this.playersTurn;
     }
 
 }
