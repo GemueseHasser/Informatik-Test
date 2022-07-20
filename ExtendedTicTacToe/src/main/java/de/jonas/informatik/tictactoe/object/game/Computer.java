@@ -16,11 +16,20 @@ public final class Computer {
      * wieder an der Reihe.
      */
     public void place() {
+        // check if game is running
+        if (ExtendedTicTacToe.getGameManager().isGameNotRunning()) return;
+
+        // check if computers turn
+        if (ExtendedTicTacToe.getGameManager().isUsersTurn()) return;
+
         // place random
         placeRandom();
 
         // its players turn :)
-        ExtendedTicTacToe.getGameManager().setPlayersTurn(true);
+        ExtendedTicTacToe.getGameManager().setUsersTurn(true);
+
+        // check the game
+        ExtendedTicTacToe.getGameManager().checkGame();
     }
 
     /**

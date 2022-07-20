@@ -43,8 +43,11 @@ public final class ClickListener implements ActionListener {
     //<editor-fold desc="implementation">
     @Override
     public void actionPerformed(final ActionEvent actionEvent) {
+        // check if game is running
+        if (ExtendedTicTacToe.getGameManager().isGameNotRunning()) return;
+
         // check if players turn
-        if (!ExtendedTicTacToe.getGameManager().isPlayersTurn()) return;
+        if (!ExtendedTicTacToe.getGameManager().isUsersTurn()) return;
 
         final TicTacToeField field = ExtendedTicTacToe.getGameManager().getFields()[this.row][this.column];
 
@@ -52,11 +55,14 @@ public final class ClickListener implements ActionListener {
         if (field.getPlayerType() != PlayerType.EMPTY) return;
 
         // set players turn to false
-        ExtendedTicTacToe.getGameManager().setPlayersTurn(false);
+        ExtendedTicTacToe.getGameManager().setUsersTurn(false);
 
         // place
         field.setPlayerType(PlayerType.USER);
         field.getButton().setText(PlayerType.USER.getSymbol());
+
+        // check the game
+        ExtendedTicTacToe.getGameManager().checkGame();
 
         // have the computer placed
         ExtendedTicTacToe.getGameManager().getComputer().place();

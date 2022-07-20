@@ -13,6 +13,8 @@ public class ExtendedTicTacToe {
     //<editor-fold desc="STATIC FIELDS">
     /** Der {@link GameManager} dieses Spiels. */
     private static GameManager gameManager;
+    /** Das {@link Gui Fenster} dieses Spiels. */
+    private static Gui gui;
     //</editor-fold>
 
 
@@ -24,15 +26,28 @@ public class ExtendedTicTacToe {
      * @param args Die Argumente, die von der JRE beim Ausführen des Programms übergeben werden.
      */
     public static void main(final String[] args) {
+        // start game
+        restartGame();
+    }
+    //</editor-fold>
+
+
+    /**
+     * Startet dieses Spiel sowohl erstmalig, als auch immer wieder neu, falls es bereits läuft.
+     */
+    public static void restartGame() {
+        // close gui if preset
+        if (gui != null) {
+            gui.dispose();
+        }
+
         // create game-manager instance
         gameManager = new GameManager();
 
         // create and open gui
-        final Gui gui = new Gui();
+        gui = new Gui();
         gui.open();
     }
-    //</editor-fold>
-
 
     /**
      * Gibt den {@link GameManager} dieses Spiels zurück.
