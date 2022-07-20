@@ -1,7 +1,7 @@
 package de.jonas.informatik;
 
 import de.jonas.informatik.tictactoe.gui.Gui;
-import de.jonas.informatik.tictactoe.object.game.GameManager;
+import de.jonas.informatik.tictactoe.object.GameManager;
 
 /**
  * Die Haupt- und Main-Klasse dieses erweiterten Tic-Tac-Toe Spiels, welches ein Spielfeld von 20 x 20 Kästchen besitzt.

@@ -1,4 +1,4 @@
-package de.jonas.informatik.tictactoe.object.game;
+package de.jonas.informatik.tictactoe.object;
 
 import de.jonas.informatik.tictactoe.constant.PlayerType;
 

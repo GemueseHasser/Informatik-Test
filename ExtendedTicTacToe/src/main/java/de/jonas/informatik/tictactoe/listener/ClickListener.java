@@ -2,7 +2,7 @@ package de.jonas.informatik.tictactoe.listener;
 
 import de.jonas.informatik.ExtendedTicTacToe;
 import de.jonas.informatik.tictactoe.constant.PlayerType;
-import de.jonas.informatik.tictactoe.object.game.TicTacToeField;
+import de.jonas.informatik.tictactoe.object.TicTacToeField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

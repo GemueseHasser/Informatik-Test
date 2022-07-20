@@ -1,10 +1,15 @@
 package de.jonas.informatik.tictactoe.gui;
 
 import de.jonas.informatik.ExtendedTicTacToe;
-import de.jonas.informatik.tictactoe.object.game.GameManager;
-import de.jonas.informatik.tictactoe.object.gui.Draw;
+import de.jonas.informatik.tictactoe.object.GameManager;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 /**
  * Ein {@link Gui} stellt eine Instanz eines {@link JFrame} dar und erzeugt somit ein Fenster, worin dann das gesamte
@@ -63,5 +68,31 @@ public final class Gui extends JFrame {
     public void open() {
         super.setVisible(true);
     }
+
+
+    //<editor-fold desc="Draw">
+
+    /**
+     * Mithilfe eines {@link Draw} werden alle nötigen Zeichnungen auf diesem {@link Gui} vorgenommen.
+     */
+    private static final class Draw extends JPanel {
+
+        //<editor-fold desc="implementation">
+        @Override
+        protected void paintComponent(final Graphics g) {
+            super.paintComponent(g);
+
+            // define render quality
+            final Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // draw background
+            g.setColor(Color.LIGHT_GRAY);
+            g.fillRect(0, 0, super.getWidth(), super.getHeight());
+        }
+        //</editor-fold>
+
+    }
+    //</editor-fold>
 
 }

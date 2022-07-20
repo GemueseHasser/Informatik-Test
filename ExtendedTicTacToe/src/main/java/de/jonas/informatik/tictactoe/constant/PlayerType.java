@@ -1,8 +1,10 @@
 package de.jonas.informatik.tictactoe.constant;
 
+import de.jonas.informatik.tictactoe.object.TicTacToeField;
+
 /**
  * Ein {@link PlayerType} wird genutzt um ein bestimmtes
- * {@link de.jonas.informatik.tictactoe.object.game.TicTacToeField} zuzuordnen.
+ * {@link TicTacToeField} zuzuordnen.
  */
 public enum PlayerType {
 
@@ -32,7 +34,7 @@ public enum PlayerType {
 
     /**
      * Erzeugt einen neuen und vollständig unabhängigen {@link PlayerType Typ} mithilfe eines Symbols, welcher genutzt
-     * wird, um ein bestimmtes {@link de.jonas.informatik.tictactoe.object.game.TicTacToeField} zuzuordnen.
+     * wird, um ein bestimmtes {@link TicTacToeField} zuzuordnen.
      *
      * @param symbol Das Symbol, welches dieser {@link PlayerType} nutzt.
      */
