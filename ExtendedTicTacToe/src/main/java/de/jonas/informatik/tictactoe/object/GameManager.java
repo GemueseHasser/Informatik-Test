@@ -106,7 +106,7 @@ public final class GameManager {
 
         // check horizontal
         for (final TicTacToeField[] field : fields) {
-            for (int j = 0; j < field.length; j++) {
+            for (int j = 0; j < GameManager.GAME_FIELD_SIZE; j++) {
                 if (field[j].getPlayerType() != playerType) {
                     currentBegin = j;
                 }
@@ -140,7 +140,7 @@ public final class GameManager {
                         }
                     }
 
-                    if (i + k < GAME_FIELD_SIZE && j - k > 0) {
+                    if (i + k < GAME_FIELD_SIZE && j - k >= 0) {
                         if (fields[i + k][j - k].getPlayerType() == playerType) {
                             diagonalLeft++;
                         }
