@@ -21,7 +21,7 @@ public final class Gui extends JFrame {
     /** Der Titel dieses Fensters. */
     private static final String TITLE = "Tic-Tac-Toe (20 x 20)";
     /** Die Breite dieses Fensters. */
-    private static final int WIDTH = 1200;
+    private static final int WIDTH = 1075;
     /** Die Höhe dieses Fensters. */
     private static final int HEIGHT = 1100;
     //</editor-fold>
