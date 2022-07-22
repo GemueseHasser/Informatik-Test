@@ -39,16 +39,16 @@ public final class Computer {
             placeAt(computerWinField.get());
         } else if (userWinField.isPresent()) {
             placeAt(userWinField.get());
-        } else if (computerNextWinField.isPresent()) {
-            placeAt(computerNextWinField.get());
         } else if (userNextWinField.isPresent()) {
             placeAt(userNextWinField.get());
+        } else if (userSecondNextWinField.isPresent()) {
+            placeAt(userSecondNextWinField.get());
+        } else if (computerNextWinField.isPresent()) {
+            placeAt(computerNextWinField.get());
         } else if (computerSecondNextWinField.isPresent()) {
             placeAt(computerSecondNextWinField.get());
         } else if (computerNearField.isPresent()) {
             placeAt(computerNearField.get());
-        } else if (userSecondNextWinField.isPresent()) {
-            placeAt(userSecondNextWinField.get());
         } else if (userNearField.isPresent()) {
             placeAt(userNearField.get());
         } else {
@@ -75,13 +75,17 @@ public final class Computer {
      *     Feldern, bestehend aus einer Mindestanzahl an Feldern, grenzt.
      */
     private Optional<TicTacToeField> getFieldWithMin(final PlayerType playerType, final int min) {
-        final Optional<TicTacToeField> horizontal = getFieldWithMinHorizontal(playerType, min);
-        final Optional<TicTacToeField> vertical = getFieldWithMinVertical(playerType, min);
-        final Optional<TicTacToeField> diagonal = getFieldWithMinDiagonal(playerType, min);
+        final Pair<Optional<TicTacToeField>, Boolean> horizontal = getFieldWithMinHorizontal(playerType, min);
+        final Pair<Optional<TicTacToeField>, Boolean> vertical = getFieldWithMinVertical(playerType, min);
+        final Pair<Optional<TicTacToeField>, Boolean> diagonal = getFieldWithMinDiagonal(playerType, min);
 
-        if (horizontal.isPresent()) return horizontal;
-        if (vertical.isPresent()) return vertical;
-        return diagonal;
+        if (horizontal.getSecond() && horizontal.getFirst().isPresent()) return horizontal.getFirst();
+        if (vertical.getSecond() && vertical.getFirst().isPresent()) return vertical.getFirst();
+        if (diagonal.getSecond() && diagonal.getFirst().isPresent()) return diagonal.getFirst();
+
+        if (vertical.getFirst().isPresent()) return vertical.getFirst();
+        if (horizontal.getFirst().isPresent()) return horizontal.getFirst();
+        return diagonal.getFirst();
 
     }
 
@@ -99,7 +103,10 @@ public final class Computer {
      *     eines {@link PlayerType} horizontal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private Optional<TicTacToeField> getFieldWithMinHorizontal(final PlayerType playerType, final int min) {
+    private Pair<Optional<TicTacToeField>, Boolean> getFieldWithMinHorizontal(
+        final PlayerType playerType,
+        final int min
+    ) {
         int currentBegin = 0;
 
         for (final TicTacToeField[] field : ExtendedTicTacToe.getGameManager().getFields()) {
@@ -111,13 +118,41 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (field[j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                            return Optional.of(field[j - min - 1]);
+                            if (field[j - min - 2] != null && field[j - min - 2].getPlayerType() == playerType) {
+                                return new Pair<>(
+                                    Optional.of(field[j - min - 1]),
+                                    true
+                                );
+                            }
                         }
                     }
 
                     if (j + 1 < GameManager.GAME_FIELD_SIZE) {
                         if (field[j + 1].getPlayerType() == PlayerType.EMPTY) {
-                            return Optional.of(field[j + 1]);
+                            if (field[j + 2] != null && field[j + 2].getPlayerType() == playerType) {
+                                return new Pair<>(
+                                    Optional.of(field[j + 1]),
+                                    true
+                                );
+                            }
+                        }
+                    }
+
+                    if (j - min - 1 >= 0) {
+                        if (field[j - min - 1].getPlayerType() == PlayerType.EMPTY) {
+                            return new Pair<>(
+                                Optional.of(field[j - min - 1]),
+                                false
+                            );
+                        }
+                    }
+
+                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                        if (field[j + 1].getPlayerType() == PlayerType.EMPTY) {
+                            return new Pair<>(
+                                Optional.of(field[j + 1]),
+                                false
+                            );
                         }
                     }
 
@@ -126,7 +161,7 @@ public final class Computer {
             }
         }
 
-        return Optional.empty();
+        return new Pair<>(Optional.empty(), false);
     }
 
     /**
@@ -143,7 +178,10 @@ public final class Computer {
      *     eines {@link PlayerType} vertikal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private Optional<TicTacToeField> getFieldWithMinVertical(final PlayerType playerType, final int min) {
+    private Pair<Optional<TicTacToeField>, Boolean> getFieldWithMinVertical(
+        final PlayerType playerType,
+        final int min
+    ) {
         final TicTacToeField[][] fields = ExtendedTicTacToe.getGameManager().getFields();
 
         int currentBegin = 0;
@@ -157,13 +195,41 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (fields[j - min - 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            return Optional.of(fields[j - min - 1][i]);
+                            if (fields[j - min - 2][i] != null && fields[j - min - 2][i].getPlayerType() == playerType) {
+                                return new Pair<>(
+                                    Optional.of(fields[j - min - 1][i]),
+                                    true
+                                );
+                            }
                         }
                     }
 
                     if (j + 1 < GameManager.GAME_FIELD_SIZE) {
                         if (fields[j + 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            return Optional.of(fields[j + 1][i]);
+                            if (fields[j + 2][i] != null && fields[j + 2][i].getPlayerType() == playerType) {
+                                return new Pair<>(
+                                    Optional.of(fields[j + 1][i]),
+                                    false
+                                );
+                            }
+                        }
+                    }
+
+                    if (j - min - 1 >= 0) {
+                        if (fields[j - min - 1][i].getPlayerType() == PlayerType.EMPTY) {
+                            return new Pair<>(
+                                Optional.of(fields[j - min - 1][i]),
+                                false
+                            );
+                        }
+                    }
+
+                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                        if (fields[j + 1][i].getPlayerType() == PlayerType.EMPTY) {
+                            return new Pair<>(
+                                Optional.of(fields[j + 1][i]),
+                                false
+                            );
                         }
                     }
 
@@ -172,7 +238,7 @@ public final class Computer {
             }
         }
 
-        return Optional.empty();
+        return new Pair<>(Optional.empty(), false);
     }
 
     /**
@@ -189,7 +255,10 @@ public final class Computer {
      *     eines {@link PlayerType} diagonal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private Optional<TicTacToeField> getFieldWithMinDiagonal(final PlayerType playerType, final int min) {
+    private Pair<Optional<TicTacToeField>, Boolean> getFieldWithMinDiagonal(
+        final PlayerType playerType,
+        final int min
+    ) {
         final TicTacToeField[][] fields = ExtendedTicTacToe.getGameManager().getFields();
 
         for (int i = 0; i < GameManager.GAME_FIELD_SIZE; i++) {
@@ -215,13 +284,41 @@ public final class Computer {
                     if (diagonalRight > min) {
                         if (i - 1 >= 0 && j - 1 >= 0) {
                             if (fields[i - 1][j - 1].getPlayerType() == PlayerType.EMPTY) {
-                                return Optional.of(fields[i - 1][j - 1]);
+                                if (fields[i - 2][j - 2] != null && fields[i - 2][j - 2].getPlayerType() == playerType) {
+                                    return new Pair<>(
+                                        Optional.of(fields[i - 1][j - 1]),
+                                        true
+                                    );
+                                }
                             }
                         }
 
                         if ((i + min + 1) < GameManager.GAME_FIELD_SIZE && (j + min + 1) < GameManager.GAME_FIELD_SIZE) {
                             if (fields[i + min + 1][j + min + 1].getPlayerType() == PlayerType.EMPTY) {
-                                return Optional.of(fields[i + min + 1][j + min + 1]);
+                                if (fields[i + min + 2][j + min + 2] != null && fields[i + min + 2][j + min + 2].getPlayerType() == playerType) {
+                                    return new Pair<>(
+                                        Optional.of(fields[i + min + 1][j + min + 1]),
+                                        true
+                                    );
+                                }
+                            }
+                        }
+
+                        if (i - 1 >= 0 && j - 1 >= 0) {
+                            if (fields[i - 1][j - 1].getPlayerType() == PlayerType.EMPTY) {
+                                return new Pair<>(
+                                    Optional.of(fields[i - 1][j - 1]),
+                                    false
+                                );
+                            }
+                        }
+
+                        if ((i + min + 1) < GameManager.GAME_FIELD_SIZE && (j + min + 1) < GameManager.GAME_FIELD_SIZE) {
+                            if (fields[i + min + 1][j + min + 1].getPlayerType() == PlayerType.EMPTY) {
+                                return new Pair<>(
+                                    Optional.of(fields[i + min + 1][j + min + 1]),
+                                    false
+                                );
                             }
                         }
 
@@ -231,13 +328,41 @@ public final class Computer {
                     if (diagonalLeft > min) {
                         if (i - 1 >= 0 && j + 1 < GameManager.GAME_FIELD_SIZE) {
                             if (fields[i - 1][j + 1].getPlayerType() == PlayerType.EMPTY) {
-                                return Optional.of(fields[i - 1][j + 1]);
+                                if (fields[i - 2][j + 2] != null && fields[i - 2][j + 2].getPlayerType() == playerType) {
+                                    return new Pair<>(
+                                        Optional.of(fields[i - 1][j + 1]),
+                                        true
+                                    );
+                                }
                             }
                         }
 
                         if (i + min + 1 < GameManager.GAME_FIELD_SIZE && j - min - 1 >= 0) {
                             if (fields[i + min + 1][j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                                return Optional.of(fields[i + min + 1][j - min - 1]);
+                                if (fields[i + min + 2][j - min - 2] != null && fields[i + min + 2][j - min - 2].getPlayerType() == playerType) {
+                                    return new Pair<>(
+                                        Optional.of(fields[i + min + 1][j - min - 1]),
+                                        true
+                                    );
+                                }
+                            }
+                        }
+
+                        if (i - 1 >= 0 && j + 1 < GameManager.GAME_FIELD_SIZE) {
+                            if (fields[i - 1][j + 1].getPlayerType() == PlayerType.EMPTY) {
+                                return new Pair<>(
+                                    Optional.of(fields[i - 1][j + 1]),
+                                    false
+                                );
+                            }
+                        }
+
+                        if (i + min + 1 < GameManager.GAME_FIELD_SIZE && j - min - 1 >= 0) {
+                            if (fields[i + min + 1][j - min - 1].getPlayerType() == PlayerType.EMPTY) {
+                                return new Pair<>(
+                                    Optional.of(fields[i + min + 1][j - min - 1]),
+                                    false
+                                );
                             }
                         }
 
@@ -247,7 +372,7 @@ public final class Computer {
             }
         }
 
-        return Optional.empty();
+        return new Pair<>(Optional.empty(), false);
     }
 
     /**
