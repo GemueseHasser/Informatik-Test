@@ -36,7 +36,7 @@ public class ExtendedTicTacToe {
      * Startet dieses Spiel sowohl erstmalig, als auch immer wieder neu, falls es bereits läuft.
      */
     public static void restartGame() {
-        // close gui if preset
+        // close gui if present
         if (gui != null) {
             gui.dispose();
         }
