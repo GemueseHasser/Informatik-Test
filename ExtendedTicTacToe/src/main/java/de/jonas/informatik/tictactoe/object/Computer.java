@@ -39,18 +39,18 @@ public final class Computer {
             placeAt(computerWinField.get());
         } else if (userWinField.isPresent()) {
             placeAt(userWinField.get());
-        } else if (userNextWinField.isPresent()) {
-            placeAt(userNextWinField.get());
-        } else if (userSecondNextWinField.isPresent()) {
-            placeAt(userSecondNextWinField.get());
-        } else if (userNearField.isPresent()) {
-            placeAt(userNearField.get());
         } else if (computerNextWinField.isPresent()) {
             placeAt(computerNextWinField.get());
+        } else if (userNextWinField.isPresent()) {
+            placeAt(userNextWinField.get());
         } else if (computerSecondNextWinField.isPresent()) {
             placeAt(computerSecondNextWinField.get());
         } else if (computerNearField.isPresent()) {
             placeAt(computerNearField.get());
+        } else if (userSecondNextWinField.isPresent()) {
+            placeAt(userSecondNextWinField.get());
+        } else if (userNearField.isPresent()) {
+            placeAt(userNearField.get());
         } else {
             placeRandom();
         }
