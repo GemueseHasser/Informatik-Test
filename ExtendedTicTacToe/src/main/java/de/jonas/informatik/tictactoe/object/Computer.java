@@ -6,6 +6,8 @@ import de.jonas.informatik.tictactoe.constant.PlayerType;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static de.jonas.informatik.tictactoe.object.GameManager.GAME_FIELD_SIZE;
+
 /**
  * Der Computer ersetzt einen zweiten Spieler, sodass der Nutzer dieses Spiels alleine gegen diesen Computer spielen
  * kann. Der Computer setzt mithilfe von künstlicher Intelligenz völlig automatisiert.
@@ -118,7 +120,7 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (field[j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                            if (field[j - min - 2] != null && field[j - min - 2].getPlayerType() == playerType) {
+                            if (j - min - 2 >= 0 && field[j - min - 2].getPlayerType() == playerType) {
                                 return new Pair<>(
                                     Optional.of(field[j - min - 1]),
                                     true
@@ -127,9 +129,9 @@ public final class Computer {
                         }
                     }
 
-                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                    if (j + 1 < GAME_FIELD_SIZE) {
                         if (field[j + 1].getPlayerType() == PlayerType.EMPTY) {
-                            if (field[j + 2] != null && field[j + 2].getPlayerType() == playerType) {
+                            if (j + 2 < GAME_FIELD_SIZE && field[j + 2].getPlayerType() == playerType) {
                                 return new Pair<>(
                                     Optional.of(field[j + 1]),
                                     true
@@ -147,7 +149,7 @@ public final class Computer {
                         }
                     }
 
-                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                    if (j + 1 < GAME_FIELD_SIZE) {
                         if (field[j + 1].getPlayerType() == PlayerType.EMPTY) {
                             return new Pair<>(
                                 Optional.of(field[j + 1]),
@@ -186,8 +188,8 @@ public final class Computer {
 
         int currentBegin = 0;
 
-        for (int i = 0; i < GameManager.GAME_FIELD_SIZE; i++) {
-            for (int j = 0; j < GameManager.GAME_FIELD_SIZE; j++) {
+        for (int i = 0; i < GAME_FIELD_SIZE; i++) {
+            for (int j = 0; j < GAME_FIELD_SIZE; j++) {
                 if (fields[j][i].getPlayerType() != playerType) {
                     currentBegin = j;
                 }
@@ -195,7 +197,7 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (fields[j - min - 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            if (fields[j - min - 2][i] != null && fields[j - min - 2][i].getPlayerType() == playerType) {
+                            if (j - min - 2 >= 0 && fields[j - min - 2][i].getPlayerType() == playerType) {
                                 return new Pair<>(
                                     Optional.of(fields[j - min - 1][i]),
                                     true
@@ -204,9 +206,9 @@ public final class Computer {
                         }
                     }
 
-                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                    if (j + 1 < GAME_FIELD_SIZE) {
                         if (fields[j + 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            if (fields[j + 2][i] != null && fields[j + 2][i].getPlayerType() == playerType) {
+                            if (j + 2 < GAME_FIELD_SIZE && fields[j + 2][i].getPlayerType() == playerType) {
                                 return new Pair<>(
                                     Optional.of(fields[j + 1][i]),
                                     false
@@ -224,7 +226,7 @@ public final class Computer {
                         }
                     }
 
-                    if (j + 1 < GameManager.GAME_FIELD_SIZE) {
+                    if (j + 1 < GAME_FIELD_SIZE) {
                         if (fields[j + 1][i].getPlayerType() == PlayerType.EMPTY) {
                             return new Pair<>(
                                 Optional.of(fields[j + 1][i]),
@@ -261,21 +263,21 @@ public final class Computer {
     ) {
         final TicTacToeField[][] fields = ExtendedTicTacToe.getGameManager().getFields();
 
-        for (int i = 0; i < GameManager.GAME_FIELD_SIZE; i++) {
-            for (int j = 0; j < GameManager.GAME_FIELD_SIZE; j++) {
+        for (int i = 0; i < GAME_FIELD_SIZE; i++) {
+            for (int j = 0; j < GAME_FIELD_SIZE; j++) {
                 if (fields[i][j].getPlayerType() != playerType) continue;
 
                 int diagonalRight = 1;
                 int diagonalLeft = 1;
 
                 for (int k = 1; k < 5; k++) {
-                    if (i + k < GameManager.GAME_FIELD_SIZE && j + k < GameManager.GAME_FIELD_SIZE) {
+                    if (i + k < GAME_FIELD_SIZE && j + k < GAME_FIELD_SIZE) {
                         if (fields[i + k][j + k].getPlayerType() == playerType) {
                             diagonalRight++;
                         }
                     }
 
-                    if (i + k < GameManager.GAME_FIELD_SIZE && j - k > 0) {
+                    if (i + k < GAME_FIELD_SIZE && j - k > 0) {
                         if (fields[i + k][j - k].getPlayerType() == playerType) {
                             diagonalLeft++;
                         }
@@ -284,7 +286,7 @@ public final class Computer {
                     if (diagonalRight > min) {
                         if (i - 1 >= 0 && j - 1 >= 0) {
                             if (fields[i - 1][j - 1].getPlayerType() == PlayerType.EMPTY) {
-                                if (fields[i - 2][j - 2] != null && fields[i - 2][j - 2].getPlayerType() == playerType) {
+                                if (i - 2 >= 0 && j - 2 >= 0 && fields[i - 2][j - 2].getPlayerType() == playerType) {
                                     return new Pair<>(
                                         Optional.of(fields[i - 1][j - 1]),
                                         true
@@ -293,9 +295,11 @@ public final class Computer {
                             }
                         }
 
-                        if ((i + min + 1) < GameManager.GAME_FIELD_SIZE && (j + min + 1) < GameManager.GAME_FIELD_SIZE) {
+                        if ((i + min + 1) < GAME_FIELD_SIZE && (j + min + 1) < GAME_FIELD_SIZE) {
                             if (fields[i + min + 1][j + min + 1].getPlayerType() == PlayerType.EMPTY) {
-                                if (fields[i + min + 2][j + min + 2] != null && fields[i + min + 2][j + min + 2].getPlayerType() == playerType) {
+                                if (i + min + 2 < GAME_FIELD_SIZE && j + min + 2 < GAME_FIELD_SIZE
+                                    && fields[i + min + 2][j + min + 2].getPlayerType() == playerType
+                                ) {
                                     return new Pair<>(
                                         Optional.of(fields[i + min + 1][j + min + 1]),
                                         true
@@ -313,7 +317,7 @@ public final class Computer {
                             }
                         }
 
-                        if ((i + min + 1) < GameManager.GAME_FIELD_SIZE && (j + min + 1) < GameManager.GAME_FIELD_SIZE) {
+                        if ((i + min + 1) < GAME_FIELD_SIZE && (j + min + 1) < GAME_FIELD_SIZE) {
                             if (fields[i + min + 1][j + min + 1].getPlayerType() == PlayerType.EMPTY) {
                                 return new Pair<>(
                                     Optional.of(fields[i + min + 1][j + min + 1]),
@@ -326,9 +330,9 @@ public final class Computer {
                     }
 
                     if (diagonalLeft > min) {
-                        if (i - 1 >= 0 && j + 1 < GameManager.GAME_FIELD_SIZE) {
+                        if (i - 1 >= 0 && j + 1 < GAME_FIELD_SIZE) {
                             if (fields[i - 1][j + 1].getPlayerType() == PlayerType.EMPTY) {
-                                if (fields[i - 2][j + 2] != null && fields[i - 2][j + 2].getPlayerType() == playerType) {
+                                if (i - 2 >= 0 && j + 2 < GAME_FIELD_SIZE && fields[i - 2][j + 2].getPlayerType() == playerType) {
                                     return new Pair<>(
                                         Optional.of(fields[i - 1][j + 1]),
                                         true
@@ -337,9 +341,9 @@ public final class Computer {
                             }
                         }
 
-                        if (i + min + 1 < GameManager.GAME_FIELD_SIZE && j - min - 1 >= 0) {
+                        if (i + min + 1 < GAME_FIELD_SIZE && j - min - 1 >= 0) {
                             if (fields[i + min + 1][j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                                if (fields[i + min + 2][j - min - 2] != null && fields[i + min + 2][j - min - 2].getPlayerType() == playerType) {
+                                if (i + min + 2 < GAME_FIELD_SIZE && j - min - 2 >= 0 && fields[i + min + 2][j - min - 2].getPlayerType() == playerType) {
                                     return new Pair<>(
                                         Optional.of(fields[i + min + 1][j - min - 1]),
                                         true
@@ -348,7 +352,7 @@ public final class Computer {
                             }
                         }
 
-                        if (i - 1 >= 0 && j + 1 < GameManager.GAME_FIELD_SIZE) {
+                        if (i - 1 >= 0 && j + 1 < GAME_FIELD_SIZE) {
                             if (fields[i - 1][j + 1].getPlayerType() == PlayerType.EMPTY) {
                                 return new Pair<>(
                                     Optional.of(fields[i - 1][j + 1]),
@@ -357,7 +361,7 @@ public final class Computer {
                             }
                         }
 
-                        if (i + min + 1 < GameManager.GAME_FIELD_SIZE && j - min - 1 >= 0) {
+                        if (i + min + 1 < GAME_FIELD_SIZE && j - min - 1 >= 0) {
                             if (fields[i + min + 1][j - min - 1].getPlayerType() == PlayerType.EMPTY) {
                                 return new Pair<>(
                                     Optional.of(fields[i + min + 1][j - min - 1]),
