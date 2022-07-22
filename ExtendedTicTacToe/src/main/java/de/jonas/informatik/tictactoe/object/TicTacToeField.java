@@ -11,6 +11,10 @@ import javax.swing.JButton;
 public final class TicTacToeField {
 
     //<editor-fold desc="LOCAL FIELDS">
+    /** Die Zeile in der sich dieses Feld befindet. */
+    private final int row;
+    /** Die Spalte in der sich dieses Feld befindet. */
+    private final int column;
     /** Der {@link JButton Button}, der diesem {@link TicTacToeField} zugeordnet wird. */
     private final JButton button;
     /** Der {@link PlayerType}, den dieses Feld momentan besitzt. */
@@ -26,13 +30,19 @@ public final class TicTacToeField {
      * Spielfeld besteht aus mehreren dieser Felder.
      *
      * @param button     Der {@link JButton Button}, der diesem {@link TicTacToeField} zugeordnet wird.
+     * @param row        Die Zeile in der sich dieses Feld befindet.
+     * @param column     Die Spalte in der sich dieses Feld befindet.
      * @param playerType Der {@link PlayerType}, den dieses Feld momentan besitzt.
      */
     public TicTacToeField(
         final JButton button,
+        final int row,
+        final int column,
         final PlayerType playerType
     ) {
         this.button = button;
+        this.row = row;
+        this.column = column;
         this.playerType = playerType;
     }
     //</editor-fold>
@@ -54,6 +64,24 @@ public final class TicTacToeField {
      */
     public JButton getButton() {
         return this.button;
+    }
+
+    /**
+     * Gibt die Zeile zurück, in der sich dieses {@link TicTacToeField Feld} befindet.
+     *
+     * @return Die Zeile, in der sich dieses {@link TicTacToeField Feld} befindet.
+     */
+    public int getRow() {
+        return this.row;
+    }
+
+    /**
+     * Gibt die Spalte zurück, in der sich dieses {@link TicTacToeField Feld} befindet.
+     *
+     * @return Die Spalte, in der sich dieses {@link TicTacToeField Feld} befindet.
+     */
+    public int getColumn() {
+        return this.column;
     }
 
     /**

@@ -45,6 +45,8 @@ public final class GameManager {
             for (int j = 0; j < GAME_FIELD_SIZE; j++) {
                 fields[i][j] = new TicTacToeField(
                     getFormattedButton(i, j),
+                    i,
+                    j,
                     PlayerType.EMPTY
                 );
             }
