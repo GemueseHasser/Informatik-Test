@@ -3,6 +3,7 @@ package de.jonas.informatik.tictactoe.object;
 import de.jonas.informatik.ExtendedTicTacToe;
 import de.jonas.informatik.tictactoe.constant.PlayerType;
 
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -22,34 +23,34 @@ public final class Computer {
         // check if computers turn
         if (ExtendedTicTacToe.getGameManager().isUsersTurn()) return;
 
-        final TicTacToeField computerWinField = getFieldWithMin(PlayerType.COMPUTER, 3);
-        final TicTacToeField userWinField = getFieldWithMin(PlayerType.USER, 3);
+        final Optional<TicTacToeField> computerWinField = getFieldWithMin(PlayerType.COMPUTER, 3);
+        final Optional<TicTacToeField> userWinField = getFieldWithMin(PlayerType.USER, 3);
 
-        final TicTacToeField computerNextWinField = getFieldWithMin(PlayerType.COMPUTER, 2);
-        final TicTacToeField userNextWinField = getFieldWithMin(PlayerType.USER, 2);
+        final Optional<TicTacToeField> computerNextWinField = getFieldWithMin(PlayerType.COMPUTER, 2);
+        final Optional<TicTacToeField> userNextWinField = getFieldWithMin(PlayerType.USER, 2);
 
-        final TicTacToeField computerSecondNextWinField = getFieldWithMin(PlayerType.COMPUTER, 1);
-        final TicTacToeField userSecondNextWinField = getFieldWithMin(PlayerType.USER, 1);
+        final Optional<TicTacToeField> computerSecondNextWinField = getFieldWithMin(PlayerType.COMPUTER, 1);
+        final Optional<TicTacToeField> userSecondNextWinField = getFieldWithMin(PlayerType.USER, 1);
 
-        final TicTacToeField computerNearField = getFieldWithMin(PlayerType.COMPUTER, 0);
-        final TicTacToeField userNearField = getFieldWithMin(PlayerType.USER, 0);
+        final Optional<TicTacToeField> computerNearField = getFieldWithMin(PlayerType.COMPUTER, 0);
+        final Optional<TicTacToeField> userNearField = getFieldWithMin(PlayerType.USER, 0);
 
-        if (computerWinField != null) {
-            placeAt(computerWinField);
-        } else if (userWinField != null) {
-            placeAt(userWinField);
-        } else if (userNextWinField != null) {
-            placeAt(userNextWinField);
-        } else if (userSecondNextWinField != null) {
-            placeAt(userSecondNextWinField);
-        } else if (userNearField != null) {
-            placeAt(userNearField);
-        } else if (computerNextWinField != null) {
-            placeAt(computerNextWinField);
-        } else if (computerSecondNextWinField != null) {
-            placeAt(computerSecondNextWinField);
-        } else if (computerNearField != null) {
-            placeAt(computerNearField);
+        if (computerWinField.isPresent()) {
+            placeAt(computerWinField.get());
+        } else if (userWinField.isPresent()) {
+            placeAt(userWinField.get());
+        } else if (userNextWinField.isPresent()) {
+            placeAt(userNextWinField.get());
+        } else if (userSecondNextWinField.isPresent()) {
+            placeAt(userSecondNextWinField.get());
+        } else if (userNearField.isPresent()) {
+            placeAt(userNearField.get());
+        } else if (computerNextWinField.isPresent()) {
+            placeAt(computerNextWinField.get());
+        } else if (computerSecondNextWinField.isPresent()) {
+            placeAt(computerSecondNextWinField.get());
+        } else if (computerNearField.isPresent()) {
+            placeAt(computerNearField.get());
         } else {
             placeRandom();
         }
@@ -73,14 +74,15 @@ public final class Computer {
      * @return Das erstbeste - falls überhaupt vorhandene - {@link TicTacToeField}, welches direkt an eine Kette aus
      *     Feldern, bestehend aus einer Mindestanzahl an Feldern, grenzt.
      */
-    private TicTacToeField getFieldWithMin(final PlayerType playerType, final int min) {
-        final TicTacToeField horizontal = getFieldWithMinHorizontal(playerType, min);
-        final TicTacToeField vertical = getFieldWithMinVertical(playerType, min);
-        final TicTacToeField diagonal = getFieldWithMinDiagonal(playerType, min);
+    private Optional<TicTacToeField> getFieldWithMin(final PlayerType playerType, final int min) {
+        final Optional<TicTacToeField> horizontal = getFieldWithMinHorizontal(playerType, min);
+        final Optional<TicTacToeField> vertical = getFieldWithMinVertical(playerType, min);
+        final Optional<TicTacToeField> diagonal = getFieldWithMinDiagonal(playerType, min);
 
-        if (horizontal != null) return horizontal;
-        if (vertical != null) return vertical;
+        if (horizontal.isPresent()) return horizontal;
+        if (vertical.isPresent()) return vertical;
         return diagonal;
+
     }
 
     /**
@@ -97,7 +99,7 @@ public final class Computer {
      *     eines {@link PlayerType} horizontal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private TicTacToeField getFieldWithMinHorizontal(final PlayerType playerType, final int min) {
+    private Optional<TicTacToeField> getFieldWithMinHorizontal(final PlayerType playerType, final int min) {
         int currentBegin = 0;
 
         for (final TicTacToeField[] field : ExtendedTicTacToe.getGameManager().getFields()) {
@@ -109,13 +111,13 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (field[j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                            return field[j - min - 1];
+                            return Optional.of(field[j - min - 1]);
                         }
                     }
 
                     if (j + 1 < GameManager.GAME_FIELD_SIZE) {
                         if (field[j + 1].getPlayerType() == PlayerType.EMPTY) {
-                            return field[j + 1];
+                            return Optional.of(field[j + 1]);
                         }
                     }
 
@@ -124,7 +126,7 @@ public final class Computer {
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -141,7 +143,7 @@ public final class Computer {
      *     eines {@link PlayerType} vertikal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private TicTacToeField getFieldWithMinVertical(final PlayerType playerType, final int min) {
+    private Optional<TicTacToeField> getFieldWithMinVertical(final PlayerType playerType, final int min) {
         final TicTacToeField[][] fields = ExtendedTicTacToe.getGameManager().getFields();
 
         int currentBegin = 0;
@@ -155,13 +157,13 @@ public final class Computer {
                 if (j - currentBegin > min) {
                     if (j - min - 1 >= 0) {
                         if (fields[j - min - 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            return fields[j - min - 1][i];
+                            return Optional.of(fields[j - min - 1][i]);
                         }
                     }
 
                     if (j + 1 < GameManager.GAME_FIELD_SIZE) {
                         if (fields[j + 1][i].getPlayerType() == PlayerType.EMPTY) {
-                            return fields[j + 1][i];
+                            return Optional.of(fields[j + 1][i]);
                         }
                     }
 
@@ -170,7 +172,7 @@ public final class Computer {
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -187,7 +189,7 @@ public final class Computer {
      *     eines {@link PlayerType} diagonal liegt. Wenn keine derartige Kette von Feldern vorhanden ist, wird
      *     {@code null} zurückgegeben.
      */
-    private TicTacToeField getFieldWithMinDiagonal(final PlayerType playerType, final int min) {
+    private Optional<TicTacToeField> getFieldWithMinDiagonal(final PlayerType playerType, final int min) {
         final TicTacToeField[][] fields = ExtendedTicTacToe.getGameManager().getFields();
 
         for (int i = 0; i < GameManager.GAME_FIELD_SIZE; i++) {
@@ -213,13 +215,13 @@ public final class Computer {
                     if (diagonalRight > min) {
                         if (i - 1 >= 0 && j - 1 >= 0) {
                             if (fields[i - 1][j - 1].getPlayerType() == PlayerType.EMPTY) {
-                                return fields[i - 1][j - 1];
+                                return Optional.of(fields[i - 1][j - 1]);
                             }
                         }
 
                         if ((i + min + 1) < GameManager.GAME_FIELD_SIZE && (j + min + 1) < GameManager.GAME_FIELD_SIZE) {
                             if (fields[i + min + 1][j + min + 1].getPlayerType() == PlayerType.EMPTY) {
-                                return fields[i + min + 1][j + min + 1];
+                                return Optional.of(fields[i + min + 1][j + min + 1]);
                             }
                         }
 
@@ -229,13 +231,13 @@ public final class Computer {
                     if (diagonalLeft > min) {
                         if (i - 1 >= 0 && j + 1 < GameManager.GAME_FIELD_SIZE) {
                             if (fields[i - 1][j + 1].getPlayerType() == PlayerType.EMPTY) {
-                                return fields[i - 1][j + 1];
+                                return Optional.of(fields[i - 1][j + 1]);
                             }
                         }
 
                         if (i + min + 1 < GameManager.GAME_FIELD_SIZE && j - min - 1 >= 0) {
                             if (fields[i + min + 1][j - min - 1].getPlayerType() == PlayerType.EMPTY) {
-                                return fields[i + min + 1][j - min - 1];
+                                return Optional.of(fields[i + min + 1][j - min - 1]);
                             }
                         }
 
@@ -245,7 +247,7 @@ public final class Computer {
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
