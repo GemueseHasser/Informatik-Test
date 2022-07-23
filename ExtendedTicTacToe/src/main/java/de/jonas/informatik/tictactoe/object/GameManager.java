@@ -4,6 +4,7 @@ import de.jonas.informatik.ExtendedTicTacToe;
 import de.jonas.informatik.tictactoe.constant.PlayerType;
 import de.jonas.informatik.tictactoe.listener.ClickListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -19,7 +20,7 @@ public final class GameManager {
     /** Die Größe, die das Spielfeld besitzen soll, also aus wie vielen Feldern es bestehen soll. */
     public static final int GAME_FIELD_SIZE = 20;
     /** Die Größe der einzelnen {@link TicTacToeField Felder}. */
-    private static final int FIELD_SIZE = 50;
+    public static final int FIELD_SIZE = 50;
     //</editor-fold>
 
 
@@ -118,7 +119,7 @@ public final class GameManager {
                 // check win
                 if (j - currentBegin > 4) {
                     for (int i = currentBegin + 1; i < j + 1; i++) {
-                        field[i].getButton().setForeground(Color.RED);
+                        field[i].getButton().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                     }
                     return true;
                 }
@@ -138,7 +139,7 @@ public final class GameManager {
                 // check win
                 if (j - currentBegin > 4) {
                     for (int k = currentBegin + 1; k < j + 1; k++) {
-                        fields[k][i].getButton().setForeground(Color.RED);
+                        fields[k][i].getButton().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                     }
                     return true;
                 }
@@ -165,14 +166,14 @@ public final class GameManager {
                     // check win
                     if (diagonalRight > 4) {
                         for (int h = 0; h < 5; h++) {
-                            fields[i + h][j + h].getButton().setForeground(Color.RED);
+                            fields[i + h][j + h].getButton().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                         }
                         return true;
                     }
 
                     if (diagonalLeft > 4) {
                         for (int h = 0; h < 5; h++) {
-                            fields[i + h][j - h].getButton().setForeground(Color.RED);
+                            fields[i + h][j - h].getButton().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                         }
                         return true;
                     }

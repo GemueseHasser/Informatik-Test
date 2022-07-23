@@ -4,6 +4,8 @@ import de.jonas.informatik.ExtendedTicTacToe;
 import de.jonas.informatik.tictactoe.constant.PlayerType;
 import de.jonas.informatik.tictactoe.object.TicTacToeField;
 
+import javax.swing.ImageIcon;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -59,7 +61,7 @@ public final class ClickListener implements ActionListener {
 
         // place
         field.setPlayerType(PlayerType.USER);
-        field.getButton().setText(PlayerType.USER.getSymbol());
+        field.getButton().setIcon(new ImageIcon(PlayerType.USER.getSymbol()));
 
         // check the game
         ExtendedTicTacToe.getGameManager().checkGame();

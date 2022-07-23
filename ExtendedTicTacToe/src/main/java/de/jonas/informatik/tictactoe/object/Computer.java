@@ -3,6 +3,8 @@ package de.jonas.informatik.tictactoe.object;
 import de.jonas.informatik.ExtendedTicTacToe;
 import de.jonas.informatik.tictactoe.constant.PlayerType;
 
+import javax.swing.ImageIcon;
+
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -404,7 +406,9 @@ public final class Computer {
      */
     private void placeAt(final int row, final int column) {
         ExtendedTicTacToe.getGameManager().getFields()[row][column].setPlayerType(PlayerType.COMPUTER);
-        ExtendedTicTacToe.getGameManager().getFields()[row][column].getButton().setText(PlayerType.COMPUTER.getSymbol());
+        ExtendedTicTacToe.getGameManager().getFields()[row][column].getButton().setIcon(
+            new ImageIcon(PlayerType.COMPUTER.getSymbol())
+        );
     }
 
     /**
@@ -414,7 +418,7 @@ public final class Computer {
      */
     private void placeAt(final TicTacToeField field) {
         field.setPlayerType(PlayerType.COMPUTER);
-        field.getButton().setText(PlayerType.COMPUTER.getSymbol());
+        field.getButton().setIcon(new ImageIcon(PlayerType.COMPUTER.getSymbol()));
     }
 
 }
