@@ -88,7 +88,6 @@ public final class Computer {
         if (vertical.getFirst().isPresent()) return vertical.getFirst();
         if (horizontal.getFirst().isPresent()) return horizontal.getFirst();
         return diagonal.getFirst();
-
     }
 
     /**
