@@ -7,6 +7,8 @@ import de.jonas.informatik.tictactoe.listener.ClickListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
+
 /**
  * Der {@link GameManager} ist für den gesamten Ablauf des Spiels und dessen Komponenten zuständig. Er ist also eine der
  * Main-Klasse untergestellte Main-Klasse, die beliebig oft instanziiert werden kann.
@@ -113,7 +115,13 @@ public final class GameManager {
                     currentBegin = j;
                 }
 
-                if (j - currentBegin > 4) return true;
+                // check win
+                if (j - currentBegin > 4) {
+                    for (int i = currentBegin; i < j + 1; i++) {
+                        field[i].getButton().setForeground(Color.RED);
+                    }
+                    return true;
+                }
             }
         }
 
@@ -127,7 +135,13 @@ public final class GameManager {
                     currentBegin = j;
                 }
 
-                if (j - currentBegin > 4) return true;
+                // check win
+                if (j - currentBegin > 4) {
+                    for (int k = currentBegin; k < j + 1; k++) {
+                        fields[k][i].getButton().setForeground(Color.RED);
+                    }
+                    return true;
+                }
 
                 // diagonal
                 if (fields[i][j].getPlayerType() != playerType) continue;
@@ -148,7 +162,20 @@ public final class GameManager {
                         }
                     }
 
-                    if (diagonalRight > 4 || diagonalLeft > 4) return true;
+                    // check win
+                    if (diagonalRight > 4) {
+                        for (int h = 0; h < 5; h++) {
+                            fields[i + h][j + h].getButton().setForeground(Color.RED);
+                        }
+                        return true;
+                    }
+
+                    if (diagonalLeft > 4) {
+                        for (int h = 0; h < 5; h++) {
+                            fields[i + h][j - h].getButton().setForeground(Color.RED);
+                        }
+                        return true;
+                    }
                 }
             }
         }
