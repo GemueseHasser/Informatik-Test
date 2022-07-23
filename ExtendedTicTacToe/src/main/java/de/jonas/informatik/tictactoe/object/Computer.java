@@ -43,10 +43,10 @@ public final class Computer {
             placeAt(userWinField.get());
         } else if (userNextWinField.isPresent()) {
             placeAt(userNextWinField.get());
-        } else if (userSecondNextWinField.isPresent()) {
-            placeAt(userSecondNextWinField.get());
         } else if (computerNextWinField.isPresent()) {
             placeAt(computerNextWinField.get());
+        } else if (userSecondNextWinField.isPresent()) {
+            placeAt(userSecondNextWinField.get());
         } else if (computerSecondNextWinField.isPresent()) {
             placeAt(computerSecondNextWinField.get());
         } else if (computerNearField.isPresent()) {

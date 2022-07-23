@@ -117,7 +117,7 @@ public final class GameManager {
 
                 // check win
                 if (j - currentBegin > 4) {
-                    for (int i = currentBegin; i < j + 1; i++) {
+                    for (int i = currentBegin + 1; i < j + 1; i++) {
                         field[i].getButton().setForeground(Color.RED);
                     }
                     return true;
