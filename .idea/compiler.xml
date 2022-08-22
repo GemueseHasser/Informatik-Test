@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Converter" />
         <module name="JumpAndRun" />
         <module name="Utility" />
+        <module name="informatik" />
+        <module name="Converter" />
         <module name="Encryptor" />
         <module name="EulerscheKonstante" />
         <module name="ExtendedTicTacToe" />
