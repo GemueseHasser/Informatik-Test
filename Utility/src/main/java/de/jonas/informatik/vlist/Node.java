@@ -1,6 +1,6 @@
 package de.jonas.informatik.vlist;
 
-public class Node {
+public final class Node {
 
     private Node next;
     private Player content;

@@ -1,6 +1,6 @@
 package de.jonas.informatik.vlist;
 
-public class Player {
+public final class Player {
 
     private String name;
     private double value;
