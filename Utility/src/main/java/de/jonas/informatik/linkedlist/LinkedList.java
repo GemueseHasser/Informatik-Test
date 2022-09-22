@@ -41,6 +41,7 @@ public final class LinkedList<ObjectType> {
         final ListNode node = new ListNode(object);
 
         // append element
+        node.setPrevious(this.tail.getPrevious());
         this.tail.getPrevious().setNext(node);
         node.setNext(this.tail);
         this.tail.setPrevious(node);
@@ -107,6 +108,46 @@ public final class LinkedList<ObjectType> {
         }
 
         return node.getContent();
+    }
+
+    /**
+     * Entfernt ein bestimmtes Objekt an einer bestimmten Stelle in der Liste, wenn dieses Objekt vorhanden ist.
+     * Andernfalls passiert gar nichts.
+     *
+     * @param position Die Position / Stelle, an der das Objekt aus der Liste entfernt werden soll, wenn es vorhanden
+     *                 ist.
+     */
+    public void remove(final int position) {
+        remove(get(position));
+    }
+
+    /**
+     * Entfernt ein bestimmtes Objekt aus der Liste, wenn dieses Objekt vorhanden ist. Andernfalls passiert gar nichts.
+     *
+     * @param object Das Objekt, welches aus der Liste entfernt werden soll, wenn es vorhanden ist.
+     */
+    public void remove(final ObjectType object) {
+        ListNode node = this.head.getNext();
+
+        while (node != this.tail) {
+            if (node.getContent().equals(object)) {
+                // get next and previous node
+                final ListNode next = node.getNext();
+                final ListNode previous = node.getPrevious();
+
+                // remove node
+                previous.setNext(next);
+                next.setPrevious(previous);
+
+                // reduce size
+                size--;
+
+                remove(object);
+                return;
+            }
+
+            node = node.getNext();
+        }
     }
 
     /**
