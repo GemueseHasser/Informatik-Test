@@ -13,6 +13,8 @@ public final class LinkedList<ObjectType> {
     private final ListNode head = new ListNode();
     /** Der Endpunkt der Liste, vor dem weitere Einträge eingefügt werden. */
     private final ListNode tail = new ListNode();
+    /** Die Größe dieser Liste. */
+    private int size;
     //</editor-fold>
 
 
@@ -38,16 +40,32 @@ public final class LinkedList<ObjectType> {
     public void append(final ObjectType object) {
         final ListNode node = new ListNode(object);
 
+        // append element
         this.tail.getPrevious().setNext(node);
         node.setNext(this.tail);
         this.tail.setPrevious(node);
+
+        // increment size
+        size++;
     }
 
     /**
-     * Gibt die Liste aus mittels {@code toString}.
+     * Prüft, ob diese Liste ein bestimmtes Element enthält.
+     *
+     * @param object Das Objekt, auf das diese Liste untersucht werden soll.
+     *
+     * @return Wenn diese Liste dieses Objekt beinhaltet {@code true}, ansonsten {@code false}.
      */
-    public void print() {
-        System.out.println(this);
+    public boolean contains(final ObjectType object) {
+        ListNode node = this.head.getNext();
+
+        while (node != this.tail) {
+            if (node.getContent().equals(object)) return true;
+
+            node = node.getNext();
+        }
+
+        return false;
     }
 
     /**
@@ -66,6 +84,38 @@ public final class LinkedList<ObjectType> {
      */
     public ObjectType getLast() {
         return this.tail.getPrevious().getContent();
+    }
+
+    public ObjectType get(final int position) {
+        if (position > this.size) {
+            throw new IllegalArgumentException(
+                "requested position " + position + " is larger than the list (" + this.size + ")."
+            );
+        }
+
+        ListNode node = this.head.getNext();
+
+        for (int i = 1; i < position; i++) {
+            node = node.getNext();
+        }
+
+        return node.getContent();
+    }
+
+    /**
+     * Gibt die Liste aus mittels {@code toString}.
+     */
+    public void print() {
+        System.out.println(this);
+    }
+
+    /**
+     * Gibt die Größe dieser Liste zurück.
+     *
+     * @return Die Größe dieser Liste.
+     */
+    public int getSize() {
+        return this.size;
     }
 
     //<editor-fold desc="implementation">
