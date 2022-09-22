@@ -86,6 +86,13 @@ public final class LinkedList<ObjectType> {
         return this.tail.getPrevious().getContent();
     }
 
+    /**
+     * Filtert ein Objekt an einer bestimmten Position aus der Liste heraus.
+     *
+     * @param position Die Position des Elements in der Liste, welches zurückgegeben werden soll.
+     *
+     * @return Ein Element dieser Liste an einer bestimmten Position.
+     */
     public ObjectType get(final int position) {
         if (position > this.size) {
             throw new IllegalArgumentException(
