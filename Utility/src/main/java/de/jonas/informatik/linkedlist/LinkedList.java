@@ -151,6 +151,14 @@ public final class LinkedList<ObjectType> {
     }
 
     /**
+     * Leert die Liste, entfernt also alle Einträge.
+     */
+    public void clear() {
+        this.head.setNext(this.tail);
+        this.tail.setPrevious(this.head);
+    }
+
+    /**
      * Gibt die Liste aus mittels {@code toString}.
      */
     public void print() {
@@ -169,6 +177,8 @@ public final class LinkedList<ObjectType> {
     //<editor-fold desc="implementation">
     @Override
     public String toString() {
+        clear();
+
         final StringBuilder builder = new StringBuilder();
 
         ListNode node = this.head.getNext();
