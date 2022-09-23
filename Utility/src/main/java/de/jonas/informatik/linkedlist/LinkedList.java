@@ -129,6 +129,26 @@ public final class LinkedList<ObjectType> {
     }
 
     /**
+     * Gibt die Position eines Objekts zurück, also an welcher Stelle sich dieses Objekt in der Liste befindet.
+     *
+     * @param object Das Objekt, dessen Position in der Liste zurückgegeben werden soll.
+     *
+     * @return Wenn sich das Objekt in der Liste befindet die Position eines Objekts, also an welcher Stelle sich dieses
+     *     Objekt in der Liste befindet, ansonsten wird einfach -1 zurückgegeben.
+     */
+    public int positionOf(final ObjectType object) {
+        ListNode node = this.head.getNext();
+
+        for (int i = 1; i < this.size; i++) {
+            if (node.getContent().equals(object)) return i;
+
+            node = node.getNext();
+        }
+
+        return -1;
+    }
+
+    /**
      * Fügt ein bestimmtes Objekt an einer bestimmten Position in der Liste ein. Diese Funktion funktioniert genauso wie
      * {@code append}, nur dass das neue Objekt nicht am Ende angefügt wird, sondern an einer bestimmten Position in der
      * Liste.
