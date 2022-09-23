@@ -111,6 +111,49 @@ public final class LinkedList<ObjectType> {
     }
 
     /**
+     * Fügt ein bestimmtes Objekt an einer bestimmten Position in der Liste ein. Diese Funktion funktioniert genauso wie
+     * {@code append}, nur dass das neue Objekt nicht am Ende angefügt wird, sondern an einer bestimmten Position in der
+     * Liste.
+     *
+     * @param position  Die Position, hinter der das neue Objekt eingefügt werden soll.
+     * @param newObject Das neue Objekt, welches hinter der bestimmten Position eingefügt werden soll.
+     */
+    public void insertAfter(final int position, final ObjectType newObject) {
+        insertAfter(get(position), newObject);
+    }
+
+    /**
+     * Fügt ein bestimmtes Objekt hinter einem Objekt ein. Diese Funktion funktioniert genauso wie {@code append}, nur
+     * dass das neue Objekt nicht am Ende angefügt wird, sondern an einer bestimmten Position in der Liste.
+     *
+     * @param object    Das Objekt, hinter dem das neue Objekt eingefügt werden soll.
+     * @param newObject Das neue Objekt, welches hinter einem bestimmten Objekt eingefügt werden soll.
+     */
+    public void insertAfter(final ObjectType object, final ObjectType newObject) {
+        ListNode node = this.head.getNext();
+
+        while (node != this.tail) {
+            if (node.getContent().equals(object)) {
+                // get next node
+                final ListNode next = node.getNext();
+
+                // create new node from new object
+                final ListNode newNode = new ListNode(newObject);
+
+                node.setNext(newNode);
+                newNode.setPrevious(node);
+                newNode.setNext(next);
+                next.setPrevious(newNode);
+
+                size++;
+                return;
+            }
+
+            node = node.getNext();
+        }
+    }
+
+    /**
      * Entfernt ein bestimmtes Objekt an einer bestimmten Stelle in der Liste, wenn dieses Objekt vorhanden ist.
      * Andernfalls passiert gar nichts.
      *
