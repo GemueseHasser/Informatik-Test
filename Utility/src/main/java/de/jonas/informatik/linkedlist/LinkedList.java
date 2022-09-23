@@ -51,6 +51,24 @@ public final class LinkedList<ObjectType> {
     }
 
     /**
+     * Fügt ein bestimmtes Objekt am Anfang der Liste an.
+     *
+     * @param object Das Objekt, welches am Anfang der Liste angefügt wird.
+     */
+    public void appendFirst(final ObjectType object) {
+        final ListNode node = new ListNode(object);
+
+        final ListNode first = this.head.getNext();
+
+        this.head.setNext(node);
+        node.setPrevious(this.head);
+        node.setNext(first);
+        first.setPrevious(node);
+
+        size++;
+    }
+
+    /**
      * Prüft, ob diese Liste ein bestimmtes Element enthält.
      *
      * @param object Das Objekt, auf das diese Liste untersucht werden soll.
