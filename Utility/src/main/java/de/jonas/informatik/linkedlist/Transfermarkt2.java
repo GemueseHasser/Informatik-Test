@@ -117,7 +117,7 @@ public class Transfermarkt2 extends JFrame {
                 name = database.readLine();
                 String s = database.readLine();
                 if (s != null) {
-                    value = Double.parseDouble(s);
+                    value = Double.parseDouble(s.substring(6));
                 }
                 team = database.readLine();
                 database.readLine();
@@ -132,7 +132,6 @@ public class Transfermarkt2 extends JFrame {
                 myList.append(p);
             }
         }
-
     }
     //</editor-fold>
 

@@ -1,5 +1,7 @@
 package de.jonas.informatik.linkedlist;
 
+import java.util.Comparator;
+
 /**
  * Eine {@link LinkedList} stellt eine doppelt verkettete Liste dar, in der jeder Eintrag mit dem davor und dem danach
  * verkettet ist, man also von einem Eintrag aus auf den davor und den danach zugreifen kann.
@@ -255,11 +257,49 @@ public final class LinkedList<ObjectType> {
         return this.size;
     }
 
+    /**
+     * Sortiert diese Liste mithilfe eines {@link Comparator}, der auf dem {@link ObjectType} dieser Liste basiert.
+     *
+     * @param comparator Der {@link Comparator}, mit dem diese Liste sortiert werden soll.
+     */
+    public void sort(final Comparator<ObjectType> comparator) {
+        ListNode m = this.head.getNext();
+        ListNode n = m.getNext();
+
+        while (m != this.tail.getPrevious()) {
+            while (n != this.tail) {
+                final ObjectType p = m.getContent();
+                final ObjectType q = n.getContent();
+
+                if (comparator.compare(p, q) < 0) {
+                    exchange(m, n);
+                }
+
+                n = n.getNext();
+            }
+
+            m = m.getNext();
+            n = m.getNext();
+        }
+    }
+
+    /**
+     * Tauscht den Inhalt von zwei {@link ListNode} aus.
+     *
+     * @param first  Die erste {@link ListNode}, die vertauscht werden soll.
+     * @param second Die zweite {@link ListNode}, die vertauscht werden soll.
+     */
+    private void exchange(final ListNode first, final ListNode second) {
+        final ObjectType firstContent = first.getContent();
+        final ObjectType secondContent = second.getContent();
+
+        first.setContent(secondContent);
+        second.setContent(firstContent);
+    }
+
     //<editor-fold desc="implementation">
     @Override
     public String toString() {
-        clear();
-
         final StringBuilder builder = new StringBuilder();
 
         ListNode node = this.head.getNext();
