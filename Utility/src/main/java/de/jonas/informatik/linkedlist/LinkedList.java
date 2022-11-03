@@ -271,7 +271,7 @@ public final class LinkedList<ObjectType> {
                 final ObjectType p = m.getContent();
                 final ObjectType q = n.getContent();
 
-                if (comparator.compare(p, q) < 0) {
+                if (comparator.compare(p, q) > 0) {
                     exchange(m, n);
                 }
 

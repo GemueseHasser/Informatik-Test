@@ -14,38 +14,48 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+/**
+ * Ein {@link Transfermarkt2} stellt eine Instanz eines {@link JFrame} dar, ist also eine grafische Oberfläche, die dazu
+ * genutzt werden kann, um eine {@link LinkedList} mit {@link Player Spielern} zu füllen, zu sortieren, zu verwalten und
+ * auszugeben.
+ */
 public class Transfermarkt2 extends JFrame {
 
     //<editor-fold desc="LOCAL FIELDS">
-    private final LinkedList<Player> myList = new LinkedList<>();
-    private final JTextField jtfName;
-    private final JTextField jtfValue;
-    private final JTextField jtfTeam;
-    private final JTextArea jtaOutput;
+    /** Die Datei, in der die bisher angelegte Liste zwischengespeichert werden kann. */
     private RandomAccessFile database;
     //</editor-fold>
 
 
-    //<editor-fold desc="CONSTRUCTORS">
+    //<editor-fold desc="CONSTRUCTORS">#
+
+    /**
+     * Erzeugt eine neue Instanz eines {@link Transfermarkt2}. Ein {@link Transfermarkt2} stellt eine Instanz eines
+     * {@link JFrame} dar, ist also eine grafische Oberfläche, die dazu genutzt werden kann, um eine {@link LinkedList}
+     * mit {@link Player Spielern} zu füllen, zu sortieren, zu verwalten und auszugeben.
+     */
     public Transfermarkt2() {
+        // create list with players
+        final LinkedList<Player> myList = new LinkedList<>();
+
         // set up the text fields
-        jtfName = new JTextField("name");
-        jtfValue = new JTextField("value");
-        jtfTeam = new JTextField("team");
+        final JTextField jtfName = new JTextField("name");
+        final JTextField jtfValue = new JTextField("value");
+        final JTextField jtfTeam = new JTextField("team");
 
         // set up the output field
         // The JTextArea needs a surrounding JScrollPane for scrolling.
-        jtaOutput = new JTextArea("");
+        final JTextArea jtaOutput = new JTextArea("");
         jtaOutput.setLineWrap(true);
         jtaOutput.setWrapStyleWord(true);
 
-        JScrollPane jspScroll = new JScrollPane(jtaOutput);
+        final JScrollPane jspScroll = new JScrollPane(jtaOutput);
 
         // set up the buttons, each with an action listener
-        JButton jbPrint = new JButton("print");
+        final JButton jbPrint = new JButton("print");
         jbPrint.addActionListener(e -> jtaOutput.setText(myList.toString()));
 
-        JButton jbClear = new JButton("clear");
+        final JButton jbClear = new JButton("clear");
         jbClear.addActionListener(e -> {
             jtfName.setText("name");
             jtfValue.setText("value");
@@ -53,7 +63,7 @@ public class Transfermarkt2 extends JFrame {
             jtaOutput.setText("");
         });
 
-        JButton jbAppend = new JButton("append");
+        final JButton jbAppend = new JButton("append");
         jbAppend.addActionListener(e -> {
             String name = jtfName.getText();
             double value = -1.;
@@ -64,7 +74,7 @@ public class Transfermarkt2 extends JFrame {
             }
             String team = jtfTeam.getText();
             if (value >= 0) {
-                Player player = new Player(name, value, team);
+                final Player player = new Player(name, value, team);
                 myList.append(player);
                 jtfName.setText("name");
                 jtfValue.setText("value");
@@ -72,7 +82,7 @@ public class Transfermarkt2 extends JFrame {
             }
         });
 
-        JButton jbSave = new JButton("save");
+        final JButton jbSave = new JButton("save");
         jbSave.addActionListener(e -> {
             try {
                 // delete all content
@@ -84,20 +94,24 @@ public class Transfermarkt2 extends JFrame {
             }
         });
 
+        final JButton jbSortAlph = new JButton("sort by alphabet");
+        jbSortAlph.addActionListener(e -> myList.sort(new CompAlpha()));
+
         // All buttons are grouped in one JPanel.
-        JPanel jpButtons = new JPanel(new FlowLayout());
+        final JPanel jpButtons = new JPanel(new FlowLayout());
         jpButtons.add(jbAppend);
         jpButtons.add(jbPrint);
         jpButtons.add(jbClear);
         jpButtons.add(jbSave);
+        jpButtons.add(jbSortAlph);
 
         // add the buttons and the text fields to the JFrame
-        setLayout(new GridLayout(5, 1));
-        add(jtfName);
-        add(jtfValue);
-        add(jtfTeam);
-        add(jspScroll);
-        add(jpButtons);
+        this.setLayout(new GridLayout(5, 1));
+        this.add(jtfName);
+        this.add(jtfValue);
+        this.add(jtfTeam);
+        this.add(jspScroll);
+        this.add(jpButtons);
 
         // open the input file for reading and writing
         try {
@@ -108,7 +122,8 @@ public class Transfermarkt2 extends JFrame {
         }
 
         // read data from input file
-        boolean eof = false;    // Are we at the end of the file?
+        boolean eof = false;
+        // Are we at the end of the file?
         while (!eof) {
             String name = "";
             double value = -1.;
@@ -126,9 +141,10 @@ public class Transfermarkt2 extends JFrame {
                 jtaOutput.setText("Error reading the data file.");
             }
             if (name == null || value == -1. || team == null) {
-                eof = true; // We have reached the end of the file.
+                // We have reached the end of the file.
+                eof = true;
             } else {
-                Player p = new Player(name, value, team);
+                final Player p = new Player(name, value, team);
                 myList.append(p);
             }
         }
@@ -137,6 +153,13 @@ public class Transfermarkt2 extends JFrame {
 
 
     //<editor-fold desc="main">
+
+    /**
+     * Die Main-Methode, womit diese grafische Benutzeroberfläche geöffnet wird und der Nutzer mithilfe dieses
+     * {@link Transfermarkt2} die Liste mit den Spielern verwalten kann.
+     *
+     * @param args Die Argumente, die von der JRE beim Start des Programms übergeben werden.
+     */
     public static void main(final String[] args) {
         Transfermarkt2 t = new Transfermarkt2();
         t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
