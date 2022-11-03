@@ -95,7 +95,10 @@ public class Transfermarkt2 extends JFrame {
         });
 
         final JButton jbSortAlph = new JButton("sort by alphabet");
-        jbSortAlph.addActionListener(e -> myList.sort(new CompAlpha()));
+        jbSortAlph.addActionListener(e -> {
+            jtaOutput.setText("sort by alphabet.");
+            myList.sort(new CompAlpha());
+        });
 
         // All buttons are grouped in one JPanel.
         final JPanel jpButtons = new JPanel(new FlowLayout());
