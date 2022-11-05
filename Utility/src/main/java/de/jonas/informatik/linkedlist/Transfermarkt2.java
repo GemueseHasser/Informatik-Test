@@ -75,9 +75,9 @@ public class Transfermarkt2 extends JFrame {
 
         final JButton jbClear = new JButton("clear");
         jbClear.addActionListener(e -> {
-            jtfName.setText("name");
-            jtfValue.setText("value");
-            jtfTeam.setText("team");
+            jtfName.setText(JTF_NAME_TEXT);
+            jtfValue.setText(JTF_VALUE_TEXT);
+            jtfTeam.setText(JTF_TEAM_TEXT);
             jtaOutput.setText("");
         });
 
@@ -94,9 +94,9 @@ public class Transfermarkt2 extends JFrame {
             if (value >= 0) {
                 final Player player = new Player(name, value, team);
                 myList.append(player);
-                jtfName.setText("name");
-                jtfValue.setText("value");
-                jtfTeam.setText("team");
+                jtfName.setText(JTF_NAME_TEXT);
+                jtfValue.setText(JTF_VALUE_TEXT);
+                jtfTeam.setText(JTF_TEAM_TEXT);
             }
         });
 
