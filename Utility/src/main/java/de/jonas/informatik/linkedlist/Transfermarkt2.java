@@ -8,8 +8,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -20,6 +23,16 @@ import java.io.RandomAccessFile;
  * auszugeben.
  */
 public class Transfermarkt2 extends JFrame {
+
+    //<editor-fold desc="CONSTANTS">
+    /** Der Standard-Text, der für das Textfeld des Namens hinterlegt wird. */
+    private static final String JTF_NAME_TEXT = "name";
+    /** Der Standard-Text, der für das Textfeld des Wertes hinterlegt wird. */
+    private static final String JTF_VALUE_TEXT = "value";
+    /** Der Standard-Text, der für das Textfeld des Teams hinterlegt wird. */
+    private static final String JTF_TEAM_TEXT = "team";
+    //</editor-fold>
+
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die Datei, in der die bisher angelegte Liste zwischengespeichert werden kann. */
@@ -39,17 +52,22 @@ public class Transfermarkt2 extends JFrame {
         final LinkedList<Player> myList = new LinkedList<>();
 
         // set up the text fields
-        final JTextField jtfName = new JTextField("name");
-        final JTextField jtfValue = new JTextField("value");
-        final JTextField jtfTeam = new JTextField("team");
+        final JTextField jtfName = new JTextField(JTF_NAME_TEXT);
+        final JTextField jtfValue = new JTextField(JTF_VALUE_TEXT);
+        final JTextField jtfTeam = new JTextField(JTF_TEAM_TEXT);
+
+        // set up the text-fields, each with a focus listener
+        jtfName.addFocusListener(new TextFieldFocusListener(JTF_NAME_TEXT));
+        jtfValue.addFocusListener(new TextFieldFocusListener(JTF_VALUE_TEXT));
+        jtfTeam.addFocusListener(new TextFieldFocusListener(JTF_TEAM_TEXT));
 
         // set up the output field
         // The JTextArea needs a surrounding JScrollPane for scrolling.
         final JTextArea jtaOutput = new JTextArea("");
+        jtaOutput.setDisabledTextColor(Color.BLACK);
+        jtaOutput.setEnabled(false);
         jtaOutput.setLineWrap(true);
         jtaOutput.setWrapStyleWord(true);
-
-        final JScrollPane jspScroll = new JScrollPane(jtaOutput);
 
         // set up the buttons, each with an action listener
         final JButton jbPrint = new JButton("print");
@@ -113,7 +131,7 @@ public class Transfermarkt2 extends JFrame {
         this.add(jtfName);
         this.add(jtfValue);
         this.add(jtfTeam);
-        this.add(jspScroll);
+        this.add(new JScrollPane(jtaOutput));
         this.add(jpButtons);
 
         // open the input file for reading and writing
@@ -139,7 +157,7 @@ public class Transfermarkt2 extends JFrame {
                 }
                 team = database.readLine();
                 database.readLine();
-            } catch (IOException io) {
+            } catch (final IOException io) {
                 System.out.println("\n\n Error reading the data file.\n\n");
                 jtaOutput.setText("Error reading the data file.");
             }
@@ -168,9 +186,62 @@ public class Transfermarkt2 extends JFrame {
         t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         t.setBounds(0, 0, 600, 600);
         t.setLocationRelativeTo(null);
+        t.setAutoRequestFocus(false);
         t.setResizable(false);
         t.setTitle("Transfermarkt");
         t.setVisible(true);
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="TextFieldFocusListener">
+
+    /**
+     * Mithilfe eines {@link TextFieldFocusListener} lässt sich der Hintergrund-Text eines {@link JTextField} bei
+     * einfachem Fokussieren entfernen und sollte der Fokus entfernt werden, wenn das {@link JTextField} leer ist, wird
+     * der Hintergrund-Text wieder gesetzt.
+     */
+    private static final class TextFieldFocusListener implements FocusListener {
+
+        //<editor-fold desc="LOCAL FIELDS">
+        /** Der Hintergrund-Text, der immer angezeigt werden soll. */
+        private final String backgroundText;
+        //</editor-fold>
+
+
+        //<editor-fold desc="CONSTRUCTORS">
+
+        /**
+         * Erzeugt eine neue und vollständig unabhängige Instanz eines {@link FocusListener}. Mithilfe eines
+         * {@link TextFieldFocusListener} lässt sich der Hintergrund-Text eines {@link JTextField} bei einfachem
+         * Fokussieren entfernen und sollte der Fokus entfernt werden, wenn das {@link JTextField} leer ist, wird der
+         * Hintergrund-Text wieder gesetzt.
+         *
+         * @param backgroundText Der Hintergrund-Text, der immer angezeigt werden soll.
+         */
+        public TextFieldFocusListener(final String backgroundText) {
+            this.backgroundText = backgroundText;
+        }
+        //</editor-fold>
+
+
+        //<editor-fold desc="implementation">
+        @Override
+        public void focusGained(final FocusEvent e) {
+            if (!(e.getSource() instanceof JTextField)) return;
+
+            final JTextField source = (JTextField) e.getSource();
+            if (source.getText().equalsIgnoreCase(this.backgroundText)) source.setText("");
+        }
+
+        @Override
+        public void focusLost(final FocusEvent e) {
+            if (!(e.getSource() instanceof JTextField)) return;
+
+            final JTextField source = (JTextField) e.getSource();
+            if (source.getText().trim().equalsIgnoreCase("")) source.setText(this.backgroundText);
+        }
+        //</editor-fold>
     }
     //</editor-fold>
 
