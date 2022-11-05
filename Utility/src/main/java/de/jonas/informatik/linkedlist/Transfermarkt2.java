@@ -143,31 +143,34 @@ public class Transfermarkt2 extends JFrame {
         }
 
         // read data from input file
-        boolean eof = false;
-        // Are we at the end of the file?
-        while (!eof) {
-            String name = "";
-            double value = -1.;
-            String team = "";
+        while (true) {
+            String nameLine = "";
+            String valueLine = "";
+            String teamLine = "";
+
             try {
-                name = database.readLine();
-                String s = database.readLine();
-                if (s != null) {
-                    value = Double.parseDouble(s.substring(6));
-                }
-                team = database.readLine();
+                nameLine = database.readLine();
+                valueLine = database.readLine();
+                teamLine = database.readLine();
+
                 database.readLine();
-            } catch (final IOException io) {
+            } catch (final IOException ignored) {
                 System.out.println("\n\n Error reading the data file.\n\n");
                 jtaOutput.setText("Error reading the data file.");
             }
-            if (name == null || value == -1. || team == null) {
+
+            if (nameLine == null || valueLine == null || teamLine == null) {
                 // We have reached the end of the file.
-                eof = true;
-            } else {
-                final Player p = new Player(name, value, team);
-                myList.append(p);
+                break;
             }
+
+            final String name = nameLine.substring(6);
+            final double value = Double.parseDouble(valueLine.substring(6));
+            final String team = teamLine.substring(6);
+
+            final Player p = new Player(name, value, team);
+
+            myList.append(p);
         }
     }
     //</editor-fold>
