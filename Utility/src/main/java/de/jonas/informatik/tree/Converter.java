@@ -108,7 +108,7 @@ public class Converter extends JFrame {
         final JButton decryptButton = new JButton("decrypt");
         decryptButton.setBounds((WIDTH / 2) - (BUTTON_WIDTH / 2), BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         decryptButton.addActionListener(e -> {
-            String text = jtaMorse.getText();
+            final String text = jtaMorse.getText();
             jtaPlain.setText(myTree.convert(text));
             jtaMorse.setText("");
         });
@@ -120,6 +120,18 @@ public class Converter extends JFrame {
             BUTTON_WIDTH,
             BUTTON_HEIGHT
         );
+        encryptButton.addActionListener(e -> {
+            final StringBuilder morseCode = new StringBuilder();
+            final String text = jtaPlain.getText();
+
+            for (int i = 0; i < text.length(); i++) {
+                final String code = this.morseCodes.getProperty(String.valueOf(text.charAt(i)));
+                morseCode.append(code).append(" ");
+            }
+
+            jtaMorse.setText(morseCode.toString());
+            jtaPlain.setText("");
+        });
 
         final JButton clearButton = new JButton("clear");
         clearButton.setBounds(
