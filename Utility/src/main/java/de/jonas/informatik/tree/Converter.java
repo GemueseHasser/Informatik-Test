@@ -12,9 +12,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Ein {@link Converter} stellt eine Instanz eines {@link JFrame} dar, ist eine also eine grafische Benutzeroberfläche.
@@ -43,14 +44,16 @@ public class Converter extends JFrame {
     private static final int BUTTON_WIDTH = 100;
     /** Die Höhe der Buttons. */
     private static final int BUTTON_HEIGHT = 30;
+    /** Der Dateiname, unter dem die Morse-Codes zu finden sind. */
+    private static final String INTERNATIONAL_MORSE_CODE_PROPERTIES = "InternationalMorseCode.properties";
     //</editor-fold>
 
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die {@link Tree Baumstruktur}, die zum Übersetzen genutzt wird. */
     private final Tree myTree = new Tree();
-    /** Die Datei, in der die Morse-Codes gespeichert sind. */
-    private RandomAccessFile database;
+    /** Die {@link Properties}, die die Morse-Codes beinhalten. */
+    private final Properties morseCodes = new Properties();
     //</editor-fold>
 
 
@@ -70,8 +73,15 @@ public class Converter extends JFrame {
         super.setResizable(false);
         super.setLayout(null);
 
-        // load database
-        loadDatabase();
+        // load morse codes properties
+        try {
+            this.morseCodes.load(new FileReader(INTERNATIONAL_MORSE_CODE_PROPERTIES));
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // load morse code tree
+        loadMorseCodeTree();
 
         // create basic draw object for frame graphics
         final Draw draw = new Draw();
@@ -94,7 +104,7 @@ public class Converter extends JFrame {
         final JScrollPane jspPlain = new JScrollPane(jtaPlain);
         jspPlain.setBounds((JTA_X * 2) + JTA_WIDTH, JTA_Y, JTA_WIDTH, JTA_HEIGHT);
 
-        // set up the buttons, each with an action listener
+        // set up the buttons
         final JButton decryptButton = new JButton("decrypt");
         decryptButton.setBounds((WIDTH / 2) - (BUTTON_WIDTH / 2), BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
         decryptButton.addActionListener(e -> {
@@ -123,7 +133,7 @@ public class Converter extends JFrame {
             jtaMorse.setText("");
         });
 
-        // add the buttons and the text fields to the JFrame
+        // add the components to the frame
         super.add(jspMorse);
         super.add(jspPlain);
         super.add(decryptButton);
@@ -135,60 +145,34 @@ public class Converter extends JFrame {
 
 
     /**
-     * Lädt die Datei, in welcher die einzelnen Morse-Codes abgespeichert sind.
+     * Lädt den {@link Tree Baum}, in welchem die Morse-Codes abgespeichert werden sollen.
      */
-    private void loadDatabase() {
-        // open the input file for reading and writing
-        try {
-            database = new RandomAccessFile("International_Morse_Code.dat", "rw");
-        } catch (FileNotFoundException fnf) {
-            System.out.println("\n File not found.\n\n");
-        }
+    private void loadMorseCodeTree() {
+        for (final Map.Entry<Object, Object> morseCodeEntry : this.morseCodes.entrySet()) {
+            // get root node
+            Node node = myTree.getRoot();
 
-        // read data from input file
-        String entry = "";
-        while (entry != null) {
-            try {
-                entry = database.readLine();
-            } catch (IOException io) {
-                System.out.println("\n\n Error reading the data file.\n\n");
+            // get key and value from entry
+            final String letter = (String) morseCodeEntry.getKey();
+            final String morseCode = (String) morseCodeEntry.getValue();
+
+            // split string into characters and sort them into the tree
+            for (int i = 0; i < morseCode.length(); i++) {
+                if (morseCode.charAt(i) == '.') {
+                    if (node.getLeft() == null) node.setLeft(new Node(node, null, null, ""));
+
+                    node = node.getLeft();
+                }
+
+                if (morseCode.charAt(i) == '_') {
+                    if (node.getRight() == null) node.setRight(new Node(node, null, null, ""));
+
+                    node = node.getRight();
+                }
             }
-            if (entry != null) {
-                Node n = myTree.getRoot();
-                // The Node n points currently to the tree's root. It will shift to
-                // the Node which shall contain the newly read String.
 
-                // In every step the first letter in entry is saved in s
-                // and entry is stripped off the first letter.
-
-                // If s is a "." then the tree is continued to the left, otherwise
-                // to the right. If that node does not yet exist, it is generated
-                // as a new Node. The node n always points to the actual node in the
-                // tree.
-
-                // Once all .'s and _'s in the entry have been used, the actual node
-                // n gets the remainder of entry as its new value.
-
-                String s = entry.substring(0, 1);
-                entry = entry.substring(1);
-                while (!s.equals(" ")) {
-                    if (s.equals(".")) {  // continue to the left
-                        if (n.getLeft() == null) {
-                            n.setLeft(new Node(n, null, null, ""));
-                        }
-                        n = n.getLeft();
-                    }
-                    if (s.equals("_")) {  // continue to the right
-                        if (n.getRight() == null) {
-                            n.setRight(new Node(n, null, null, ""));
-                        }
-                        n = n.getRight();
-                    }
-                    s = entry.substring(0, 1);
-                    entry = entry.substring(1);
-                }  // while( !s.equals(" ") )
-                n.setValue(entry);
-            }
+            // set the value at this position into the tree
+            node.setValue(letter);
         }
     }
 
