@@ -14,15 +14,6 @@ public final class Tree {
 
 
     /**
-     * Gibt den Knotenpunkt zurück, von dem aus die Baumstruktur entfaltet wird, also den ersten Knotenpunkt.
-     *
-     * @return Der erste Knotenpunkt, von dem aus die Baumstruktur entfaltet wird.
-     */
-    public Node getRoot() {
-        return this.root;
-    }
-
-    /**
      * Konvertiert einen Morsecode in lesbaren Text und gibt diesen zurück.
      *
      * @param code Der Morsecode, welcher in lesbaren Text übersetzt werden soll.
@@ -51,6 +42,15 @@ public final class Tree {
      */
     public void print() {
         this.root.print();
+    }
+
+    /**
+     * Gibt den Knotenpunkt zurück, von dem aus die Baumstruktur entfaltet wird, also den ersten Knotenpunkt.
+     *
+     * @return Der erste Knotenpunkt, von dem aus die Baumstruktur entfaltet wird.
+     */
+    public Node getRoot() {
+        return this.root;
     }
 
 }
