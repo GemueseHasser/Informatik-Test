@@ -125,7 +125,7 @@ public class Converter extends JFrame {
             final String text = jtaPlain.getText();
 
             for (int i = 0; i < text.length(); i++) {
-                final String code = this.morseCodes.getProperty(String.valueOf(text.charAt(i)));
+                final String code = this.morseCodes.getProperty(String.valueOf(text.charAt(i)).toUpperCase());
                 morseCode.append(code).append(" ");
             }
 
