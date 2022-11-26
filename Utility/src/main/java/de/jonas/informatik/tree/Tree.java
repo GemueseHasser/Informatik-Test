@@ -21,7 +21,7 @@ public final class Tree {
      * @return Der in lesbaren Text konvertierte Morsecode.
      */
     public String convert(final String code) {
-        String tempCode = code.replaceAll(" ", "|");
+        String tempCode = code.replaceAll(" ", "|") + "|";
         final StringBuilder plainBuilder = new StringBuilder();
 
         while (tempCode.contains("|")) {
