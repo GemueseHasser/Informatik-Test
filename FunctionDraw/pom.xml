@@ -7,16 +7,40 @@
         <groupId>de</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Utility</artifactId>
-    <description>Temporär genutzte Dateien (teils zu Test-Zwecken).</description>
+    <artifactId>functiondraw</artifactId>
+    <description>Ein Programm, um den Graphen einer bestimmten Funktion zu zeichnen.</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>Lombok</id>
+            <url>https://mvnrepository.com/artifact/org.projectlombok/lombok</url>
+        </repository>
+        <repository>
+            <id>Jetbrains-Annotations</id>
+            <url>https://mvnrepository.com/artifact/org.jetbrains/annotations</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>23.0.0</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -29,7 +53,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                de.jonas.informatik.tree.Converter
+                                de.jonas.functiondraw.FunctionDraw
                             </mainClass>
                         </manifest>
                     </archive>
