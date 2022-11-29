@@ -6,6 +6,9 @@ import org.jetbrains.annotations.Range;
 
 import javax.swing.JFrame;
 
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link JFrame} dar, welches eine grafische Oberfläche darstellt,
  * auf der eine bestimmte Funktion gezeichnet werden kann, mithilfe eines
@@ -44,8 +47,13 @@ public final class FunctionGui extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLayout(null);
 
+        final NavigableMap<Integer, Integer> values = new TreeMap<>();
+        values.put(0, 0);
+        values.put(1, 1);
+        values.put(10, 10);
+
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction();
+        final DrawFunction drawFunction = new DrawFunction(values, 10, 10);
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 
