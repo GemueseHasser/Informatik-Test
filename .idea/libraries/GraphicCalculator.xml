@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="GraphicCalculator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/GraphicCalculator/target/GraphicCalculator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

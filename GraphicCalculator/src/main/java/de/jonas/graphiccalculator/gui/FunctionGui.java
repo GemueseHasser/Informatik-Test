@@ -1,6 +1,6 @@
-package de.jonas.functiondraw.gui;
+package de.jonas.graphiccalculator.gui;
 
-import de.jonas.functiondraw.object.DrawFunction;
+import de.jonas.graphiccalculator.object.DrawFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -12,7 +12,7 @@ import java.util.TreeMap;
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link JFrame} dar, welches eine grafische Oberfläche darstellt,
  * auf der eine bestimmte Funktion gezeichnet werden kann, mithilfe eines
- * {@link de.jonas.functiondraw.object.DrawFunction}.
+ * {@link de.jonas.graphiccalculator.object.DrawFunction}.
  */
 @NotNull
 public final class FunctionGui extends JFrame {
@@ -35,7 +35,7 @@ public final class FunctionGui extends JFrame {
     /**
      * Erzeugt eine neue Instanz eines {@link FunctionGui}. Ein {@link FunctionGui} stellt eine Instanz eines
      * {@link JFrame} dar, welches eine grafische Oberfläche darstellt, auf der eine bestimmte Funktion gezeichnet
-     * werden kann, mithilfe eines {@link de.jonas.functiondraw.object.DrawFunction}.
+     * werden kann, mithilfe eines {@link de.jonas.graphiccalculator.object.DrawFunction}.
      */
     public FunctionGui() {
         // create frame instance
@@ -48,9 +48,10 @@ public final class FunctionGui extends JFrame {
         super.setLayout(null);
 
         final NavigableMap<Integer, Integer> values = new TreeMap<>();
-        values.put(0, 0);
-        values.put(1, 1);
-        values.put(10, 10);
+
+        for (int i = 0; i < 10; i++) {
+            values.put(i, i * i);
+        }
 
         // create draw object
         final DrawFunction drawFunction = new DrawFunction(values, 10, 10);

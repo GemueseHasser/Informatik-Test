@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>functiondraw</artifactId>
+    <artifactId>GraphicCalculator</artifactId>
     <description>Ein Programm, um den Graphen einer bestimmten Funktion zu zeichnen.</description>
 
     <properties>
@@ -53,7 +53,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                de.jonas.functiondraw.FunctionDraw
+                                de.jonas.graphiccalculator.GraphicCalculator
                             </mainClass>
                         </manifest>
                     </archive>

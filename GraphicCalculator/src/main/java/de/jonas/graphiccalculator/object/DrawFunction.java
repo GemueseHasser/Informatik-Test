@@ -1,4 +1,4 @@
-package de.jonas.functiondraw.object;
+package de.jonas.graphiccalculator.object;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
