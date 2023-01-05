@@ -50,11 +50,11 @@ public final class FunctionGui extends JFrame {
         final NavigableMap<Double, Double> values = new TreeMap<>();
 
         for (double i = -10; i < 10; i += 0.1) {
-            values.put(i, 0.5 * (i * i));
+            values.put(i, (i * i));
         }
 
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction(values, 10, 50);
+        final DrawFunction drawFunction = new DrawFunction(values, 5, 1);
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 

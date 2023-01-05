@@ -55,7 +55,7 @@ public final class DrawFunction extends JLabel {
      * @return Der finale x-Wert, der dem x-Wert der Funktion entspricht.
      */
     private int getValueX(final double x) {
-        return (int) (X_MARGIN + (x * LABEL_MARGIN / (double) (this.scaleX / LABEL_AMOUNT_X)));
+        return (int) (X_MARGIN + (x * LABEL_MARGIN / ((double) this.scaleX / LABEL_AMOUNT_X)));
     }
 
     /**
@@ -67,7 +67,7 @@ public final class DrawFunction extends JLabel {
      * @return Der finale y-Wert, der dem y-Wert der Funktion entspricht.
      */
     private int getValueY(final double y) {
-        return (int) (super.getHeight() - Y_MARGIN - (y * LABEL_MARGIN / (double) (this.scaleY / LABEL_AMOUNT_Y)));
+        return (int) (super.getHeight() - Y_MARGIN - (y * LABEL_MARGIN / ((double) this.scaleY / LABEL_AMOUNT_Y)));
     }
 
     //<editor-fold desc="implementation">
@@ -109,9 +109,9 @@ public final class DrawFunction extends JLabel {
             if (i == 0) continue;
 
             g.drawString(
-                String.valueOf((this.scaleX / LABEL_AMOUNT_X) * i),
+                String.valueOf(Math.round((((double) this.scaleX / LABEL_AMOUNT_X) * i) * 10D) / 10D),
                 yAxisX + i * LABEL_MARGIN - 5,
-                xAxisY + 30
+                xAxisY + 20
             );
         }
 
@@ -127,8 +127,8 @@ public final class DrawFunction extends JLabel {
             if (i == 0) continue;
 
             g.drawString(
-                String.valueOf(i * (this.scaleY / LABEL_AMOUNT_Y)),
-                yAxisX - 30,
+                String.valueOf(Math.round((((double) this.scaleY / LABEL_AMOUNT_Y) * i) * 10D) / 10D),
+                yAxisX - 40,
                 (xAxisY - i * LABEL_MARGIN) + 5
             );
         }
