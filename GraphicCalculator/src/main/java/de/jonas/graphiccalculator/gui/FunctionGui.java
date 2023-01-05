@@ -26,7 +26,7 @@ public final class FunctionGui extends JFrame {
     private static final int WIDTH = 800;
     /** Die Höhe dieses Fensters. */
     @Range(from = 0, to = Integer.MAX_VALUE)
-    private static final int HEIGHT = 600;
+    private static final int HEIGHT = 800;
     //</editor-fold>
 
 
@@ -49,12 +49,12 @@ public final class FunctionGui extends JFrame {
 
         final NavigableMap<Double, Double> values = new TreeMap<>();
 
-        for (double i = 0; i < 10; i += 0.1) {
+        for (double i = -10; i < 10; i += 0.1) {
             values.put(i, 0.5 * (i * i));
         }
 
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction(values, 10, 10);
+        final DrawFunction drawFunction = new DrawFunction(values, 10, 50);
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 

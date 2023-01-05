@@ -23,9 +23,9 @@ public final class DrawFunction extends JLabel {
     /** Der linke und rechte Abstand, den die x-Achse vom Rand dieses Objekts besitzt. */
     private static final int X_MARGIN = 50;
     /** Der obere und untere Abstand, den die y-Achse vom Rand dieses Objekts besitzt. */
-    private static final int Y_MARGIN = 80;
+    private static final int Y_MARGIN = 50;
     /** Der Abstand zwischen den einzelnen Beschriftungen des Koordinatensystems. */
-    private static final int LABEL_MARGIN = 40;
+    private static final int LABEL_MARGIN = 35;
     /** Die Anzahl an Beschriftungen der x-Achse. */
     private static final int LABEL_AMOUNT_X = 10;
     /** Die Anzahl an Beschriftungen der y-Achse. */
@@ -79,50 +79,57 @@ public final class DrawFunction extends JLabel {
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, super.getWidth(), super.getHeight());
 
+        final int yAxisX = super.getWidth() / 2;
+        final int xAxisY = super.getHeight() / 2;
+
         // draw coordinate system
         g.setColor(Color.WHITE);
         g.drawLine(
             X_MARGIN - 20,
-            super.getHeight() - Y_MARGIN,
+            xAxisY,
             super.getWidth() - X_MARGIN,
-            super.getHeight() - Y_MARGIN
+            xAxisY
         );
         g.drawLine(
-            X_MARGIN,
-            super.getHeight() - Y_MARGIN + 20,
-            X_MARGIN,
+            yAxisX,
+            super.getHeight() - Y_MARGIN,
+            yAxisX,
             Y_MARGIN
         );
 
         // draw x labels
-        for (int i = 0; i <= LABEL_AMOUNT_X; i++) {
+        for (int i = -LABEL_AMOUNT_X; i <= LABEL_AMOUNT_X; i++) {
             g.drawLine(
-                X_MARGIN + i * LABEL_MARGIN,
-                super.getHeight() - Y_MARGIN - 5,
-                X_MARGIN + i * LABEL_MARGIN,
-                super.getHeight() - Y_MARGIN + 5
+                yAxisX + i * LABEL_MARGIN,
+                xAxisY - 5,
+                yAxisX + i * LABEL_MARGIN,
+                xAxisY + 5
             );
+
+            if (i == 0) continue;
 
             g.drawString(
                 String.valueOf((this.scaleX / LABEL_AMOUNT_X) * i),
-                X_MARGIN + i * LABEL_MARGIN - 5,
-                super.getHeight() - Y_MARGIN + 30
+                yAxisX + i * LABEL_MARGIN - 5,
+                xAxisY + 30
             );
         }
 
         // draw y labels
-        for (int i = 0; i <= LABEL_AMOUNT_Y; i++) {
+        for (int i = -LABEL_AMOUNT_Y; i <= LABEL_AMOUNT_Y; i++) {
             g.drawLine(
-                X_MARGIN - 5,
-                super.getHeight() - Y_MARGIN - i * LABEL_MARGIN,
-                X_MARGIN + 5,
-                super.getHeight() - Y_MARGIN - i * LABEL_MARGIN
+                yAxisX - 5,
+                xAxisY - i * LABEL_MARGIN,
+                yAxisX + 5,
+                xAxisY - i * LABEL_MARGIN
             );
+
+            if (i == 0) continue;
 
             g.drawString(
                 String.valueOf(i * (this.scaleY / LABEL_AMOUNT_Y)),
-                X_MARGIN - 30,
-                (super.getHeight() - Y_MARGIN - i * LABEL_MARGIN) + 5
+                yAxisX - 30,
+                (xAxisY - i * LABEL_MARGIN) + 5
             );
         }
 
@@ -144,7 +151,12 @@ public final class DrawFunction extends JLabel {
             final double nextY = nextValue.getValue();
 
             // draw line
-            g.drawLine(getValueX(x), getValueY(y), getValueX(nextX), getValueY(nextY));
+            g.drawLine(
+                getValueX(x) + (yAxisX - X_MARGIN),
+                getValueY(y) - (xAxisY - Y_MARGIN),
+                getValueX(nextX) + (yAxisX - X_MARGIN),
+                getValueY(nextY) - (xAxisY - Y_MARGIN)
+            );
         }
     }
     //</editor-fold>
