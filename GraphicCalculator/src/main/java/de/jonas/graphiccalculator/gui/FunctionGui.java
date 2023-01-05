@@ -47,10 +47,10 @@ public final class FunctionGui extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLayout(null);
 
-        final NavigableMap<Integer, Integer> values = new TreeMap<>();
+        final NavigableMap<Double, Double> values = new TreeMap<>();
 
-        for (int i = 0; i < 10; i++) {
-            values.put(i, i * i);
+        for (double i = 0; i < 10; i += 0.1) {
+            values.put(i, 0.5 * (i * i));
         }
 
         // create draw object

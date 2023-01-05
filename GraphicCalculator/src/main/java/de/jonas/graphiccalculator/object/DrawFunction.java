@@ -19,17 +19,24 @@ import java.util.NavigableMap;
 @RequiredArgsConstructor
 public final class DrawFunction extends JLabel {
 
+    //<editor-fold desc="CONSTANTS">
+    /** Der linke und rechte Abstand, den die x-Achse vom Rand dieses Objekts besitzt. */
     private static final int X_MARGIN = 50;
+    /** Der obere und untere Abstand, den die y-Achse vom Rand dieses Objekts besitzt. */
     private static final int Y_MARGIN = 80;
+    /** Der Abstand zwischen den einzelnen Beschriftungen des Koordinatensystems. */
     private static final int LABEL_MARGIN = 40;
+    /** Die Anzahl an Beschriftungen der x-Achse. */
     private static final int LABEL_AMOUNT_X = 10;
+    /** Die Anzahl an Beschriftungen der y-Achse. */
     private static final int LABEL_AMOUNT_Y = 10;
+    //</editor-fold>
 
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Alle Funktionswerte, aus denen dann eine Funktion gezeichnet wird. */
     @NotNull
-    private final NavigableMap<Integer, Integer> function;
+    private final NavigableMap<Double, Double> function;
     /** Die Skalierung für die x-Achse. */
     @Range(from = LABEL_AMOUNT_X, to = Integer.MAX_VALUE)
     private final int scaleX;
@@ -39,12 +46,28 @@ public final class DrawFunction extends JLabel {
     //</editor-fold>
 
 
-    private int getValueX(final int x) {
-        return X_MARGIN + (x * LABEL_MARGIN / (this.scaleX / LABEL_AMOUNT_X));
+    /**
+     * Berechnet aus einem x-Wert der Funktion den entsprechenden finalen x-Wert, den diese Stelle in dem
+     * Koordinatensystem bzw. auf diesem Objekt widerspiegelt.
+     *
+     * @param x Der x-Wert der Funktion.
+     *
+     * @return Der finale x-Wert, der dem x-Wert der Funktion entspricht.
+     */
+    private int getValueX(final double x) {
+        return (int) (X_MARGIN + (x * LABEL_MARGIN / (double) (this.scaleX / LABEL_AMOUNT_X)));
     }
 
-    private int getValueY(final int y) {
-        return super.getHeight() - Y_MARGIN - (y * LABEL_MARGIN / (this.scaleY / LABEL_AMOUNT_Y));
+    /**
+     * Berechnet aus einem y-Wert der Funktion den entsprechenden finalen y-Wert, den diese Stelle in dem
+     * Koordinatensystem bzw. auf diesem Objekt widerspiegelt.
+     *
+     * @param y Der y-Wert der Funktion.
+     *
+     * @return Der finale y-Wert, der dem y-Wert der Funktion entspricht.
+     */
+    private int getValueY(final double y) {
+        return (int) (super.getHeight() - Y_MARGIN - (y * LABEL_MARGIN / (double) (this.scaleY / LABEL_AMOUNT_Y)));
     }
 
     //<editor-fold desc="implementation">
@@ -105,20 +128,20 @@ public final class DrawFunction extends JLabel {
 
         // draw function
         g.setColor(Color.RED);
-        for (@NotNull final Map.Entry<Integer, Integer> functionValue : this.function.entrySet()) {
+        for (@NotNull final Map.Entry<Double, Double> functionValue : this.function.entrySet()) {
             // get current values
-            final int x = functionValue.getKey();
-            final int y = functionValue.getValue();
+            final double x = functionValue.getKey();
+            final double y = functionValue.getValue();
 
             // check if next entry is preset
             if (this.function.higherEntry(x) == null) break;
 
             // get next entry
-            final Map.Entry<Integer, Integer> nextValue = this.function.higherEntry(x);
+            final Map.Entry<Double, Double> nextValue = this.function.higherEntry(x);
 
             // get next values
-            final int nextX = nextValue.getKey();
-            final int nextY = nextValue.getValue();
+            final double nextX = nextValue.getKey();
+            final double nextY = nextValue.getValue();
 
             // draw line
             g.drawLine(getValueX(x), getValueY(y), getValueX(nextX), getValueY(nextY));
