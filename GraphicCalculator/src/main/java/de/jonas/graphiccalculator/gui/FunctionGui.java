@@ -26,7 +26,7 @@ public final class FunctionGui extends JFrame {
     private static final int WIDTH = 800;
     /** Die Höhe dieses Fensters. */
     @Range(from = 0, to = Integer.MAX_VALUE)
-    private static final int HEIGHT = 800;
+    private static final int HEIGHT = 850;
     //</editor-fold>
 
 
@@ -54,7 +54,7 @@ public final class FunctionGui extends JFrame {
         }
 
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction(values, 5, 1);
+        final DrawFunction drawFunction = new DrawFunction(values, 5, 10);
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 

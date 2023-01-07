@@ -1,6 +1,5 @@
 package de.jonas.graphiccalculator.object;
 
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -10,13 +9,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.TreeMap;
 
 /**
  * Mit einem {@link DrawFunction} lässt sich eine bestimmte Funktion, deren Werte in Form von X- und Y-Koordinate in
  * einer {@link Map} abgespeichert übergeben werden, zeichnen.
  */
 @NotNull
-@RequiredArgsConstructor
 public final class DrawFunction extends JLabel {
 
     //<editor-fold desc="CONSTANTS">
@@ -43,6 +42,52 @@ public final class DrawFunction extends JLabel {
     /** Die Skalierung für die y-Achse. */
     @Range(from = LABEL_AMOUNT_Y, to = Integer.MAX_VALUE)
     private final int scaleY;
+    //</editor-fold>
+
+
+    //<editor-fold desc="CONSTRUCTORS">
+
+    /**
+     * Erzeugt eine neue und vollständig unabhängige Instanz eines {@link DrawFunction}. Mit einem {@link DrawFunction}
+     * lässt sich eine bestimmte Funktion, deren Werte in Form von X- und Y-Koordinate in einer {@link Map}
+     * abgespeichert übergeben werden, zeichnen.
+     *
+     * @param function Alle Funktionswerte, aus denen dann eine Funktion gezeichnet wird.
+     * @param scaleX   Die Skalierung für die x-Achse.
+     * @param scaleY   Die Skalierung für die y-Achse.
+     */
+    public DrawFunction(
+        @NotNull final NavigableMap<Double, Double> function,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int scaleX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int scaleY
+    ) {
+        // create temp map
+        final NavigableMap<Double, Double> filteredFunction = new TreeMap<>();
+
+        // calculate draw tolerance
+        final double xTolerance = (double) scaleX / 10;
+        final double yTolerance = (double) scaleY / 10;
+
+        // filter function values
+        for (@NotNull final Map.Entry<Double, Double> functionEntry : function.entrySet()) {
+            // get current values from entry
+            final double x = functionEntry.getKey();
+            final double y = functionEntry.getValue();
+
+            // check if values are out of bounds
+            if (x > scaleX + xTolerance || x < -scaleX - xTolerance || y > scaleY + yTolerance || y < -scaleY - yTolerance) {
+                continue;
+            }
+
+            // mark values as filtered
+            filteredFunction.put(x, y);
+        }
+
+        // initialize variables
+        this.function = filteredFunction;
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+    }
     //</editor-fold>
 
 
