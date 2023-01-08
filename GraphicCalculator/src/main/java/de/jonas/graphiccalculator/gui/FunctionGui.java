@@ -1,21 +1,20 @@
 package de.jonas.graphiccalculator.gui;
 
 import de.jonas.graphiccalculator.object.DrawFunction;
+import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
-
-import javax.swing.JFrame;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 /**
- * Ein {@link FunctionGui} stellt eine Instanz eines {@link JFrame} dar, welches eine grafische Oberfläche darstellt,
- * auf der eine bestimmte Funktion gezeichnet werden kann, mithilfe eines
+ * Ein {@link FunctionGui} stellt eine Instanz eines {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf
+ * der eine bestimmte Funktion gezeichnet werden kann, mithilfe eines
  * {@link de.jonas.graphiccalculator.object.DrawFunction}.
  */
 @NotNull
-public final class FunctionGui extends JFrame {
+public final class FunctionGui extends Gui {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Titel dieses Fensters. */
@@ -34,18 +33,12 @@ public final class FunctionGui extends JFrame {
 
     /**
      * Erzeugt eine neue Instanz eines {@link FunctionGui}. Ein {@link FunctionGui} stellt eine Instanz eines
-     * {@link JFrame} dar, welches eine grafische Oberfläche darstellt, auf der eine bestimmte Funktion gezeichnet
+     * {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf der eine bestimmte Funktion gezeichnet
      * werden kann, mithilfe eines {@link de.jonas.graphiccalculator.object.DrawFunction}.
      */
     public FunctionGui() {
         // create frame instance
-        super(TITLE);
-
-        // set frame properties
-        super.setBounds(0, 0, WIDTH, HEIGHT);
-        super.setLocationRelativeTo(null);
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        super.setLayout(null);
+        super(TITLE, WIDTH, HEIGHT);
 
         final NavigableMap<Double, Double> values = new TreeMap<>();
 
