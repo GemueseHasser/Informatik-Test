@@ -132,15 +132,21 @@ public final class DrawFunction extends JLabel {
         g.drawLine(
             X_MARGIN - 20,
             xAxisY,
-            super.getWidth() - X_MARGIN,
+            super.getWidth() - X_MARGIN + 20,
             xAxisY
         );
         g.drawLine(
             yAxisX,
-            super.getHeight() - Y_MARGIN,
+            super.getHeight() - Y_MARGIN - 5,
             yAxisX,
             Y_MARGIN
         );
+
+        // draw arrows
+        g.drawLine(super.getWidth() - X_MARGIN + 20, xAxisY, super.getWidth() - X_MARGIN + 10, xAxisY - 5);
+        g.drawLine(super.getWidth() - X_MARGIN + 20, xAxisY, super.getWidth() - X_MARGIN + 10, xAxisY + 5);
+        g.drawLine(yAxisX, Y_MARGIN, yAxisX - 5, Y_MARGIN + 10);
+        g.drawLine(yAxisX, Y_MARGIN, yAxisX + 5, Y_MARGIN + 10);
 
         // draw x labels
         for (int i = -LABEL_AMOUNT_X; i <= LABEL_AMOUNT_X; i++) {
