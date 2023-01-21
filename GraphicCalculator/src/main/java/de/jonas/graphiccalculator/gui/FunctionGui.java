@@ -1,12 +1,15 @@
 package de.jonas.graphiccalculator.gui;
 
+import de.jonas.graphiccalculator.handler.FunctionHandler;
 import de.jonas.graphiccalculator.object.DrawFunction;
 import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf
@@ -29,31 +32,100 @@ public final class FunctionGui extends Gui {
     //</editor-fold>
 
 
+    //<editor-fold desc="LOCAL FIELDS">
+    /** Das Textfeld, in welchem die Skalierung der x-Achse angegeben wird. */
+    @NotNull
+    private final JTextField xScalingField = new JTextField("10", 10);
+    /** Das Textfeld, in welchem die Skalierung der y-Achse angegeben wird. */
+    @NotNull
+    private final JTextField yScalingField = new JTextField("10", 10);
+    //</editor-fold>
+
+
     //<editor-fold desc="CONSTRUCTORS">
 
     /**
      * Erzeugt eine neue Instanz eines {@link FunctionGui}. Ein {@link FunctionGui} stellt eine Instanz eines
-     * {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf der eine bestimmte Funktion gezeichnet
-     * werden kann, mithilfe eines {@link de.jonas.graphiccalculator.object.DrawFunction}.
+     * {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf der eine bestimmte Funktion gezeichnet werden
+     * kann, mithilfe eines {@link de.jonas.graphiccalculator.object.DrawFunction}.
      */
     public FunctionGui() {
         // create frame instance
         super(TITLE, WIDTH, HEIGHT);
 
-        final NavigableMap<Double, Double> values = new TreeMap<>();
+        // create function message panel
+        final JPanel[] messagePanel = new JPanel[3];
 
-        for (double i = -10; i < 10; i += 0.1) {
-            values.put(i, Math.sin(i));
-        }
+        messagePanel[0] = new JPanel();
+        messagePanel[1] = new JPanel();
+        messagePanel[2] = new JPanel();
+
+        // add function field
+        final JTextField functionField = new JTextField(10);
+        messagePanel[0].add(new JLabel("f(x) = "));
+        messagePanel[0].add(functionField);
+
+        // add x-scaling field
+        messagePanel[1].add(new JLabel("x-Skalierung: "));
+        messagePanel[1].add(this.xScalingField);
+
+        // add y-scaling field
+        messagePanel[2].add(new JLabel("y-Skalierung: "));
+        messagePanel[2].add(this.yScalingField);
+
+        // create dialog
+        final int functionDrawOption = JOptionPane.showConfirmDialog(
+            null,
+            messagePanel,
+            "Funktion zeichnen",
+            JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (functionDrawOption != JOptionPane.OK_OPTION) return;
+
+        // create function-handler
+        final FunctionHandler functionHandler = new FunctionHandler(functionField.getText(), getXScaling());
 
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction(values, 10, 5);
+        final DrawFunction drawFunction = new DrawFunction(
+            functionHandler.getFunctionValues(),
+            getXScaling(),
+            getYScaling()
+        );
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 
         // add components
         super.add(drawFunction);
+        super.setVisible(true);
     }
     //</editor-fold>
+
+
+    /**
+     * Gibt die Skalierung der x-Achse unter Berücksichtigung einer falschen Eingebe des Nutzers zurück.
+     *
+     * @return Die Skalierung der x-Achse unter Berücksichtigung einer falschen Eingebe des Nutzers.
+     */
+    public int getXScaling() {
+        try {
+            return Integer.parseInt(this.xScalingField.getText());
+        } catch (@NotNull final NumberFormatException ignored) {
+            return 10;
+        }
+    }
+
+    /**
+     * Gibt die Skalierung der y-Achse unter Berücksichtigung einer falschen Eingebe des Nutzers zurück.
+     *
+     * @return Die Skalierung der y-Achse unter Berücksichtigung einer falschen Eingebe des Nutzers.
+     */
+    public int getYScaling() {
+        try {
+            return Integer.parseInt(this.yScalingField.getText());
+        } catch (@NotNull final NumberFormatException ignored) {
+            return 10;
+        }
+    }
 
 }
