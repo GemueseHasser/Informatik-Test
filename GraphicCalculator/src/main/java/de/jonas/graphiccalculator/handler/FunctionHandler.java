@@ -68,12 +68,14 @@ public final class FunctionHandler {
      * @return Das Ergebnis der Rechnung.
      */
     public static double eval(@NotNull final String term) {
+        final String finalTerm = term.replaceAll("e", String.valueOf(Math.E));
+
         return new Object() {
             private int pos = -1;
             private int ch;
 
             private void nextChar() {
-                ch = (++pos < term.length()) ? term.charAt(pos) : -1;
+                ch = (++pos < finalTerm.length()) ? finalTerm.charAt(pos) : -1;
             }
 
             private boolean eat(final int charToEat) {
@@ -89,7 +91,7 @@ public final class FunctionHandler {
                 nextChar();
                 double x = parseExpression();
 
-                if (pos < term.length()) {
+                if (pos < finalTerm.length()) {
                     return 0;
                 }
 
@@ -133,10 +135,10 @@ public final class FunctionHandler {
                     eat(')');
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') {
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-                    x = Double.parseDouble(term.substring(startPos, this.pos));
+                    x = Double.parseDouble(finalTerm.substring(startPos, this.pos));
                 } else if (ch >= 'a' && ch <= 'z') {
                     while (ch >= 'a' && ch <= 'z') nextChar();
-                    String func = term.substring(startPos, this.pos);
+                    String func = finalTerm.substring(startPos, this.pos);
                     x = parseFactor();
                     switch (func) {
                         case "sqrt":
