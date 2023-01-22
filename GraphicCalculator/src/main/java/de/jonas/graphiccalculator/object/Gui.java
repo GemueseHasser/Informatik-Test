@@ -35,7 +35,7 @@ public abstract class Gui extends JFrame {
         // set jframe properties
         super.setBounds(0, 0, width, height);
         super.setLocationRelativeTo(null);
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         super.setResizable(false);
         super.setLayout(null);
     }

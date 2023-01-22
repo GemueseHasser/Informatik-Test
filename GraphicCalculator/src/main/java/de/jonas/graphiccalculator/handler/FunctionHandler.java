@@ -68,7 +68,7 @@ public final class FunctionHandler {
      * @return Das Ergebnis der Rechnung.
      */
     public static double eval(@NotNull final String term) {
-        final String finalTerm = term.replaceAll("e", String.valueOf(Math.E));
+        final String finalTerm = term.replaceAll("e", String.valueOf(Math.E)).replaceAll("π", String.valueOf(Math.PI));
 
         return new Object() {
             private int pos = -1;

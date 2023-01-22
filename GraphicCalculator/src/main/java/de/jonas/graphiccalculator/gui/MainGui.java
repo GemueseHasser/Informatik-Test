@@ -1,11 +1,13 @@
 package de.jonas.graphiccalculator.gui;
 
+import de.jonas.graphiccalculator.object.CalculatorField;
 import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.SwingConstants;
 
 import java.util.Objects;
@@ -30,6 +32,39 @@ public final class MainGui extends Gui {
     /** Die Größe jeder Auswahlmöglichkeit an Aktionen, die ausgeführt werden sollen. */
     @Range(from = 0, to = Integer.MAX_VALUE)
     private static final int CALC_ACTION_SIZE = 150;
+    /** Alle Felder, die das {@link CalculatorGui} des Taschenrechners besitzen soll. */
+    @NotNull
+    private static final CalculatorField[] CALCULATOR_FIELDS = {
+        new CalculatorField("sin"),
+        new CalculatorField("cos"),
+        new CalculatorField("tan"),
+        new CalculatorField("√"),
+        new CalculatorField("π"),
+        new CalculatorField("C"),
+        new CalculatorField("x^y"),
+        new CalculatorField("("),
+        new CalculatorField(")"),
+        new CalculatorField("⬅"),
+        new CalculatorField("7"),
+        new CalculatorField("8"),
+        new CalculatorField("9"),
+        new CalculatorField("-"),
+        new CalculatorField("÷"),
+        new CalculatorField("4"),
+        new CalculatorField("5"),
+        new CalculatorField("6"),
+        new CalculatorField("+"),
+        new CalculatorField("×"),
+        new CalculatorField("1"),
+        new CalculatorField("2"),
+        new CalculatorField("3"),
+        new CalculatorField(","),
+        new CalculatorField("=", true),
+        new CalculatorField(""),
+        new CalculatorField("0"),
+        new CalculatorField(""),
+        new CalculatorField("e"),
+    };
     //</editor-fold>
 
 
@@ -42,9 +77,11 @@ public final class MainGui extends Gui {
      */
     public MainGui() {
         super(TITLE, WIDTH, HEIGHT);
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JButton calcFunctionButton = getActionButton("calcFunction.png", "Rechnen");
         calcFunctionButton.setBounds(10, 10, CALC_ACTION_SIZE, CALC_ACTION_SIZE);
+        calcFunctionButton.addActionListener(actionEvent -> new CalculatorGui(CALCULATOR_FIELDS));
 
         final JButton drawFunctionButton = getActionButton("drawFunction.png", "Zeichnen");
         drawFunctionButton.setBounds(20 + CALC_ACTION_SIZE, 10, CALC_ACTION_SIZE, CALC_ACTION_SIZE);
