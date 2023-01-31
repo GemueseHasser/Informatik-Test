@@ -38,7 +38,7 @@ public final class FunctionHandler {
         final NavigableMap<Double, Double> values = new TreeMap<>();
 
         // calculate function values
-        for (double i = -this.xScaling; i < this.xScaling; i = Math.round((i + 0.0001) * 10000D) / 10000D) {
+        for (double i = -this.xScaling; i < this.xScaling; i = Math.round((i + 0.001) * 1000D) / 1000D) {
             values.put(i, getFunctionValue(i));
         }
 
