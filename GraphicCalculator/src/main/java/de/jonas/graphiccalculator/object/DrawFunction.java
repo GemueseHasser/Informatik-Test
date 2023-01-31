@@ -187,6 +187,8 @@ public final class DrawFunction extends JLabel {
         // draw function
         g.setColor(Color.RED);
         for (@NotNull final Map.Entry<Double, Double> functionValue : this.function.entrySet()) {
+            if (functionValue.getValue().isNaN()) continue;
+
             // get current values
             final double x = functionValue.getKey();
             final double y = functionValue.getValue();
@@ -200,6 +202,9 @@ public final class DrawFunction extends JLabel {
             // get next values
             final double nextX = nextValue.getKey();
             final double nextY = nextValue.getValue();
+
+            // skip (+ to -) or (- to +)
+            if ((y > 0 && nextY < 0) || (y < 0 && nextY > 0)) continue;
 
             // draw line
             g.drawLine(
