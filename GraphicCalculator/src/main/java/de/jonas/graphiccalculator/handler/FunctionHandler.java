@@ -73,11 +73,11 @@ public final class FunctionHandler {
             if (functionValues.higherEntry(x) == null) break;
 
             // get next entry
-            final Map.Entry<Double, Double> nextValue = functionValues.higherEntry(x);
+            final Map.Entry<Double, Double> nextEntry = functionValues.higherEntry(x);
 
             // get next values
-            final double nextX = nextValue.getKey();
-            final double nextY = nextValue.getValue();
+            final double nextX = nextEntry.getKey();
+            final double nextY = nextEntry.getValue();
 
             // check (+ to +) or (- to -)
             if ((y > 0 && nextY > 0) || (y < 0 && nextY < 0)) continue;
@@ -86,6 +86,37 @@ public final class FunctionHandler {
         }
 
         return roots;
+    }
+
+    /**
+     * Gibt alle Extremstellen dieser Funktion in Form einer {@link Map} zurück.
+     *
+     * @return Alle Extremstellen dieser Funktion in Form einer {@link Map}.
+     */
+    @NotNull
+    public Map<Double, Double> getExtremes() {
+        final Map<Double, Double> extremes = new HashMap<>();
+        final NavigableMap<Double, Double> functionValues = getFunctionValues();
+
+        for (@NotNull final Map.Entry<Double, Double> functionValue : functionValues.entrySet()) {
+            if (functionValue.getValue().isNaN()) continue;
+
+            // get current values
+            final double x = functionValue.getKey();
+            final double y = functionValue.getValue();
+
+            // check if next or previous entry is preset
+            if (functionValues.lowerEntry(x) == null) continue;
+            if (functionValues.higherEntry(x) == null) break;
+
+            // get next and previous y
+            final double nextY = functionValues.higherEntry(x).getValue();
+            final double previousY = functionValues.lowerEntry(x).getValue();
+
+            if ((previousY < y && nextY < y) || (previousY > y && nextY > y)) extremes.put(x, y);
+        }
+
+        return extremes;
     }
 
     /**

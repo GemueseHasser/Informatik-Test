@@ -52,9 +52,12 @@ public final class DrawFunction extends JLabel {
     /** Die Skalierung für die y-Achse. */
     @Range(from = LABEL_AMOUNT_Y, to = Integer.MAX_VALUE)
     private final int scaleY;
-    /** Der Zustand, ob die Nullstellen angezeigt werden soll oder nicht. */
+    /** Der Zustand, ob die Nullstellen angezeigt werden sollen oder nicht. */
     @Setter
     private boolean enableRoots;
+    /** Der Zustand, ob die Extremstellen angezeigt werden sollen oder nicht. */
+    @Setter
+    private boolean enableExtremes;
     //</editor-fold>
 
 
@@ -167,6 +170,45 @@ public final class DrawFunction extends JLabel {
         }
     }
 
+    /**
+     * Zeichnet alle Extremstellen der Funktion mit ihren Koordinaten ein.
+     *
+     * @param g      Das {@link Graphics Grafik-Objekt}, mit dem die Nullstellen eingezeichnet werden sollen.
+     * @param yAxisX Die x-Koordinate der y-Achse.
+     * @param xAxisY Die y-Koordinate der x-Achse.
+     */
+    private void drawExtremes(
+        @NotNull final Graphics g,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int xAxisY
+    ) {
+        // get extremes
+        final Map<Double, Double> extremes = this.functionHandler.getExtremes();
+
+        // draw roots
+        for (@NotNull final Map.Entry<Double, Double> extremeEntry : extremes.entrySet()) {
+            final int x = getValueX(extremeEntry.getKey());
+            final int y = getValueY(extremeEntry.getValue());
+
+            g.fillOval(
+                x + (yAxisX - X_MARGIN) - (MARK_SIZE / 2),
+                y - (xAxisY - Y_MARGIN) - (MARK_SIZE / 2),
+                MARK_SIZE,
+                MARK_SIZE
+            );
+
+            final double xCoordinate = Math.round(extremeEntry.getKey() * 100D) / 100D;
+            final double yCoordinate = Math.round(extremeEntry.getValue() * 100D) / 100D;
+
+            g.setFont(DEFAULT_FONT.deriveFont(12F));
+            g.drawString(
+                "(" + xCoordinate + " | " + yCoordinate + ")",
+                x + (yAxisX - X_MARGIN) - 10,
+                y - (xAxisY - Y_MARGIN) - 15
+            );
+        }
+    }
+
     //<editor-fold desc="implementation">
     @Override
     protected void paintComponent(@NotNull final Graphics g) {
@@ -254,11 +296,11 @@ public final class DrawFunction extends JLabel {
             if (this.function.higherEntry(x) == null) break;
 
             // get next entry
-            final Map.Entry<Double, Double> nextValue = this.function.higherEntry(x);
+            final Map.Entry<Double, Double> nextEntry = this.function.higherEntry(x);
 
             // get next values
-            final double nextX = nextValue.getKey();
-            final double nextY = nextValue.getValue();
+            final double nextX = nextEntry.getKey();
+            final double nextY = nextEntry.getValue();
 
             // skip (+ to -) or (- to +)
             if ((y > 0 && nextY < 0) || (y < 0 && nextY > 0)) continue;
@@ -272,9 +314,10 @@ public final class DrawFunction extends JLabel {
             );
         }
 
-        // check if roots are enabled
+        // check if roots or extremes are enabled
         g.setColor(Color.BLUE);
         if (this.enableRoots) drawRoots(g, yAxisX, xAxisY);
+        if (this.enableExtremes) drawExtremes(g, yAxisX, xAxisY);
     }
     //</editor-fold>
 }

@@ -99,9 +99,14 @@ public final class FunctionGui extends Gui {
             drawFunction.setEnableRoots(true);
             drawFunction.repaint();
         });
+        final JButton extremesButton = getOptionButton("Extremstellen berechnen", 1, e -> {
+            drawFunction.setEnableExtremes(true);
+            drawFunction.repaint();
+        });
 
         // add components
         super.add(rootsButton);
+        super.add(extremesButton);
         super.add(drawFunction);
         super.setVisible(true);
     }
@@ -152,7 +157,7 @@ public final class FunctionGui extends Gui {
     ) {
         final JButton button = new JButton(text);
         button.setFocusable(false);
-        button.setBounds(WIDTH - 200, 20 + (count * 180), 170, 30);
+        button.setBounds(WIDTH - 220, 20 + (count * 40), 190, 30);
         button.addActionListener(actionListener);
 
         return button;
