@@ -145,6 +145,14 @@ public final class FunctionHandler {
                             x = Math.sqrt(x);
                             break;
 
+                        case "ln":
+                            x = Math.log(x);
+                            break;
+
+                        case "log":
+                            x = Math.log10(x);
+                            break;
+
                         case "sin":
                             x = Math.sin(x);
                             break;

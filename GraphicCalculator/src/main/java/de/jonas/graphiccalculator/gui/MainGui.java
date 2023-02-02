@@ -60,9 +60,9 @@ public final class MainGui extends Gui {
         new CalculatorField("3"),
         new CalculatorField(","),
         new CalculatorField("=", true),
-        new CalculatorField(""),
+        new CalculatorField("log"),
         new CalculatorField("0"),
-        new CalculatorField(""),
+        new CalculatorField("ln"),
         new CalculatorField("e"),
     };
     //</editor-fold>
