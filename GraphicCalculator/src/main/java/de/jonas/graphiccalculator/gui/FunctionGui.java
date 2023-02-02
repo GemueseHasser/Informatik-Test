@@ -96,15 +96,42 @@ public final class FunctionGui extends Gui {
         drawFunction.setVisible(true);
 
         final JButton rootsButton = getOptionButton("Nullstellen berechnen", 0, e -> {
-            drawFunction.setEnableRoots(true);
+            final JButton source = (JButton) e.getSource();
+
+            if (source.getText().equalsIgnoreCase("Nullstellen berechnen")) {
+                drawFunction.setEnableRoots(true);
+                source.setText("Nullstellen ausblenden");
+            } else {
+                drawFunction.setEnableRoots(false);
+                source.setText("Nullstellen berechnen");
+            }
+
             drawFunction.repaint();
         });
         final JButton extremesButton = getOptionButton("Extremstellen berechnen", 1, e -> {
-            drawFunction.setEnableExtremes(true);
+            final JButton source = (JButton) e.getSource();
+
+            if (source.getText().equalsIgnoreCase("Extremstellen berechnen")) {
+                drawFunction.setEnableExtremes(true);
+                source.setText("Extremstellen ausblenden");
+            } else {
+                drawFunction.setEnableExtremes(false);
+                source.setText("Extremstellen berechnen");
+            }
+
             drawFunction.repaint();
         });
         final JButton derivationButton = getOptionButton("Ableitung zeichnen", 2, e -> {
-            drawFunction.setEnableDerivation(true);
+            final JButton source = (JButton) e.getSource();
+
+            if (source.getText().equalsIgnoreCase("Ableitung zeichnen")) {
+                drawFunction.setEnableDerivation(true);
+                source.setText("Ableitung ausblenden");
+            } else {
+                drawFunction.setEnableDerivation(false);
+                source.setText("Ableitung zeichnen");
+            }
+
             drawFunction.repaint();
         });
 
