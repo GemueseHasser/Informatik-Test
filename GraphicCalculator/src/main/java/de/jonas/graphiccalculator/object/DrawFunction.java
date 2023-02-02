@@ -1,5 +1,7 @@
 package de.jonas.graphiccalculator.object;
 
+import de.jonas.graphiccalculator.handler.FunctionHandler;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -29,10 +31,15 @@ public final class DrawFunction extends JLabel {
     private static final int LABEL_AMOUNT_X = 10;
     /** Die Anzahl an Beschriftungen der y-Achse. */
     private static final int LABEL_AMOUNT_Y = 10;
+    /** Die Größe jeder Markierung. */
+    private static final int MARK_SIZE = 10;
     //</editor-fold>
 
 
     //<editor-fold desc="LOCAL FIELDS">
+    /** Der {@link FunctionHandler}, dessen Funktion gezeichnet wird. */
+    @NotNull
+    private final FunctionHandler functionHandler;
     /** Alle Funktionswerte, aus denen dann eine Funktion gezeichnet wird. */
     @NotNull
     private final NavigableMap<Double, Double> function;
@@ -42,6 +49,9 @@ public final class DrawFunction extends JLabel {
     /** Die Skalierung für die y-Achse. */
     @Range(from = LABEL_AMOUNT_Y, to = Integer.MAX_VALUE)
     private final int scaleY;
+    /** Der Zustand, ob die Nullstellen angezeigt werden soll oder nicht. */
+    @Setter
+    private boolean enableRoots;
     //</editor-fold>
 
 
@@ -52,12 +62,12 @@ public final class DrawFunction extends JLabel {
      * lässt sich eine bestimmte Funktion, deren Werte in Form von X- und Y-Koordinate in einer {@link Map}
      * abgespeichert übergeben werden, zeichnen.
      *
-     * @param function Alle Funktionswerte, aus denen dann eine Funktion gezeichnet wird.
-     * @param scaleX   Die Skalierung für die x-Achse.
-     * @param scaleY   Die Skalierung für die y-Achse.
+     * @param functionHandler Der {@link FunctionHandler}, dessen Funktion gezeichnet werden soll.
+     * @param scaleX          Die Skalierung für die x-Achse.
+     * @param scaleY          Die Skalierung für die y-Achse.
      */
     public DrawFunction(
-        @NotNull final NavigableMap<Double, Double> function,
+        @NotNull final FunctionHandler functionHandler,
         @Range(from = 0, to = Integer.MAX_VALUE) final int scaleX,
         @Range(from = 0, to = Integer.MAX_VALUE) final int scaleY
     ) {
@@ -69,7 +79,7 @@ public final class DrawFunction extends JLabel {
         final double yTolerance = (double) scaleY / 10;
 
         // filter function values
-        for (@NotNull final Map.Entry<Double, Double> functionEntry : function.entrySet()) {
+        for (@NotNull final Map.Entry<Double, Double> functionEntry : functionHandler.getFunctionValues().entrySet()) {
             // get current values from entry
             final double x = functionEntry.getKey();
             final double y = functionEntry.getValue();
@@ -84,6 +94,7 @@ public final class DrawFunction extends JLabel {
         }
 
         // initialize variables
+        this.functionHandler = functionHandler;
         this.function = filteredFunction;
         this.scaleX = scaleX;
         this.scaleY = scaleY;
@@ -113,6 +124,43 @@ public final class DrawFunction extends JLabel {
      */
     private int getValueY(final double y) {
         return (int) (super.getHeight() - Y_MARGIN - (y * LABEL_MARGIN / ((double) this.scaleY / LABEL_AMOUNT_Y)));
+    }
+
+    /**
+     * Zeichnet alle Nullstellen der Funktion mit ihren Koordinaten ein.
+     *
+     * @param g      Das {@link Graphics Grafik-Objekt}, mit dem die Nullstellen eingezeichnet werden sollen.
+     * @param yAxisX Die x-Koordinate der y-Achse.
+     * @param xAxisY Die y-Koordinate der x-Achse.
+     */
+    private void drawRoots(
+        @NotNull final Graphics g,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int xAxisY
+    ) {
+        // get roots
+        final Map<Double, Double> roots = this.functionHandler.getRoots();
+
+        // draw roots
+        for (@NotNull final Map.Entry<Double, Double> rootEntry : roots.entrySet()) {
+            final int x = getValueX(rootEntry.getKey());
+            final int y = getValueY(rootEntry.getValue());
+
+            g.fillOval(
+                x + (yAxisX - X_MARGIN) - (MARK_SIZE / 2),
+                y - (xAxisY - Y_MARGIN) - (MARK_SIZE / 2),
+                MARK_SIZE,
+                MARK_SIZE
+            );
+
+            final double xCoordinate = Math.round(rootEntry.getKey() * 100D) / 100D;
+
+            g.drawString(
+                "(" + xCoordinate + " | 0.0)",
+                x + (yAxisX - X_MARGIN) - 20,
+                y - (xAxisY - Y_MARGIN) - 15
+            );
+        }
     }
 
     //<editor-fold desc="implementation">
@@ -214,6 +262,10 @@ public final class DrawFunction extends JLabel {
                 getValueY(nextY) - (xAxisY - Y_MARGIN)
             );
         }
+
+        // check if roots are enabled
+        g.setColor(Color.BLUE);
+        if (this.enableRoots) drawRoots(g, yAxisX, xAxisY);
     }
     //</editor-fold>
 }

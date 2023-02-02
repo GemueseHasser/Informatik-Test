@@ -6,10 +6,13 @@ import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import java.awt.event.ActionListener;
 
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf
@@ -83,19 +86,22 @@ public final class FunctionGui extends Gui {
 
         if (functionDrawOption != JOptionPane.OK_OPTION) return;
 
-        // create function-handler
-        final FunctionHandler functionHandler = new FunctionHandler(functionField.getText(), getXScaling());
-
         // create draw object
         final DrawFunction drawFunction = new DrawFunction(
-            functionHandler.getFunctionValues(),
+            new FunctionHandler(functionField.getText(), getXScaling()),
             getXScaling(),
             getYScaling()
         );
         drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         drawFunction.setVisible(true);
 
+        final JButton rootsButton = getOptionButton("Nullstellen berechnen", 0, e -> {
+            drawFunction.setEnableRoots(true);
+            drawFunction.repaint();
+        });
+
         // add components
+        super.add(rootsButton);
         super.add(drawFunction);
         super.setVisible(true);
     }
@@ -126,6 +132,30 @@ public final class FunctionGui extends Gui {
         } catch (@NotNull final NumberFormatException ignored) {
             return 10;
         }
+    }
+
+    /**
+     * Gibt einen positionierten Button mit entsprechendem Text und entsprechendem {@link ActionListener} zurück.
+     *
+     * @param text           Der Text des Buttons.
+     * @param count          Die Nummer des Buttons beginnend bei 0.
+     * @param actionListener Der {@link ActionListener}, welcher ausgeführt werden soll, wenn der Button angeklickt
+     *                       wird.
+     *
+     * @return Ein positionierter Button mit entsprechendem Text und entsprechendem {@link ActionListener}.
+     */
+    @NotNull
+    private JButton getOptionButton(
+        @NotNull final String text,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int count,
+        @NotNull final ActionListener actionListener
+    ) {
+        final JButton button = new JButton(text);
+        button.setFocusable(false);
+        button.setBounds(WIDTH - 200, 20 + (count * 180), 170, 30);
+        button.addActionListener(actionListener);
+
+        return button;
     }
 
 }

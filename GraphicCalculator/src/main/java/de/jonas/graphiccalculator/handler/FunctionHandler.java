@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -43,6 +45,45 @@ public final class FunctionHandler {
         }
 
         return values;
+    }
+
+    /**
+     * Gibt alle Nullstellen dieser Funktion in Form einer {@link Map} zurück.
+     *
+     * @return Alle Nullstellen dieser Funktion in Form einer {@link Map}.
+     */
+    @NotNull
+    public Map<Double, Double> getRoots() {
+        final Map<Double, Double> roots = new HashMap<>();
+        final NavigableMap<Double, Double> functionValues = getFunctionValues();
+
+        for (@NotNull final Map.Entry<Double, Double> functionValue : functionValues.entrySet()) {
+            if (functionValue.getValue().isNaN()) continue;
+
+            // get current values
+            final double x = functionValue.getKey();
+            final double y = functionValue.getValue();
+
+            // check if current value is already preset
+            if (roots.containsKey(x)) continue;
+
+            // check if next entry is preset
+            if (functionValues.higherEntry(x) == null) break;
+
+            // get next entry
+            final Map.Entry<Double, Double> nextValue = functionValues.higherEntry(x);
+
+            // get next values
+            final double nextX = nextValue.getKey();
+            final double nextY = nextValue.getValue();
+
+            // check (+ to +) or (- to -)
+            if ((y > 0 && nextY > 0) || (y < 0 && nextY < 0)) continue;
+
+            roots.put(nextX, nextY);
+        }
+
+        return roots;
     }
 
     /**
