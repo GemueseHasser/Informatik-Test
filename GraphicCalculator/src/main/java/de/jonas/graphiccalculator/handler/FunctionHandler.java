@@ -1,5 +1,6 @@
 package de.jonas.graphiccalculator.handler;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
@@ -20,6 +21,7 @@ public final class FunctionHandler {
 
     //<editor-fold desc="LOCAL FIELDS">
     /** Die Funktion, für die dieser {@link FunctionHandler} erzeugt wird. */
+    @Getter
     @NotNull
     private final String function;
     /** Die Skalierung der x-Achse. */

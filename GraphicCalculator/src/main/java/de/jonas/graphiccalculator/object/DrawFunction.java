@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Range;
 import javax.swing.JLabel;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -21,6 +22,8 @@ import java.util.TreeMap;
 public final class DrawFunction extends JLabel {
 
     //<editor-fold desc="CONSTANTS">
+    /** Die Standard-Schriftart dieses Fensters. */
+    private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 11);
     /** Der linke und rechte Abstand, den die x-Achse vom Rand dieses Objekts besitzt. */
     private static final int X_MARGIN = 50;
     /** Der obere und untere Abstand, den die y-Achse vom Rand dieses Objekts besitzt. */
@@ -155,9 +158,10 @@ public final class DrawFunction extends JLabel {
 
             final double xCoordinate = Math.round(rootEntry.getKey() * 100D) / 100D;
 
+            g.setFont(DEFAULT_FONT.deriveFont(12F));
             g.drawString(
-                "(" + xCoordinate + " | 0.0)",
-                x + (yAxisX - X_MARGIN) - 20,
+                "(" + xCoordinate + ")",
+                x + (yAxisX - X_MARGIN) - 10,
                 y - (xAxisY - Y_MARGIN) - 15
             );
         }
@@ -172,11 +176,16 @@ public final class DrawFunction extends JLabel {
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, super.getWidth(), super.getHeight());
 
+        // draw function
+        g.setColor(Color.WHITE);
+        g.setFont(DEFAULT_FONT.deriveFont(17F));
+        g.drawString("f(x) = " + this.functionHandler.getFunction(), 20, 30);
+
         final int yAxisX = super.getWidth() / 2;
         final int xAxisY = super.getHeight() / 2;
 
         // draw coordinate system
-        g.setColor(Color.WHITE);
+        g.setFont(DEFAULT_FONT);
         g.drawLine(
             X_MARGIN - 20,
             xAxisY,
