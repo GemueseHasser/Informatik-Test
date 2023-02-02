@@ -103,10 +103,15 @@ public final class FunctionGui extends Gui {
             drawFunction.setEnableExtremes(true);
             drawFunction.repaint();
         });
+        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 2, e -> {
+            drawFunction.setEnableDerivation(true);
+            drawFunction.repaint();
+        });
 
         // add components
         super.add(rootsButton);
         super.add(extremesButton);
+        super.add(derivationButton);
         super.add(drawFunction);
         super.setVisible(true);
     }

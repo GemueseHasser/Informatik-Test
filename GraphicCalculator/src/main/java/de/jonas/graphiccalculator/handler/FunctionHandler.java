@@ -31,7 +31,7 @@ public final class FunctionHandler {
 
 
     /**
-     * Gibt alle Funktionswerte in Abständen von 0.1 im Bereich der x-Achsen-Skalierung wieder. In der
+     * Gibt alle Funktionswerte in Abständen von 0.001 im Bereich der x-Achsen-Skalierung wieder. In der
      * {@link NavigableMap} sind alle x-Werte den entsprechenden y-Werten zugeordnet.
      *
      * @return Eine {@link NavigableMap}, welche alle Funktionswerte im Bereich der x-Achsen-Skalierung in Abständen von
@@ -47,6 +47,41 @@ public final class FunctionHandler {
         }
 
         return values;
+    }
+
+    /**
+     * Gibt alle Funktionswerte der Ableitung dieser Funktion im Bereich der x-Achsen-Skalierung wieder.
+     *
+     * @return Alle Funktionswerte der Ableitung im Bereich der x-Achsen-Skalierung.
+     */
+    @NotNull
+    public NavigableMap<Double, Double> getDerivationValues() {
+        final NavigableMap<Double, Double> derivationValues = new TreeMap<>();
+        final NavigableMap<Double, Double> functionValues = getFunctionValues();
+
+        for (@NotNull final Map.Entry<Double, Double> functionValue : functionValues.entrySet()) {
+            if (functionValue.getValue().isNaN()) continue;
+
+            // get current x
+            final double x = functionValue.getKey();
+
+            // check if next or previous entry is preset
+            if (functionValues.lowerEntry(x) == null) continue;
+            if (functionValues.higherEntry(x) == null) break;
+
+            final Map.Entry<Double, Double> nextEntry = functionValues.higherEntry(x);
+            final Map.Entry<Double, Double> previousEntry = functionValues.lowerEntry(x);
+
+            // get next and previous y
+            final double nextX = nextEntry.getKey();
+            final double nextY = nextEntry.getValue();
+            final double previousX = previousEntry.getKey();
+            final double previousY = previousEntry.getValue();
+
+            derivationValues.put(x, (nextY - previousY) / (nextX - previousX));
+        }
+
+        return derivationValues;
     }
 
     /**

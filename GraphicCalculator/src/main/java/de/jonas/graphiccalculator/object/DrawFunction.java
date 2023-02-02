@@ -46,6 +46,9 @@ public final class DrawFunction extends JLabel {
     /** Alle Funktionswerte, aus denen dann eine Funktion gezeichnet wird. */
     @NotNull
     private final NavigableMap<Double, Double> function;
+    /** Alle Funktionswerte der Ableitung der Funktion. */
+    @NotNull
+    private final NavigableMap<Double, Double> derivation;
     /** Die Skalierung für die x-Achse. */
     @Range(from = LABEL_AMOUNT_X, to = Integer.MAX_VALUE)
     private final int scaleX;
@@ -58,6 +61,9 @@ public final class DrawFunction extends JLabel {
     /** Der Zustand, ob die Extremstellen angezeigt werden sollen oder nicht. */
     @Setter
     private boolean enableExtremes;
+    /** Der Zustand, ob die Ableitung angezeigt werden soll oder nicht. */
+    @Setter
+    private boolean enableDerivation;
     //</editor-fold>
 
 
@@ -79,6 +85,7 @@ public final class DrawFunction extends JLabel {
     ) {
         // create temp map
         final NavigableMap<Double, Double> filteredFunction = new TreeMap<>();
+        final NavigableMap<Double, Double> filteredDerivation = new TreeMap<>();
 
         // calculate draw tolerance
         final double xTolerance = (double) scaleX / 10;
@@ -99,9 +106,25 @@ public final class DrawFunction extends JLabel {
             filteredFunction.put(x, y);
         }
 
+        // filter derivation values
+        for (@NotNull final Map.Entry<Double, Double> derivationEntry : functionHandler.getDerivationValues().entrySet()) {
+            // get current values from entry
+            final double x = derivationEntry.getKey();
+            final double y = derivationEntry.getValue();
+
+            // check if values are out of bounds
+            if (x > scaleX + xTolerance || x < -scaleX - xTolerance || y > scaleY + yTolerance || y < -scaleY - yTolerance) {
+                continue;
+            }
+
+            // mark values as filtered
+            filteredDerivation.put(x, y);
+        }
+
         // initialize variables
         this.functionHandler = functionHandler;
         this.function = filteredFunction;
+        this.derivation = filteredDerivation;
         this.scaleX = scaleX;
         this.scaleY = scaleY;
     }
@@ -209,6 +232,50 @@ public final class DrawFunction extends JLabel {
         }
     }
 
+    /**
+     * Zeichnet eine Funktion mithilfe von beliebig vielen Funktionswerten.
+     *
+     * @param g              Das {@link Graphics Grafik-Objekt}, mit dem die Nullstellen eingezeichnet werden sollen.
+     * @param functionValues Alle Funktionswerte, die genutzt werden sollen, um die Funktion zu zeichnen.
+     * @param yAxisX         Die x-Koordinate der y-Achse.
+     * @param xAxisY         Die y-Koordinate der x-Achse.
+     */
+    private void drawFunction(
+        @NotNull final Graphics g,
+        @NotNull final NavigableMap<Double, Double> functionValues,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int xAxisY
+    ) {
+        for (@NotNull final Map.Entry<Double, Double> functionValue : functionValues.entrySet()) {
+            if (functionValue.getValue().isNaN()) continue;
+
+            // get current values
+            final double x = functionValue.getKey();
+            final double y = functionValue.getValue();
+
+            // check if next entry is preset
+            if (functionValues.higherEntry(x) == null) break;
+
+            // get next entry
+            final Map.Entry<Double, Double> nextEntry = functionValues.higherEntry(x);
+
+            // get next values
+            final double nextX = nextEntry.getKey();
+            final double nextY = nextEntry.getValue();
+
+            // skip (+ to -) or (- to +)
+            if ((y > 0 && nextY < 0) || (y < 0 && nextY > 0)) continue;
+
+            // draw line
+            g.drawLine(
+                getValueX(x) + (yAxisX - X_MARGIN),
+                getValueY(y) - (xAxisY - Y_MARGIN),
+                getValueX(nextX) + (yAxisX - X_MARGIN),
+                getValueY(nextY) - (xAxisY - Y_MARGIN)
+            );
+        }
+    }
+
     //<editor-fold desc="implementation">
     @Override
     protected void paintComponent(@NotNull final Graphics g) {
@@ -285,39 +352,16 @@ public final class DrawFunction extends JLabel {
 
         // draw function
         g.setColor(Color.RED);
-        for (@NotNull final Map.Entry<Double, Double> functionValue : this.function.entrySet()) {
-            if (functionValue.getValue().isNaN()) continue;
-
-            // get current values
-            final double x = functionValue.getKey();
-            final double y = functionValue.getValue();
-
-            // check if next entry is preset
-            if (this.function.higherEntry(x) == null) break;
-
-            // get next entry
-            final Map.Entry<Double, Double> nextEntry = this.function.higherEntry(x);
-
-            // get next values
-            final double nextX = nextEntry.getKey();
-            final double nextY = nextEntry.getValue();
-
-            // skip (+ to -) or (- to +)
-            if ((y > 0 && nextY < 0) || (y < 0 && nextY > 0)) continue;
-
-            // draw line
-            g.drawLine(
-                getValueX(x) + (yAxisX - X_MARGIN),
-                getValueY(y) - (xAxisY - Y_MARGIN),
-                getValueX(nextX) + (yAxisX - X_MARGIN),
-                getValueY(nextY) - (xAxisY - Y_MARGIN)
-            );
-        }
+        drawFunction(g, this.function, yAxisX, xAxisY);
 
         // check if roots or extremes are enabled
         g.setColor(Color.BLUE);
         if (this.enableRoots) drawRoots(g, yAxisX, xAxisY);
         if (this.enableExtremes) drawExtremes(g, yAxisX, xAxisY);
+
+        // check if derivation is enabled
+        g.setColor(Color.GREEN);
+        if (this.enableDerivation) drawFunction(g, this.derivation, yAxisX, xAxisY);
     }
     //</editor-fold>
 }
