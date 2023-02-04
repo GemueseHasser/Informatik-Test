@@ -10,8 +10,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -53,7 +52,7 @@ public final class DrawFunction extends JLabel {
     private final NavigableMap<Double, Double> derivation;
     /** Eine Liste, die alle Punkte beinhaltet, die besonders hervorgehoben werden sollen in der Funktion. */
     @NotNull
-    private final List<Point> markedPoints = new ArrayList<>();
+    private final LinkedList<Point> markedPoints = new LinkedList<>();
     /** Die Skalierung für die x-Achse. */
     @Range(from = LABEL_AMOUNT_X, to = Integer.MAX_VALUE)
     private final int scaleX;
@@ -144,7 +143,17 @@ public final class DrawFunction extends JLabel {
     public void addMarkedPoint(final double x) {
         if (Double.isNaN(this.functionHandler.getFunctionValue(x))) return;
 
-        this.markedPoints.add(new Point(x, this.functionHandler.getFunctionValue(x)));
+        this.markedPoints.addLast(new Point(x, this.functionHandler.getFunctionValue(x)));
+    }
+
+    /**
+     * Entfernt, solange sich noch Einträge in der Liste der markierten Punkte befinden, den letzten Eintrag dieser
+     * Liste.
+     */
+    public void removeLastMarkedPoint() {
+        if (this.markedPoints.isEmpty()) return;
+
+        this.markedPoints.removeLast();
     }
 
     /**

@@ -139,7 +139,11 @@ public final class FunctionGui extends Gui {
             } catch (@NotNull final NumberFormatException ignored) {
             }
         });
-        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 3, e -> {
+        final JButton removeLastMarkedPointButton = getOptionButton("Letzten Punkt entfernen", 3, e -> {
+            drawFunction.removeLastMarkedPoint();
+            drawFunction.repaint();
+        });
+        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 4, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Ableitung zeichnen")) {
@@ -157,6 +161,7 @@ public final class FunctionGui extends Gui {
         super.add(rootsButton);
         super.add(extremesButton);
         super.add(markPointButton);
+        super.add(removeLastMarkedPointButton);
         super.add(derivationButton);
         super.add(drawFunction);
         super.setVisible(true);
