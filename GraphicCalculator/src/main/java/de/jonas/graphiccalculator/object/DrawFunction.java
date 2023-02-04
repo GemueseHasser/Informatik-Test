@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -49,6 +51,9 @@ public final class DrawFunction extends JLabel {
     /** Alle Funktionswerte der Ableitung der Funktion. */
     @NotNull
     private final NavigableMap<Double, Double> derivation;
+    /** Eine Liste, die alle Punkte beinhaltet, die besonders hervorgehoben werden sollen in der Funktion. */
+    @NotNull
+    private final List<Point> markedPoints = new ArrayList<>();
     /** Die Skalierung für die x-Achse. */
     @Range(from = LABEL_AMOUNT_X, to = Integer.MAX_VALUE)
     private final int scaleX;
@@ -130,6 +135,17 @@ public final class DrawFunction extends JLabel {
     }
     //</editor-fold>
 
+
+    /**
+     * Fügt einen bestimmten Punkt zu den Punkten hinzu, die besonders markiert werden sollen in der Funktion.
+     *
+     * @param x Der x-Wert, zu dem der Punkt besonders markiert werden soll.
+     */
+    public void addMarkedPoint(final double x) {
+        if (Double.isNaN(this.functionHandler.getFunctionValue(x))) return;
+
+        this.markedPoints.add(new Point(x, this.functionHandler.getFunctionValue(x)));
+    }
 
     /**
      * Berechnet aus einem x-Wert der Funktion den entsprechenden finalen x-Wert, den diese Stelle in dem
@@ -358,6 +374,29 @@ public final class DrawFunction extends JLabel {
         g.setColor(Color.BLUE);
         if (this.enableRoots) drawRoots(g, yAxisX, xAxisY);
         if (this.enableExtremes) drawExtremes(g, yAxisX, xAxisY);
+
+        // draw marked points
+        for (@NotNull final Point point : this.markedPoints) {
+            final int x = getValueX(point.getX());
+            final int y = getValueY(point.getY());
+
+            g.fillOval(
+                x + (yAxisX - X_MARGIN) - (MARK_SIZE / 2),
+                y - (xAxisY - Y_MARGIN) - (MARK_SIZE / 2),
+                MARK_SIZE,
+                MARK_SIZE
+            );
+
+            final double xCoordinate = Math.round(point.getX() * 100D) / 100D;
+            final double yCoordinate = Math.round(point.getY() * 100D) / 100D;
+
+            g.setFont(DEFAULT_FONT.deriveFont(12F));
+            g.drawString(
+                "(" + xCoordinate + " | " + yCoordinate + ")",
+                x + (yAxisX - X_MARGIN) - 10,
+                y - (xAxisY - Y_MARGIN) - 15
+            );
+        }
 
         // check if derivation is enabled
         g.setColor(Color.GREEN);

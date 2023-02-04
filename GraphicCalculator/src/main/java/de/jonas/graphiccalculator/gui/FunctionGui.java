@@ -121,7 +121,25 @@ public final class FunctionGui extends Gui {
 
             drawFunction.repaint();
         });
-        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 2, e -> {
+        final JButton markPointButton = getOptionButton("Punkt einzeichnen", 2, e -> {
+            final String input = JOptionPane.showInputDialog(
+                null,
+                "X-Wert:",
+                "Punkt einzeichnen",
+                JOptionPane.PLAIN_MESSAGE
+            );
+
+            if (input == null) return;
+
+            try {
+                final double x = Double.parseDouble(input.replaceAll(",", "."));
+
+                drawFunction.addMarkedPoint(x);
+                drawFunction.repaint();
+            } catch (@NotNull final NumberFormatException ignored) {
+            }
+        });
+        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 3, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Ableitung zeichnen")) {
@@ -138,6 +156,7 @@ public final class FunctionGui extends Gui {
         // add components
         super.add(rootsButton);
         super.add(extremesButton);
+        super.add(markPointButton);
         super.add(derivationButton);
         super.add(drawFunction);
         super.setVisible(true);
