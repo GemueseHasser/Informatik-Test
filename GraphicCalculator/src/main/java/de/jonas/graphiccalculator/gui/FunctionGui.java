@@ -4,6 +4,7 @@ import de.jonas.graphiccalculator.handler.FunctionHandler;
 import de.jonas.graphiccalculator.object.DrawFunction;
 import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import javax.swing.JButton;
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf
@@ -20,7 +23,7 @@ import java.awt.event.ActionListener;
  * {@link de.jonas.graphiccalculator.object.DrawFunction}.
  */
 @NotNull
-public final class FunctionGui extends Gui {
+public final class FunctionGui extends Gui implements MouseListener {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Titel dieses Fensters. */
@@ -42,6 +45,9 @@ public final class FunctionGui extends Gui {
     /** Das Textfeld, in welchem die Skalierung der y-Achse angegeben wird. */
     @NotNull
     private final JTextField yScalingField = new JTextField("10", 10);
+    /** Die Funktion, welche alle grafischen Inhalte auf das Fenster zeichnet. */
+    @Nullable
+    private final DrawFunction drawFunction;
     //</editor-fold>
 
 
@@ -84,42 +90,45 @@ public final class FunctionGui extends Gui {
             JOptionPane.OK_CANCEL_OPTION
         );
 
-        if (functionDrawOption != JOptionPane.OK_OPTION) return;
+        if (functionDrawOption != JOptionPane.OK_OPTION) {
+            this.drawFunction = null;
+            return;
+        }
 
         // create draw object
-        final DrawFunction drawFunction = new DrawFunction(
+        this.drawFunction = new DrawFunction(
             new FunctionHandler(functionField.getText(), getXScaling()),
             getXScaling(),
             getYScaling()
         );
-        drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
-        drawFunction.setVisible(true);
+        this.drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
+        this.drawFunction.setVisible(true);
 
         final JButton rootsButton = getOptionButton("Nullstellen berechnen", 0, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Nullstellen berechnen")) {
-                drawFunction.setEnableRoots(true);
+                this.drawFunction.setEnableRoots(true);
                 source.setText("Nullstellen ausblenden");
             } else {
-                drawFunction.setEnableRoots(false);
+                this.drawFunction.setEnableRoots(false);
                 source.setText("Nullstellen berechnen");
             }
 
-            drawFunction.repaint();
+            this.drawFunction.repaint();
         });
         final JButton extremesButton = getOptionButton("Extremstellen berechnen", 1, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Extremstellen berechnen")) {
-                drawFunction.setEnableExtremes(true);
+                this.drawFunction.setEnableExtremes(true);
                 source.setText("Extremstellen ausblenden");
             } else {
-                drawFunction.setEnableExtremes(false);
+                this.drawFunction.setEnableExtremes(false);
                 source.setText("Extremstellen berechnen");
             }
 
-            drawFunction.repaint();
+            this.drawFunction.repaint();
         });
         final JButton markPointButton = getOptionButton("Punkt einzeichnen", 2, e -> {
             final String input = JOptionPane.showInputDialog(
@@ -134,27 +143,27 @@ public final class FunctionGui extends Gui {
             try {
                 final double x = Double.parseDouble(input.replaceAll(",", "."));
 
-                drawFunction.addMarkedPoint(x);
-                drawFunction.repaint();
+                this.drawFunction.addMarkedPoint(x);
+                this.drawFunction.repaint();
             } catch (@NotNull final NumberFormatException ignored) {
             }
         });
         final JButton removeLastMarkedPointButton = getOptionButton("Letzten Punkt entfernen", 3, e -> {
-            drawFunction.removeLastMarkedPoint();
-            drawFunction.repaint();
+            this.drawFunction.removeLastMarkedPoint();
+            this.drawFunction.repaint();
         });
         final JButton derivationButton = getOptionButton("Ableitung zeichnen", 4, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Ableitung zeichnen")) {
-                drawFunction.setEnableDerivation(true);
+                this.drawFunction.setEnableDerivation(true);
                 source.setText("Ableitung ausblenden");
             } else {
-                drawFunction.setEnableDerivation(false);
+                this.drawFunction.setEnableDerivation(false);
                 source.setText("Ableitung zeichnen");
             }
 
-            drawFunction.repaint();
+            this.drawFunction.repaint();
         });
 
         // add components
@@ -163,7 +172,9 @@ public final class FunctionGui extends Gui {
         super.add(markPointButton);
         super.add(removeLastMarkedPointButton);
         super.add(derivationButton);
-        super.add(drawFunction);
+        super.add(this.drawFunction);
+
+        super.addMouseListener(this);
         super.setVisible(true);
     }
     //</editor-fold>
@@ -219,4 +230,33 @@ public final class FunctionGui extends Gui {
         return button;
     }
 
+    //<editor-fold desc="implementation">
+    @Override
+    public void mousePressed(@NotNull final MouseEvent e) {
+        assert this.drawFunction != null;
+        final double x = this.drawFunction.getFunctionX(e.getX() - 7);
+
+        this.drawFunction.handleMousePressed(x);
+        this.drawFunction.repaint();
+    }
+
+    @Override
+    public void mouseReleased(@NotNull final MouseEvent e) {
+        assert this.drawFunction != null;
+        this.drawFunction.handleMouseReleased();
+        this.drawFunction.repaint();
+    }
+
+    @Override
+    public void mouseClicked(@NotNull final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(@NotNull final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(@NotNull final MouseEvent e) {
+    }
+    //</editor-fold>
 }

@@ -3,6 +3,7 @@ package de.jonas.graphiccalculator.object;
 import de.jonas.graphiccalculator.handler.FunctionHandler;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import javax.swing.JLabel;
@@ -59,6 +60,9 @@ public final class DrawFunction extends JLabel {
     /** Die Skalierung für die y-Achse. */
     @Range(from = LABEL_AMOUNT_Y, to = Integer.MAX_VALUE)
     private final int scaleY;
+    /** Die x-Koordinate der Maus. */
+    @Nullable
+    private Point mouse;
     /** Der Zustand, ob die Nullstellen angezeigt werden sollen oder nicht. */
     @Setter
     private boolean enableRoots;
@@ -154,6 +158,33 @@ public final class DrawFunction extends JLabel {
         if (this.markedPoints.isEmpty()) return;
 
         this.markedPoints.removeLast();
+    }
+
+    /**
+     * Verarbeitet das Anklicken der Maus-Taste, setzt somit vorübergehend den aktuellen Punkt der Maus.
+     *
+     * @param x Die x-Koordinate der Maus, angepasst an die Skalierung der Funktion, die gezeichnet wurde.
+     */
+    public void handleMousePressed(final double x) {
+        this.mouse = new Point(x, this.functionHandler.getFunctionValue(x));
+    }
+
+    /**
+     * Verarbeitet das Loslassen der Maus-Taste und entfernt somit den zuvor gesetzten Punkt der Maus wieder.
+     */
+    public void handleMouseReleased() {
+        this.mouse = null;
+    }
+
+    /**
+     * Gibt die x-Koordinate angepasst an die Skalierung der Funktion wieder.
+     *
+     * @param x Die x-Koordinate in dem Fenster.
+     *
+     * @return Die x-Koordinate angepasst an die Skalierung der Funktion.
+     */
+    public double getFunctionX(final int x) {
+        return ((x - X_MARGIN) / (double) LABEL_MARGIN * ((double) this.scaleX / LABEL_AMOUNT_X)) - this.scaleX;
     }
 
     /**
@@ -255,6 +286,42 @@ public final class DrawFunction extends JLabel {
                 y - (xAxisY - Y_MARGIN) - 15
             );
         }
+    }
+
+    /**
+     * Zeichnet den zuletzt gespeicherten Punkt der Maus ein, solange dieser nicht {@code null} ist.
+     *
+     * @param g      Das {@link Graphics Grafik-Objekt}, mit dem die Nullstellen eingezeichnet werden sollen.
+     * @param yAxisX Die x-Koordinate der y-Achse.
+     * @param xAxisY Die y-Koordinate der x-Achse.
+     */
+    private void drawMouse(
+        @NotNull final Graphics g,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int xAxisY
+    ) {
+        assert this.mouse != null;
+        final Point mouse = this.mouse;
+
+        final int x = getValueX(mouse.getX());
+        final int y = getValueY(mouse.getY());
+
+        g.fillOval(
+            x + (yAxisX - X_MARGIN) - (MARK_SIZE / 2),
+            y - (xAxisY - Y_MARGIN) - (MARK_SIZE / 2),
+            MARK_SIZE,
+            MARK_SIZE
+        );
+
+        final double xCoordinate = Math.round(mouse.getX() * 100D) / 100D;
+        final double yCoordinate = Math.round(mouse.getY() * 100D) / 100D;
+
+        g.setFont(DEFAULT_FONT.deriveFont(12F));
+        g.drawString(
+            "(" + xCoordinate + " | " + yCoordinate + ")",
+            x + (yAxisX - X_MARGIN) - 10,
+            y - (xAxisY - Y_MARGIN) - 15
+        );
     }
 
     /**
@@ -406,6 +473,9 @@ public final class DrawFunction extends JLabel {
                 y - (xAxisY - Y_MARGIN) - 15
             );
         }
+
+        // draw mouse
+        if (this.mouse != null) drawMouse(g, yAxisX, xAxisY);
 
         // check if derivation is enabled
         g.setColor(Color.GREEN);
