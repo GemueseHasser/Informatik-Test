@@ -1,6 +1,7 @@
 package de.jonas.graphiccalculator.object;
 
 import de.jonas.graphiccalculator.handler.FunctionHandler;
+import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,6 +62,7 @@ public final class DrawFunction extends JLabel {
     @Range(from = LABEL_AMOUNT_Y, to = Integer.MAX_VALUE)
     private final int scaleY;
     /** Die x-Koordinate der Maus. */
+    @Getter
     @Nullable
     private Point mouse;
     /** Die Funktion der Tangente, die angelegt werden soll. */

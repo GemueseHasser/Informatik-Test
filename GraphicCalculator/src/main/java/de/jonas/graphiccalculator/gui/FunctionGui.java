@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * Ein {@link FunctionGui} stellt eine Instanz eines {@link Gui} dar, welches eine grafische Oberfläche darstellt, auf
@@ -23,7 +24,7 @@ import java.awt.event.MouseListener;
  * {@link de.jonas.graphiccalculator.object.DrawFunction}.
  */
 @NotNull
-public final class FunctionGui extends Gui implements MouseListener {
+public final class FunctionGui extends Gui implements MouseListener, MouseMotionListener {
 
     //<editor-fold desc="CONSTANTS">
     /** Der Titel dieses Fensters. */
@@ -205,6 +206,7 @@ public final class FunctionGui extends Gui implements MouseListener {
         super.add(this.drawFunction);
 
         super.addMouseListener(this);
+        super.addMouseMotionListener(this);
         super.setVisible(true);
     }
     //</editor-fold>
@@ -276,6 +278,15 @@ public final class FunctionGui extends Gui implements MouseListener {
     }
 
     @Override
+    public void mouseDragged(@NotNull final MouseEvent e) {
+        assert this.drawFunction != null;
+        if (this.drawFunction.getMouse() == null) return;
+
+        this.drawFunction.handleMousePressed(e.getX() - 7);
+        this.drawFunction.repaint();
+    }
+
+    @Override
     public void mouseClicked(@NotNull final MouseEvent e) {
     }
 
@@ -285,6 +296,10 @@ public final class FunctionGui extends Gui implements MouseListener {
 
     @Override
     public void mouseExited(@NotNull final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(@NotNull final MouseEvent e) {
     }
     //</editor-fold>
 }
