@@ -29,7 +29,7 @@ public final class FunctionGui extends Gui implements MouseListener, MouseMotion
     //<editor-fold desc="CONSTANTS">
     /** Der Titel dieses Fensters. */
     @NotNull
-    private static final String TITLE = "Function-Draw";
+    private static final String TITLE = "Funktion zeichnen";
     /** Die Breite dieses Fensters. */
     @Range(from = 0, to = Integer.MAX_VALUE)
     private static final int WIDTH = 800;
