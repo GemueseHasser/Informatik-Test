@@ -264,9 +264,7 @@ public final class FunctionGui extends Gui implements MouseListener {
     @Override
     public void mousePressed(@NotNull final MouseEvent e) {
         assert this.drawFunction != null;
-        final double x = this.drawFunction.getFunctionX(e.getX() - 7);
-
-        this.drawFunction.handleMousePressed(x);
+        this.drawFunction.handleMousePressed(e.getX() - 7);
         this.drawFunction.repaint();
     }
 

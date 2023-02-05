@@ -167,9 +167,11 @@ public final class DrawFunction extends JLabel {
     /**
      * Verarbeitet das Anklicken der Maus-Taste, setzt somit vorübergehend den aktuellen Punkt der Maus.
      *
-     * @param x Die x-Koordinate der Maus, angepasst an die Skalierung der Funktion, die gezeichnet wurde.
+     * @param mouseX Die x-Koordinate der Maus.
      */
-    public void handleMousePressed(final double x) {
+    public void handleMousePressed(@Range(from = 0, to = Integer.MAX_VALUE) final int mouseX) {
+        final double x = getFunctionX(mouseX);
+
         this.mouse = new Point(x, this.functionHandler.getFunctionValue(x));
     }
 
@@ -187,7 +189,7 @@ public final class DrawFunction extends JLabel {
      *
      * @return Die x-Koordinate angepasst an die Skalierung der Funktion.
      */
-    public double getFunctionX(final int x) {
+    private double getFunctionX(final int x) {
         return ((x - X_MARGIN) / (double) LABEL_MARGIN * ((double) this.scaleX / LABEL_AMOUNT_X)) - this.scaleX;
     }
 
@@ -328,6 +330,13 @@ public final class DrawFunction extends JLabel {
         );
     }
 
+    /**
+     * Zeichnet, falls eine Tangentengleichung vorhanden ist, die Tangente ein.
+     *
+     * @param g      Das {@link Graphics Grafik-Objekt}, mit dem die Nullstellen eingezeichnet werden sollen.
+     * @param yAxisX Die x-Koordinate der y-Achse.
+     * @param xAxisY Die y-Koordinate der x-Achse.
+     */
     private void drawTangent(
         @NotNull final Graphics g,
         @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
@@ -348,7 +357,7 @@ public final class DrawFunction extends JLabel {
         // display function
         g.setColor(Color.WHITE);
         g.setFont(DEFAULT_FONT.deriveFont(17F));
-        g.drawString("t(x) = " + this.tangentFunction, 20, 50);
+        g.drawString("t(x) = " + this.tangentFunction, 20, 60);
     }
 
     /**
