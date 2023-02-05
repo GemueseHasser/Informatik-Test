@@ -1,5 +1,6 @@
 package de.jonas.graphiccalculator.gui;
 
+import de.jonas.graphiccalculator.GraphingCalculator;
 import de.jonas.graphiccalculator.constant.CalculatorActionType;
 import de.jonas.graphiccalculator.object.Gui;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +10,7 @@ import javax.swing.JFrame;
 
 /**
  * Das {@link MainGui} ist eine Instanz eines {@link Gui} und stellt das Menü des Taschenrechners dar, in welchem man
- * die Aktion auswählen kann, die man mit dem {@link de.jonas.graphiccalculator.GraphicCalculator} durchführen möchte.
+ * die Aktion auswählen kann, die man mit dem {@link GraphingCalculator} durchführen möchte.
  */
 @NotNull
 public final class MainGui extends Gui {
@@ -32,7 +33,7 @@ public final class MainGui extends Gui {
     /**
      * Erzeugt eine neue Instanz eines {@link MainGui}. Das {@link MainGui} ist eine Instanz eines {@link Gui} und
      * stellt das Menü des Taschenrechners dar, in welchem man die Aktion auswählen kann, die man mit dem
-     * {@link de.jonas.graphiccalculator.GraphicCalculator} durchführen möchte.
+     * {@link GraphingCalculator} durchführen möchte.
      */
     public MainGui() {
         super(TITLE, WIDTH, HEIGHT);
