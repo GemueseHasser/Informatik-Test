@@ -3,6 +3,7 @@ package de.jonas.graphiccalculator.handler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
@@ -165,6 +166,40 @@ public final class FunctionHandler {
         final String function = this.function.replaceAll("x", "(" + x + ")");
 
         return eval(function);
+    }
+
+    /**
+     * Gibt die Funktion einer Tangente an einer bestimmten Stelle zurück.
+     *
+     * @param x Die Stelle, an der die Tangente angelegt werden soll.
+     *
+     * @return Die Funktion einer Tangente an einer bestimmten Stelle.
+     */
+    @Nullable
+    public String getTangentFunction(final double x) {
+        final NavigableMap<Double, Double> functionValues = getFunctionValues();
+
+        if (functionValues.get(x) == null) return null;
+        if (functionValues.lowerEntry(x) == null || functionValues.higherEntry(x) == null) return null;
+
+        // get current function value
+        final double y = getFunctionValue(x);
+
+        // get next and previous entry
+        final Map.Entry<Double, Double> previousEntry = functionValues.lowerEntry(x);
+        final Map.Entry<Double, Double> nextEntry = functionValues.higherEntry(x);
+
+        // get next and previous x- and y-coordinates
+        final double previousX = previousEntry.getKey();
+        final double previousY = previousEntry.getValue();
+        final double nextX = nextEntry.getKey();
+        final double nextY = nextEntry.getValue();
+
+        // get current pitch
+        final double m = Math.round(((nextY - previousY) / (nextX - previousX)) * 100D) / 100D;
+        final double b = Math.round((y - m * x) * 100D) / 100D;
+
+        return m + " * x " + (b < 0 ? "- " : "+ ") + Math.abs(b);
     }
 
     //<editor-fold desc="utility">

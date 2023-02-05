@@ -63,6 +63,10 @@ public final class DrawFunction extends JLabel {
     /** Die x-Koordinate der Maus. */
     @Nullable
     private Point mouse;
+    /** Die Funktion der Tangente, die angelegt werden soll. */
+    @Setter
+    @Nullable
+    private String tangentFunction;
     /** Der Zustand, ob die Nullstellen angezeigt werden sollen oder nicht. */
     @Setter
     private boolean enableRoots;
@@ -324,6 +328,29 @@ public final class DrawFunction extends JLabel {
         );
     }
 
+    private void drawTangent(
+        @NotNull final Graphics g,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int yAxisX,
+        @Range(from = 0, to = Integer.MAX_VALUE) final int xAxisY
+    ) {
+        if (this.tangentFunction == null) return;
+
+        final NavigableMap<Double, Double> tangentValues = new TreeMap<>();
+
+        // calculate and save tangent values
+        for (double i = -this.scaleX; i < this.scaleX; i = Math.round((i + 0.001) * 1000D) / 1000D) {
+            tangentValues.put(i, FunctionHandler.eval(this.tangentFunction.replaceAll("x", "(" + i + ")")));
+        }
+
+        // draw tangent
+        drawFunction(g, tangentValues, yAxisX, xAxisY);
+
+        // display function
+        g.setColor(Color.WHITE);
+        g.setFont(DEFAULT_FONT.deriveFont(17F));
+        g.drawString("t(x) = " + this.tangentFunction, 20, 50);
+    }
+
     /**
      * Zeichnet eine Funktion mithilfe von beliebig vielen Funktionswerten.
      *
@@ -476,6 +503,9 @@ public final class DrawFunction extends JLabel {
 
         // draw mouse
         if (this.mouse != null) drawMouse(g, yAxisX, xAxisY);
+
+        // draw tangent
+        if (this.tangentFunction != null) drawTangent(g, yAxisX, xAxisY);
 
         // check if derivation is enabled
         g.setColor(Color.GREEN);

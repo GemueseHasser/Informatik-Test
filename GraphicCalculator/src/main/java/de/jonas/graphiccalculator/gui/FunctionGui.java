@@ -95,12 +95,11 @@ public final class FunctionGui extends Gui implements MouseListener {
             return;
         }
 
+        // create new function handler
+        final FunctionHandler functionHandler = new FunctionHandler(functionField.getText(), getXScaling());
+
         // create draw object
-        this.drawFunction = new DrawFunction(
-            new FunctionHandler(functionField.getText(), getXScaling()),
-            getXScaling(),
-            getYScaling()
-        );
+        this.drawFunction = new DrawFunction(functionHandler, getXScaling(), getYScaling());
         this.drawFunction.setBounds(0, 0, WIDTH, HEIGHT);
         this.drawFunction.setVisible(true);
 
@@ -152,7 +151,37 @@ public final class FunctionGui extends Gui implements MouseListener {
             this.drawFunction.removeLastMarkedPoint();
             this.drawFunction.repaint();
         });
-        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 4, e -> {
+        final JButton tangentButton = getOptionButton("Tangente anlegen", 4, e -> {
+            final JButton source = (JButton) e.getSource();
+
+            if (!source.getText().equalsIgnoreCase("Tangente anlegen")) {
+                this.drawFunction.setTangentFunction(null);
+                this.drawFunction.repaint();
+
+                source.setText("Tangente anlegen");
+                return;
+            }
+
+            final String input = JOptionPane.showInputDialog(
+                null,
+                "X-Wert:",
+                "Tangente anlegen",
+                JOptionPane.PLAIN_MESSAGE
+            );
+
+            if (input == null) return;
+
+            try {
+                final double x = Double.parseDouble(input.replaceAll(",", "."));
+
+                this.drawFunction.setTangentFunction(functionHandler.getTangentFunction(x));
+                this.drawFunction.repaint();
+
+                source.setText("Tangente ausblenden");
+            } catch (@NotNull final NumberFormatException ignored) {
+            }
+        });
+        final JButton derivationButton = getOptionButton("Ableitung zeichnen", 5, e -> {
             final JButton source = (JButton) e.getSource();
 
             if (source.getText().equalsIgnoreCase("Ableitung zeichnen")) {
@@ -171,6 +200,7 @@ public final class FunctionGui extends Gui implements MouseListener {
         super.add(extremesButton);
         super.add(markPointButton);
         super.add(removeLastMarkedPointButton);
+        super.add(tangentButton);
         super.add(derivationButton);
         super.add(this.drawFunction);
 
