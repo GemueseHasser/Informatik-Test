@@ -15,7 +15,6 @@
         <module>JumpAndRun</module>
         <module>EulerscheKonstante</module>
         <module>ExtendedTicTacToe</module>
-        <module>GraphicCalculator</module>
     </modules>
 
     <groupId>de</groupId>
