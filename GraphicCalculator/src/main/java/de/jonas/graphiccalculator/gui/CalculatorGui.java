@@ -14,13 +14,48 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import static java.awt.event.KeyEvent.VK_0;
+import static java.awt.event.KeyEvent.VK_1;
+import static java.awt.event.KeyEvent.VK_2;
+import static java.awt.event.KeyEvent.VK_3;
+import static java.awt.event.KeyEvent.VK_4;
+import static java.awt.event.KeyEvent.VK_5;
+import static java.awt.event.KeyEvent.VK_6;
+import static java.awt.event.KeyEvent.VK_7;
+import static java.awt.event.KeyEvent.VK_8;
+import static java.awt.event.KeyEvent.VK_9;
+import static java.awt.event.KeyEvent.VK_ADD;
+import static java.awt.event.KeyEvent.VK_BACK_SPACE;
+import static java.awt.event.KeyEvent.VK_COMMA;
+import static java.awt.event.KeyEvent.VK_DELETE;
+import static java.awt.event.KeyEvent.VK_DIVIDE;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static java.awt.event.KeyEvent.VK_MINUS;
+import static java.awt.event.KeyEvent.VK_MULTIPLY;
+import static java.awt.event.KeyEvent.VK_NUMPAD0;
+import static java.awt.event.KeyEvent.VK_NUMPAD1;
+import static java.awt.event.KeyEvent.VK_NUMPAD2;
+import static java.awt.event.KeyEvent.VK_NUMPAD3;
+import static java.awt.event.KeyEvent.VK_NUMPAD4;
+import static java.awt.event.KeyEvent.VK_NUMPAD5;
+import static java.awt.event.KeyEvent.VK_NUMPAD6;
+import static java.awt.event.KeyEvent.VK_NUMPAD7;
+import static java.awt.event.KeyEvent.VK_NUMPAD8;
+import static java.awt.event.KeyEvent.VK_NUMPAD9;
+import static java.awt.event.KeyEvent.VK_PLUS;
+import static java.awt.event.KeyEvent.VK_SEPARATER;
+import static java.awt.event.KeyEvent.VK_SUBTRACT;
 
 /**
  * Ein {@link CalculatorGui} ist eine Instanz eines {@link Gui} und stellt eine Oberfläche zur Berechnung einfacher
  * Terme ohne Variable zur Verfügung.
  */
 @NotNull
-public final class CalculatorGui extends Gui implements ActionListener {
+public final class CalculatorGui extends Gui implements ActionListener, KeyListener {
 
     //<editor-fold desc="CONSTANTS">
     /** Die Breite des Fensters. */
@@ -67,10 +102,51 @@ public final class CalculatorGui extends Gui implements ActionListener {
             super.add(getButton(calculatorFields[i], i));
         }
 
+        super.addKeyListener(this);
         super.setVisible(true);
     }
     //</editor-fold>
 
+
+    /**
+     * Führt je nach Text, der übergeben wird, eine andere Aktion aus. Der Text ist der Schlüssel für die Aktion; es
+     * wird genau das übergeben, was auf den Buttons steht.
+     *
+     * @param text Der Text, welcher als Schlüsselwort für die auszuführende Aktion genutzt wird.
+     */
+    private void performAction(@NotNull final String text) {
+        switch (text) {
+            case "C":
+                this.termField.setText("");
+                break;
+
+            case "x^y":
+                this.termField.setText(this.termField.getText() + "^");
+                break;
+
+            case "⬅":
+                if (this.termField.getText().isEmpty()) return;
+
+                this.termField.setText(this.termField.getText().substring(0, this.termField.getText().length() - 1));
+                break;
+
+            case "=":
+                this.termField.setText(
+                    String.valueOf(FunctionHandler.eval(
+                        this.termField.getText()
+                            .replaceAll("√", "sqrt")
+                            .replaceAll("÷", "/")
+                            .replaceAll("×", "*")
+                            .replaceAll(",", ".")
+                    ))
+                );
+                break;
+
+            default:
+                this.termField.setText(this.termField.getText() + text);
+                break;
+        }
+    }
 
     /**
      * Gibt einen Button zurück, welcher aufgrund seines 'counts' bereits platziert ist und alle Eigenschaften eines
@@ -109,37 +185,109 @@ public final class CalculatorGui extends Gui implements ActionListener {
 
         final JButton source = (JButton) e.getSource();
 
-        switch (source.getText()) {
-            case "C":
-                this.termField.setText("");
+        performAction(source.getText());
+    }
+
+    @Override
+    public void keyPressed(@NotNull final KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case VK_0:
+            case VK_NUMPAD0:
+                performAction("0");
                 break;
 
-            case "x^y":
-                this.termField.setText(this.termField.getText() + "^");
+            case VK_1:
+            case VK_NUMPAD1:
+                performAction("1");
                 break;
 
-            case "⬅":
-                if (this.termField.getText().isEmpty()) return;
-
-                this.termField.setText(this.termField.getText().substring(0, this.termField.getText().length() - 1));
+            case VK_2:
+            case VK_NUMPAD2:
+                performAction("2");
                 break;
 
-            case "=":
-                this.termField.setText(
-                    String.valueOf(FunctionHandler.eval(
-                        this.termField.getText()
-                            .replaceAll("√", "sqrt")
-                            .replaceAll("÷", "/")
-                            .replaceAll("×", "*")
-                            .replaceAll(",", ".")
-                    ))
-                );
+            case VK_3:
+            case VK_NUMPAD3:
+                performAction("3");
+                break;
+
+            case VK_4:
+            case VK_NUMPAD4:
+                performAction("4");
+                break;
+
+            case VK_5:
+            case VK_NUMPAD5:
+                performAction("5");
+                break;
+
+            case VK_6:
+            case VK_NUMPAD6:
+                performAction("6");
+                break;
+
+            case VK_7:
+            case VK_NUMPAD7:
+                performAction("7");
+                break;
+
+            case VK_8:
+            case VK_NUMPAD8:
+                performAction("8");
+                break;
+
+            case VK_9:
+            case VK_NUMPAD9:
+                performAction("9");
+                break;
+
+            case VK_ENTER:
+                performAction("=");
+                break;
+
+            case VK_ESCAPE:
+                performAction("C");
+                break;
+
+            case VK_DELETE:
+            case VK_BACK_SPACE:
+                performAction("⬅");
+                break;
+
+            case VK_PLUS:
+            case VK_ADD:
+                performAction("+");
+                break;
+
+            case VK_MINUS:
+            case VK_SUBTRACT:
+                performAction("-");
+                break;
+
+            case VK_MULTIPLY:
+                performAction("×");
+                break;
+
+            case VK_DIVIDE:
+                performAction("÷");
+                break;
+
+            case VK_COMMA:
+            case VK_SEPARATER:
+                performAction(",");
                 break;
 
             default:
-                this.termField.setText(this.termField.getText() + source.getText());
                 break;
         }
+    }
+
+    @Override
+    public void keyTyped(@NotNull final KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(@NotNull final KeyEvent e) {
     }
     //</editor-fold>
 }
